@@ -64,7 +64,7 @@ print(estimator)
 
 ## Available Methods
 
-The package provides several methods for tail estimation:
+The package provides several methods for tail estimation. For details on parameters that can be specified to each methods, please refer to the original repository [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation) or the [actual codes](https://github.com/mu373/tailestim/blob/main/src/tailestim/tail_methods.py).
 
 1. **Hill Estimator** (`method='hill'`)
    - Classical Hill estimator with double-bootstrap for optimal threshold selection
@@ -87,7 +87,7 @@ The package provides several methods for tail estimation:
    - Additional parameter: `r_smooth` (int, default=2)
 
 ## Results
-The main parameters returned by the estimator include:
+The results can be obtained by `estimator.get_parameters()`, which returns a dictionary. This includes:
 - `gamma`: Power law exponent (γ = 1 + 1/ξ)
 - `xi_star`: Tail index (ξ)
 - `k_star`: Optimal order statistic
@@ -128,5 +128,4 @@ data = TailData(name='dataset_name').data
 
 
 ## License
-
-`tailestim` is distributed under the terms of the MIT license.
+`tailestim` is distributed under the terms of the [MIT license](https://github.com/mu373/tailestim/blob/main/LICENSE.txt).
