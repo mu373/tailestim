@@ -5,11 +5,11 @@ build-backend = "hatchling.build"
 [project]
 name = "tailestim"
 dynamic = ["version"]
-description = ''
-readme = "README.md"
+description = 'A Python package for estimating tail parameters of heavy-tailed distributions, which is useful for analyzing power-law behavior in complex networks.'
+readme = "README.txt"
 requires-python = ">=3.6"
 license = "MIT"
-keywords = []
+keywords = ['power-law', 'complex-network', 'heavy-tail', 'network-science']
 authors = [
   { name = "Minami Ueda", email = "minami.ueda@gmail.com" },
 ]
