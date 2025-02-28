@@ -63,8 +63,7 @@ print(estimator)
 ```
 
 ## Available Methods
-
-The package provides several methods for tail estimation. For details on parameters that can be specified to each methods, please refer to the original repository [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation) or the [actual codes](https://github.com/mu373/tailestim/blob/main/src/tailestim/tail_methods.py).
+The package provides several methods for tail estimation. For details on parameters that can be specified to each methods, please refer to the original repository [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation), [original paper](https://doi.org/10.1103/PhysRevResearch.1.033034), or the [actual code](https://github.com/mu373/tailestim/blob/main/src/tailestim/tail_methods.py).
 
 1. **Hill Estimator** (`method='hill'`)
    - Classical Hill estimator with double-bootstrap for optimal threshold selection
@@ -125,6 +124,11 @@ Load any example dataset using:
 from tailestim.datasets import TailData
 data = TailData(name='dataset_name').data
 ```
+
+## Reference
+- I. Voitalov, P. van der Hoorn, R. van der Hofstad, and D. Krioukov. Scale-free networks well done. *Phys. Rev. Res.*, Oct. 2019, doi: [10.1103/PhysRevResearch.1.033034](https://doi.org/10.1103/PhysRevResearch.1.033034).
+- I. Voitalov. ivanvoitalov/tail-estimation, GitHub. Mar. 2018. [https://github.com/ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation).
+
 
 
 ## License
