@@ -20,7 +20,6 @@ pip install tailestim
 ## Quick Start
 
 ### Using Built-in Datasets
-
 ```python
 from tailestim.datasets import TailData
 from tailestim.estimator import TailEstimator
@@ -41,7 +40,6 @@ print(estimator)
 ```
 
 ### Using degree sequence from networkx graphs
-
 ```python
 import networkx as nx
 from tailestim.estimator import TailEstimator
@@ -68,19 +66,15 @@ The package provides several methods for tail estimation. For details on paramet
 1. **Hill Estimator** (`method='hill'`)
    - Classical Hill estimator with double-bootstrap for optimal threshold selection
    - Default method, generally recommended for power law analysis
-
 2. **Moments Estimator** (`method='moments'`)
    - Moments-based estimation with double-bootstrap
    - More robust to certain types of deviations from pure power law
-
 3. **Kernel-type Estimator** (`method='kernel'`)
    - Kernel-based estimation with double-bootstrap and bandwidth selection
    - Additional parameters: `hsteps` (int, default=200), `alpha` (float, default=0.6)
-
 4. **Pickands Estimator** (`method='pickands'`)
    - Pickands-based estimation (no bootstrap)
    - Provides arrays of estimates across different thresholds
-
 5. **Smooth Hill Estimator** (`method='smooth_hill'`)
    - Smoothed version of the Hill estimator (no bootstrap)
    - Additional parameter: `r_smooth` (int, default=2)
@@ -125,10 +119,9 @@ from tailestim.datasets import TailData
 data = TailData(name='dataset_name').data
 ```
 
-## Reference
+## References
 - I. Voitalov, P. van der Hoorn, R. van der Hofstad, and D. Krioukov. Scale-free networks well done. *Phys. Rev. Res.*, Oct. 2019, doi: [10.1103/PhysRevResearch.1.033034](https://doi.org/10.1103/PhysRevResearch.1.033034).
 - I. Voitalov. ivanvoitalov/tail-estimation, GitHub. Mar. 2018. [https://github.com/ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation).
-
 
 
 ## License
