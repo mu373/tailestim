@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "tailestim"
 dynamic = ["version"]
 description = 'A Python package for estimating tail parameters of heavy-tailed distributions, which is useful for analyzing power-law behavior in complex networks.'
-readme = "README.txt"
+readme = "README.md"
 requires-python = ">=3.6"
 license = "MIT"
 keywords = ['power-law', 'complex-network', 'heavy-tail', 'network-science']
