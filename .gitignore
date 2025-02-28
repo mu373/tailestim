@@ -1,0 +1,6 @@
+.DS_Store
+.pytest_cache/
+dist/
+*/__pycache__/
+*/*/__pycache__/
+.coverage
