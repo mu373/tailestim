@@ -8,7 +8,7 @@ class TailData:
 
     def load_data(self):
         # Define the path to the examples directory
-        examples_dir = os.path.join(os.path.dirname(__file__), '..', 'data')
+        examples_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
         file_path = os.path.join(examples_dir, f'{self.name}.dat')
 
         # Check if the file exists

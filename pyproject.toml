@@ -34,6 +34,12 @@ Documentation = "https://github.com/mu373/tailestim#readme"
 Issues = "https://github.com/mu373/tailestim/issues"
 Source = "https://github.com/mu373/tailestim"
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/tailestim"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src/tailestim" = "tailestim"
+
 [tool.hatch.version]
 path = "src/tailestim/__about__.py"
 
