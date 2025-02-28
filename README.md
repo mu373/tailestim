@@ -3,7 +3,7 @@
 A Python package for estimating tail parameters of heavy-tailed distributions, which is useful for analyzing power-law behavior in complex networks.
 
 > [!NOTE]
-> The original estimation implementations are from [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation). This is a wrapper package that provides a more convenient and modern interface and logging, that can be installed using `pip` and `conda`.
+> The original estimation implementations are from [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation). This is a wrapper package that provides a more convenient/modern interface and logging, that can be installed using `pip` and `conda`.
 
 ## Features
 - Multiple estimation methods including Hill, Moments, Kernel, Pickands, and Smooth Hill estimators
