@@ -1,0 +1,93 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tailestim"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.6"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Minami Ueda", email = "minami.ueda@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "numpy"
+]
+
+[project.urls]
+Documentation = "https://github.com/mu373/tailestim#readme"
+Issues = "https://github.com/mu373/tailestim/issues"
+Source = "https://github.com/mu373/tailestim"
+
+[tool.hatch.version]
+path = "src/tailestim/__about__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "pytest>=7.0.0",
+  "pytest-cov>=4.0.0",
+]
+
+[tool.hatch.envs.test.scripts]
+# Run tests across all Python versions in the matrix
+all = "pytest {args:tests}"
+# Run with coverage
+cov = "pytest --cov {args:tests}"
+# Run specific test categories if needed
+unit = "pytest {args:tests/unit}"
+integration = "pytest {args:tests/integration}"
+
+[tool.hatch.aliases]
+test = "run test:all"
+cov = "run test:cov"
+
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/tailestim tests}"
+
+[tool.hatch.envs.test]
+dependencies = [
+  "pytest",
+  "pytest-cov",
+]
+[[tool.hatch.envs.test.matrix]]
+python = ["38", "39", "310", "311", "312", "313"]
+
+
+[tool.coverage.run]
+source_pkgs = ["tailestim", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/tailestim/__about__.py",
+]
+
+[tool.coverage.paths]
+tailestim = ["src/tailestim", "*/tailestim/src/tailestim"]
+tests = ["tests", "*/tailestim/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
