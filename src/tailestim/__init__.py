@@ -8,6 +8,7 @@ from .moments import MomentsEstimator
 from .kernel import KernelTypeEstimator
 from .pickands import PickandsEstimator
 from .smooth_hill import SmoothHillEstimator
+from .datasets import TailData
 
 __all__ = [
     'BaseTailEstimator',
@@ -16,4 +17,5 @@ __all__ = [
     'KernelTypeEstimator',
     'PickandsEstimator',
     'SmoothHillEstimator',
+    'TailData',
 ]
