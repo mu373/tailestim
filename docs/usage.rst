@@ -3,14 +3,16 @@ Usage Guide
 
 tailestim provides various methods for estimating tail parameters of heavy-tailed distributions, which is useful for analyzing power-law behavior in complex networks.
 
-Quick Start
-----------
 
 Installation
-~~~~~~~~~~~~~~~~~~~~~
+----------
 .. code-block:: bash
 
    pip install tailestim
+
+
+Quick Start
+----------
 
 Using Built-in Datasets
 ~~~~~~~~~~~~~~~~~~~~~
@@ -60,7 +62,7 @@ Using degree sequence from networkx graphs
 Available Estimators
 ------------------
 
-The package provides several estimators for tail estimation. For details on each estimator, refer to the respective class API reference.
+The package provides several estimators for tail estimation. For details on each estimator, refer to the respective class :doc:`API reference <api>`.
 
 1. **Hill Estimator** (``HillEstimator``)
    - Classical Hill estimator with double-bootstrap for optimal threshold selection
