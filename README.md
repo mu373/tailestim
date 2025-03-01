@@ -64,21 +64,16 @@ The package provides several estimators for tail estimation. For details on para
 1. **Hill Estimator** (`HillEstimator`)
    - Classical Hill estimator with double-bootstrap for optimal threshold selection
    - Generally recommended for power law analysis
-   - `bootstrap=True` by default
 2. **Moments Estimator** (`MomentsEstimator`)
    - Moments-based estimation with double-bootstrap
    - More robust to certain types of deviations from pure power law
-   - `bootstrap=True` by default
 3. **Kernel-type Estimator** (`KernelEstimator`)
    - Kernel-based estimation with double-bootstrap and bandwidth selection
-   - Additional parameters: `hsteps` (int, default=200), `alpha` (float, default=0.6)
-   - `bootstrap=True` by default
 4. **Pickands Estimator** (`PickandsEstimator`)
    - Pickands-based estimation (no bootstrap)
    - Provides arrays of estimates across different thresholds
 5. **Smooth Hill Estimator** (`SmoothHillEstimator`)
    - Smoothed version of the Hill estimator (no bootstrap)
-   - Additional parameter: `r_smooth` (int, default=2)
 
 ## Results
 The full result can be obtained by `estimator.get_parameters()`, which returns a dictionary. This includes:
