@@ -1,11 +1,10 @@
 name: Test
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:  # Allow manual triggering
+  workflow_call:     # Allow calling from other workflows
 
 jobs:
   test:
