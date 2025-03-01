@@ -3,14 +3,12 @@
 A Python package for estimating tail parameters of heavy-tailed distributions, which is useful for analyzing power-law behavior in complex networks.
 
 > [!NOTE]
-> The original estimation implementations are from [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation), which is based on a paper [(Voitalov et al. 2019)](https://doi.org/10.1103/PhysRevResearch.1.033034). `tailestim` is a wrapper package that provides a more convenient/modern interface and logging, that can be installed using `pip` and `conda`.
+> The original estimation implementations are from [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation), which is based on the paper [(Voitalov et al. 2019)](https://doi.org/10.1103/PhysRevResearch.1.033034). `tailestim` is a wrapper package that provides a more convenient/modern interface and logging, that can be installed using `pip` and `conda`.
 
 ## Features
 - Multiple estimation methods including Hill, Moments, Kernel, Pickands, and Smooth Hill estimators
 - Double-bootstrap procedure for optimal threshold selection
-- Built-in dataset loader for example networks
-- Support for custom network data analysis
-- Comprehensive parameter estimation and diagnostics
+- Built-in example datasets
 
 ## Installation
 ```bash
@@ -21,14 +19,14 @@ pip install tailestim
 
 ### Using Built-in Datasets
 ```python
-from tailestim.datasets import TailData
-from tailestim import HillEstimator
+from tailestim import TailData
+from tailestim import HillEstimator, KernelTypeEstimator, MomentsEstimator
 
 # Load a sample dataset
 data = TailData(name='CAIDA_KONECT').data
 
 # Initialize and fit the Hill estimator
-estimator = HillEstimator()  # bootstrap=True by default
+estimator = HillEstimator()
 estimator.fit(data)
 
 # Get the estimated parameters
@@ -42,14 +40,14 @@ print(estimator)
 ### Using degree sequence from networkx graphs
 ```python
 import networkx as nx
-from tailestim import HillEstimator
+from tailestim import HillEstimator, KernelTypeEstimator, MomentsEstimator
 
 # Create or load your network
 G = nx.barabasi_albert_graph(10000, 2)
 degree = list(dict(G.degree()).values()) # Degree sequence
 
 # Initialize and fit the Hill estimator
-estimator = HillEstimator()  # bootstrap=True by default
+estimator = HillEstimator()
 estimator.fit(degree)
 
 # Get the estimated parameters
@@ -83,7 +81,7 @@ The package provides several estimators for tail estimation. For details on para
    - Additional parameter: `r_smooth` (int, default=2)
 
 ## Results
-The results can be obtained by `estimator.get_parameters()`, which returns a dictionary. This includes:
+The full result can be obtained by `estimator.get_parameters()`, which returns a dictionary. This includes:
 - `gamma`: Power law exponent (γ = 1 + 1/ξ)
 - `xi_star`: Tail index (ξ)
 - `k_star`: Optimal order statistic
@@ -119,7 +117,7 @@ The package includes several example datasets:
 
 Load any example dataset using:
 ```python
-from tailestim.datasets import TailData
+from tailestim import TailData
 data = TailData(name='dataset_name').data
 ```
 
