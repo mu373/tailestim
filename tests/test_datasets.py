@@ -55,7 +55,7 @@ def test_data_consistency():
     data = TailData("CAIDA_KONECT")
     
     # Get the data file path
-    examples_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src', 'data')
+    examples_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src', 'tailestim', 'data')
     file_path = os.path.join(examples_dir, 'CAIDA_KONECT.dat')
     
     # Read the file manually to verify data
