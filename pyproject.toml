@@ -36,6 +36,7 @@ Source = "https://github.com/mu373/tailestim"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/tailestim"]
+include = ["src/tailestim/data/*.dat"]
 
 [tool.hatch.build.targets.wheel.sources]
 "src/tailestim" = "tailestim"
