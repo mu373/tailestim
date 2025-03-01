@@ -16,7 +16,7 @@ Examples
     from tailestim import TailData
     from tailestim import HillEstimator
     
-    data = TailData(name='CAIDA_KONECT').data
+    data = TailData(name='Pareto').data
     
     # Initialize and fit Smooth Hill estimator
     smooth_hill = SmoothHillEstimator()
