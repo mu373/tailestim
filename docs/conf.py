@@ -64,6 +64,14 @@ html_theme_options = {
     "show_nav_level": 2,
     "navigation_depth": 4,
     "show_toc_level": 2,
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/mu373/tailestim",
+            "icon": "fa-brands fa-square-github",
+            "type": "fontawesome",
+        }
+   ]
 }
 
 # Configure sidebars
