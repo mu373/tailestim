@@ -2,6 +2,24 @@ import numpy as np
 import logging
 logging.basicConfig(level=logging.WARNING)
 
+def order_data(data):
+    """
+    Function to sort data in decreasing order (from largest to smallest).
+    Used in all tail index estimation functions to ensure data is always in the correct order.
+    
+    Args:
+        data: numpy array to be sorted
+        
+    Returns:
+        data sorted in decreasing order
+    """
+    # Create a copy to avoid modifying the original array
+    sorted_data = data.copy()
+    # Sort in decreasing order (largest to smallest)
+    sorted_data = np.sort(sorted_data)[::-1]
+    return sorted_data
+
+
 def add_uniform_noise(data_sequence, p = 1):
     """
     Function to add uniform random noise to a given dataset.
