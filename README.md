@@ -1,12 +1,12 @@
 # tailestim
 
-A Python package for estimating tail parameters of heavy-tailed distributions, which is useful for analyzing power-law behavior in complex networks.
+A Python package for estimating tail parameters of heavy-tailed distributions, which is useful for analyzing power-law behavior in complex networks. Currently in development (alpha version).
 
 [![PyPI version](https://img.shields.io/pypi/v/tailestim)](https://pypi.org/project/tailestim/) [![PyPI status](https://img.shields.io/pypi/status/tailestim)](https://pypi.org/project/tailestim/) [![Test CI status](https://github.com/mu373/tailestim/actions/workflows/test.yml/badge.svg)](https://github.com/mu373/tailestim/actions/workflows/test.yml) [![GitHub license](https://img.shields.io/github/license/mu373/tailestim)](https://github.com/mu373/tailestim/blob/main/LICENSE.txt)
 
 
 > [!NOTE]
-> The original estimation implementations are from [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation), which is based on the paper [(Voitalov et al. 2019)](https://doi.org/10.1103/PhysRevResearch.1.033034). `tailestim` is a wrapper package that provides a more convenient/modern interface and logging, that can be installed using `pip` and `conda`.
+The original estimation implementations are from [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation), which is based on the paper ["Scale-free networks well done" (Voitalov et al. 2019)](https://doi.org/10.1103/PhysRevResearch.1.033034). `tailestim` is a wrapper package that provides a more convenient/modern interface and logging, that can be installed using `pip` and `conda`.
 
 ## Features
 - Multiple estimation methods including Hill, Moments, Kernel, Pickands, and Smooth Hill estimators
@@ -111,7 +111,7 @@ Second bootstrap minimum AMSE fraction: 0.2745
 The package includes several example datasets:
 - `CAIDA_KONECT`
 - `Libimseti_in_KONECT`
-- `Pareto`
+- `Pareto` (Follows power-law with $\gamma=2.5$)
 
 Load any example dataset using:
 ```python
