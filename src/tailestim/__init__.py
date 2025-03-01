@@ -2,4 +2,18 @@
 #
 # SPDX-License-Identifier: MIT
 
-from .estimator import TailEstimator
+from .base import BaseTailEstimator
+from .hill import HillEstimator
+from .moments import MomentsEstimator
+from .kernel import KernelTypeEstimator
+from .pickands import PickandsEstimator
+from .smooth_hill import SmoothHillEstimator
+
+__all__ = [
+    'BaseTailEstimator',
+    'HillEstimator',
+    'MomentsEstimator',
+    'KernelTypeEstimator',
+    'PickandsEstimator',
+    'SmoothHillEstimator',
+]
