@@ -6,7 +6,7 @@ A Python package for estimating tail parameters of heavy-tailed distributions, w
 
 
 > [!NOTE]
-The original estimation implementations are from [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation), which is based on the paper ["Scale-free networks well done" (Voitalov et al. 2019)](https://doi.org/10.1103/PhysRevResearch.1.033034). `tailestim` is a wrapper package that provides a more convenient/modern interface and logging, that can be installed using `pip` and `conda`.
+The original estimation implementations are from [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation), which is based on the paper ["Scale-free networks well done" (Voitalov et al. 2019)](https://doi.org/10.1103/PhysRevResearch.1.033034). `tailestim` is a wrapper package that provides a more convenient/modern interface and logging, installable through `pip`.
 
 ## Features
 - Multiple estimation methods including Hill, Moments, Kernel, Pickands, and Smooth Hill estimators
