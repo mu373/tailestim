@@ -7,13 +7,13 @@ class TailData:
         self.data = self.load_data()
 
     def load_data(self):
-        # Define the path to the examples directory
-        examples_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
-        file_path = os.path.join(examples_dir, f'{self.name}.dat')
+        # Define the path to the data directory
+        data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+        file_path = os.path.join(data_dir, f'{self.name}.dat')
 
         # Check if the file exists
         if not os.path.exists(file_path):
-            raise FileNotFoundError(f"Data file '{self.name}.dat' not found in Examples directory.")
+            raise FileNotFoundError(f"Data file '{self.name}.dat' not found in package data directory.")
 
         # Load the data from the file using the provided method
         with open(file_path, 'r') as file:
