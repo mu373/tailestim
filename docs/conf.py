@@ -65,3 +65,8 @@ html_theme_options = {
     "navigation_depth": 4,
     "show_toc_level": 2,
 }
+
+# Configure sidebars
+html_sidebars = {
+    "usage": [],  # Hide all sidebars for usage.rst
+}
