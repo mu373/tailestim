@@ -125,6 +125,43 @@ Loaded data
 - I. Voitalov, P. van der Hoorn, R. van der Hofstad, and D. Krioukov. Scale-free networks well done. *Phys. Rev. Res.*, Oct. 2019, doi: [10.1103/PhysRevResearch.1.033034](https://doi.org/10.1103/PhysRevResearch.1.033034).
 - I. Voitalov. `ivanvoitalov/tail-estimation`, GitHub. Mar. 2018. [https://github.com/ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation).
 
+## Citations
+If you use `tailestim` in your research or projects, I would greatly appreciate if you could cite this package, the original implementation, and the original paper (Voitalov et al. 2019).
+
+```bibtex
+@article{voitalov2019scalefree,
+  title = {Scale-free networks well done},
+  author = {Voitalov, Ivan and van der Hoorn, Pim and van der Hofstad, Remco and Krioukov, Dmitri},
+  journal = {Phys. Rev. Res.},
+  volume = {1},
+  issue = {3},
+  pages = {033034},
+  numpages = {30},
+  year = {2019},
+  month = {Oct},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevResearch.1.033034},
+  url = {https://link.aps.org/doi/10.1103/PhysRevResearch.1.033034}
+}
+
+@software{voitalov2018tailestimation,
+  author       = {Voitalov, Ivan},
+  title        = {tail-estimation},
+  month        = mar,
+  year         = 2018,
+  publisher    = {GitHub},
+  url          = {https://github.com/ivanvoitalov/tail-estimation}
+}
+
+@software{ueda2025tailestim,
+  author       = {Ueda, Minami},
+  title        = {tailestim: A Python package for estimating tail parameters of heavy-tailed distributions},
+  month        = mar,
+  year         = 2025,
+  publisher    = {GitHub},
+  url          = {https://github.com/mu373/tailestim}
+}
+```
 
 ## License
 `tailestim` is distributed under the terms of the [MIT license](https://github.com/mu373/tailestim/blob/main/LICENSE.txt).
