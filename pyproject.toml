@@ -46,6 +46,7 @@ path = "src/tailestim/__about__.py"
 dependencies = [
   "pytest>=7.0.0",
   "pytest-cov>=4.0.0",
+  "sphinx",
 ]
 
 [tool.hatch.envs.test.scripts]
