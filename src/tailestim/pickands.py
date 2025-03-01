@@ -30,7 +30,7 @@ class PickandsEstimator(BaseTailEstimator):
         super().__init__(bootstrap=False, **kwargs)
 
     def _estimate(self, ordered_data: np.ndarray) -> Tuple:
-        """Implement Pickands estimation.
+        """Estimate the tail index using the Pickands estimator.
         
         Parameters
         ----------

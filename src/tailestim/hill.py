@@ -47,7 +47,7 @@ class HillEstimator(BaseTailEstimator):
         self.diagn_plots = diagn_plots
 
     def _estimate(self, ordered_data: np.ndarray) -> Tuple:
-        """Implement Hill estimation using the existing implementation.
+        """Estimate the tail index using the Hill estimator.
         
         Parameters
         ----------

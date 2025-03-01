@@ -57,7 +57,7 @@ class KernelTypeEstimator(BaseTailEstimator):
         self.diagn_plots = diagn_plots
 
     def _estimate(self, ordered_data: np.ndarray) -> Tuple:
-        """Implement Kernel-type estimation using the existing implementation.
+        """Estimate tail index using kernel-type estimator.
         
         Parameters
         ----------

@@ -47,7 +47,7 @@ class MomentsEstimator(BaseTailEstimator):
         self.diagn_plots = diagn_plots
 
     def _estimate(self, ordered_data: np.ndarray) -> Tuple:
-        """Implement Moments estimation using the existing implementation.
+        """Estimate tail index using the Moments method.
         
         Parameters
         ----------

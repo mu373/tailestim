@@ -33,7 +33,7 @@ class SmoothHillEstimator(BaseTailEstimator):
         self.r_smooth = r_smooth
 
     def _estimate(self, ordered_data: np.ndarray) -> Tuple:
-        """Implement Smooth Hill estimation.
+        """Estimate the tail index using the Smooth Hill method.
         
         Parameters
         ----------
