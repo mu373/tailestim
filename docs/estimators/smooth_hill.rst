@@ -13,14 +13,10 @@ Examples
 --------
 .. code-block:: python
 
-    import numpy as np
-    from tailestim.estimators import SmoothHillEstimator
+    from tailestim import TailData
+    from tailestim import HillEstimator
     
-    # Generate Pareto distributed data
-    rng = np.random.default_rng(42)
-    alpha = 2.0  # shape parameter
-    n = 1000
-    data = (1 - rng.random(n)) ** (-1/alpha)
+    data = TailData(name='CAIDA_KONECT').data
     
     # Initialize and fit Smooth Hill estimator
     smooth_hill = SmoothHillEstimator()
