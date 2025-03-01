@@ -110,6 +110,8 @@ def get_moments_estimates_1(ordered_data):
             of the dataset.
 
     """
+    ordered_data = order_data(ordered_data)
+
     logs_1 = np.log(ordered_data)
     logs_1_cumsum = np.cumsum(logs_1[:-1])
     k_vector = np.arange(1, len(ordered_data))
@@ -134,6 +136,7 @@ def get_moments_estimates_2(ordered_data):
             possible order statistics of the dataset.
 
     """
+    ordered_data = order_data(ordered_data)
     logs_1 = np.log(ordered_data)
     logs_2 = (np.log(ordered_data))**2
     logs_1_cumsum = np.cumsum(logs_1[:-1])
@@ -164,6 +167,7 @@ def get_moments_estimates_3(ordered_data):
             possible order statistics of the dataset.
 
     """
+    ordered_data = order_data(ordered_data)
     logs_1 = np.log(ordered_data)
     logs_2 = (np.log(ordered_data))**2
     logs_3 = (np.log(ordered_data))**3
@@ -228,6 +232,7 @@ def hill_dbs(ordered_data, t_bootstrap = 0.5,
                         by eps_stop parameter.
 
     """
+    ordered_data = order_data(ordered_data)
     if verbose:
         logging.debug("Performing Hill double-bootstrap...")
     n = len(ordered_data)
@@ -355,6 +360,7 @@ def hill_estimator(ordered_data,
                  by eps_stop parameter; and the same characteristics for the
                  2nd bootstrap sample.
     """
+    ordered_data = order_data(ordered_data)
     k_arr = np.arange(1, len(ordered_data))
     xi_arr = get_moments_estimates_1(ordered_data)
     if bootstrap:
@@ -400,6 +406,7 @@ def smooth_hill_estimator(ordered_data, r_smooth = 2):
         xi_arr: numpy array of tail index estimates corresponding to 
                 the order statistics array k_arr.
     """
+    ordered_data = order_data(ordered_data)
     n = len(ordered_data)
     M1 = get_moments_estimates_1(ordered_data)
     xi_arr = np.zeros(int(np.floor(float(n)/r_smooth)))
@@ -537,6 +544,7 @@ def moments_dbs(ordered_data, xi_n, t_bootstrap = 0.5,
                     array corresponding to the minimization boundary set
                     by eps_stop parameter.
     """
+    ordered_data = order_data(ordered_data)
     if verbose:
         logging.debug("Performing moments double-bootstrap...")
     n = len(ordered_data)
@@ -644,6 +652,7 @@ def moments_estimator(ordered_data,
                  by eps_stop parameter; and the same characteristics for the
                  2nd bootstrap sample.
     """
+    ordered_data = order_data(ordered_data)
     n =  len(ordered_data)
     M1, M2 = get_moments_estimates_2(ordered_data)
     xi_arr = M1 + 1. - 0.5*(1. - (M1*M1)/M2)**(-1)
@@ -704,6 +713,7 @@ def get_biweight_kernel_estimates(ordered_data, hsteps, alpha):
                 to different fractions of order statistics included
                 listed in h_arr array.
     """
+    ordered_data = order_data(ordered_data)
     n = len(ordered_data)
     logs = np.log(ordered_data)
     differences = logs[:-1] - logs[1:]
@@ -759,6 +769,7 @@ def get_triweight_kernel_estimates(ordered_data, hsteps, alpha):
                 to different fractions of order statistics included
                 listed in h_arr array.
     """
+    ordered_data = order_data(ordered_data)
     n = len(ordered_data)
     logs = np.log(ordered_data)
     differences = logs[:-1] - logs[1:]
@@ -848,6 +859,7 @@ def kernel_type_dbs(ordered_data, hsteps, t_bootstrap = 0.5,
                       array corresponding to the minimization boundary set
                       by eps_stop parameter.
     """
+    ordered_data = order_data(ordered_data)
     if verbose:
         logging.debug("Performing kernel double-bootstrap...")
     n = len(ordered_data)
@@ -970,6 +982,7 @@ def kernel_type_estimator(ordered_data, hsteps, alpha = 0.6,
                  by eps_stop parameter; and the same characteristics for the
                  2nd bootstrap sample.
     """
+    ordered_data = order_data(ordered_data)
 
     n = len(ordered_data)
     h_arr, xi_arr = get_biweight_kernel_estimates(ordered_data, hsteps,
@@ -1028,6 +1041,7 @@ def pickands_estimator(ordered_data):
         xi_arr: array containing tail index estimates corresponding
                 to k-order statistics provided in k_arr.
     """
+    ordered_data = order_data(ordered_data)
     n = len(ordered_data)
     indices_k = np.arange(1, int(np.floor(n/4.))+1)
     indices_2k = 2*indices_k
