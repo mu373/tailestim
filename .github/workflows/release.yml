@@ -1,0 +1,87 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Python versions
+        uses: actions/setup-python@v5
+        with:
+          # Install all Python versions needed for testing
+          python-version: |
+            3.8
+            3.9
+            3.10
+            3.11
+            3.12
+            3.13
+          cache: pip
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install hatch
+          
+      - name: Run tests on all Python versions
+        run: |
+          # hatch will use the installed Python versions
+          hatch run test:all
+
+  release:
+    name: Release
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/tailestim
+    permissions:
+      id-token: write
+      contents: write
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install hatch build
+          
+      - name: Update version
+        run: |
+          # Get version from tag (e.g., v0.1.0 -> 0.1.0)
+          VERSION=${GITHUB_REF#refs/tags/v}
+          # Update version in __about__.py
+          sed -i "s/__version__ = \".*\"/__version__ = \"$VERSION\"/" src/tailestim/__about__.py
+          
+      - name: Build package
+        run: |
+          python -m build
+          
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        
+      - name: Commit version bump
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add src/tailestim/__about__.py
+          git commit -m "chore: bump version [skip ci]"
+          git push
