@@ -22,13 +22,13 @@ pip install tailestim
 ### Using Built-in Datasets
 ```python
 from tailestim.datasets import TailData
-from tailestim.estimator import TailEstimator
+from tailestim import HillEstimator
 
 # Load a sample dataset
 data = TailData(name='CAIDA_KONECT').data
 
-# Initialize and fit the estimator
-estimator = TailEstimator(method='hill')
+# Initialize and fit the Hill estimator
+estimator = HillEstimator()  # bootstrap=True by default
 estimator.fit(data)
 
 # Get the estimated parameters
@@ -42,14 +42,14 @@ print(estimator)
 ### Using degree sequence from networkx graphs
 ```python
 import networkx as nx
-from tailestim.estimator import TailEstimator
+from tailestim import HillEstimator
 
 # Create or load your network
 G = nx.barabasi_albert_graph(10000, 2)
 degree = list(dict(G.degree()).values()) # Degree sequence
 
-# Initialize and fit the estimator
-estimator = TailEstimator(method='hill')
+# Initialize and fit the Hill estimator
+estimator = HillEstimator()  # bootstrap=True by default
 estimator.fit(degree)
 
 # Get the estimated parameters
@@ -60,22 +60,25 @@ gamma = result['gamma']
 print(estimator)
 ```
 
-## Available Methods
-The package provides several methods for tail estimation. For details on parameters that can be specified to each methods, please refer to the original repository [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation), [original paper](https://doi.org/10.1103/PhysRevResearch.1.033034), or the [actual code](https://github.com/mu373/tailestim/blob/main/src/tailestim/tail_methods.py).
+## Available Estimators
+The package provides several estimators for tail estimation. For details on parameters that can be specified to each estimator, please refer to the original repository [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation), [original paper](https://doi.org/10.1103/PhysRevResearch.1.033034), or the [actual code](https://github.com/mu373/tailestim/blob/main/src/tailestim/tail_methods.py).
 
-1. **Hill Estimator** (`method='hill'`)
+1. **Hill Estimator** (`HillEstimator`)
    - Classical Hill estimator with double-bootstrap for optimal threshold selection
-   - Default method, generally recommended for power law analysis
-2. **Moments Estimator** (`method='moments'`)
+   - Generally recommended for power law analysis
+   - `bootstrap=True` by default
+2. **Moments Estimator** (`MomentsEstimator`)
    - Moments-based estimation with double-bootstrap
    - More robust to certain types of deviations from pure power law
-3. **Kernel-type Estimator** (`method='kernel'`)
+   - `bootstrap=True` by default
+3. **Kernel-type Estimator** (`KernelEstimator`)
    - Kernel-based estimation with double-bootstrap and bandwidth selection
    - Additional parameters: `hsteps` (int, default=200), `alpha` (float, default=0.6)
-4. **Pickands Estimator** (`method='pickands'`)
+   - `bootstrap=True` by default
+4. **Pickands Estimator** (`PickandsEstimator`)
    - Pickands-based estimation (no bootstrap)
    - Provides arrays of estimates across different thresholds
-5. **Smooth Hill Estimator** (`method='smooth_hill'`)
+5. **Smooth Hill Estimator** (`SmoothHillEstimator`)
    - Smoothed version of the Hill estimator (no bootstrap)
    - Additional parameter: `r_smooth` (int, default=2)
 
@@ -92,19 +95,19 @@ The results can be obtained by `estimator.get_parameters()`, which returns a dic
 When you `print(estimator)` after fitting, you will get the following output.
 ```
 ==================================================
-Tail Estimation Results (Hill Method)
+Tail Estimation Results (HillEstimator)
 ==================================================
 
 Parameters:
 --------------------
-Optimal order statistic (k*): 6873
-Tail index (ξ): 0.6191
-Gamma (powerlaw exponent) (γ): 2.6151
+Optimal order statistic (k*): 26708
+Tail index (ξ): 0.3974
+Gamma (powerlaw exponent) (γ): 3.5167
 
 Bootstrap Results:
 --------------------
-First bootstrap minimum AMSE fraction: 0.6899
-Second bootstrap minimum AMSE fraction: 0.6901
+First bootstrap minimum AMSE fraction: 0.2744
+Second bootstrap minimum AMSE fraction: 0.2745
 ```
 
 ## Built-in Datasets
