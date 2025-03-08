@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Enter version to release (e.g., 1.0.0)'
+        description: 'Enter the version name to release (e.g., 1.0.0).'
         required: true
         default: '1.0.0'
 
@@ -66,7 +66,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: "v${{ github.event.inputs.version }}"
-          release_name: "Release v${{ github.event.inputs.version }}"
+          release_name: "v${{ github.event.inputs.version }}"
           body: "Automated release of version v${{ github.event.inputs.version }}."
 
       - name: Build package
