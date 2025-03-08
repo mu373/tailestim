@@ -1,18 +1,35 @@
 name: Test
 
 on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'docs/**'
+      - '.gitignore'
+      - '.readthedocs.yaml'
+      - 'DEVELOP.md'
+      - 'LICENSE.txt'
+      - 'README.md'
   pull_request:
     branches: [ main ]
-  workflow_dispatch:  # Allow manual triggering
-  workflow_call:     # Allow calling from other workflows
+    paths-ignore:
+      - 'docs/**'
+      - '.gitignore'
+      - '.readthedocs.yaml'
+      - 'DEVELOP.md'
+      - 'LICENSE.txt'
+      - 'README.md'
+  workflow_dispatch:
 
 jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    if: ${{ github.event.head_commit && !contains(github.event.head_commit.message, '[skip ci]') }}
     
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           
