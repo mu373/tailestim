@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths-ignore:
       - 'docs/**'
+      - '.github/workflows/release.yml'
       - '.gitignore'
       - '.readthedocs.yaml'
       - 'DEVELOP.md'
@@ -14,6 +15,7 @@ on:
     branches: [ main ]
     paths-ignore:
       - 'docs/**'
+      - '.github/workflows/release.yml'
       - '.gitignore'
       - '.readthedocs.yaml'
       - 'DEVELOP.md'
