@@ -6,9 +6,12 @@ tailestim provides various methods for estimating tail parameters of heavy-taile
 
 Installation
 ----------
+This package is available from PyPI and conda-forge.
+
 .. code-block:: bash
 
    pip install tailestim
+   conda install conda-forge::tailestim
 
 
 Quick Start
