@@ -12,7 +12,7 @@ on:
 jobs:
 
   release:
-    name: Release
+    name: "Release v${{ github.event.inputs.version }}"
     runs-on: ubuntu-latest
     environment:
       name: pypi
