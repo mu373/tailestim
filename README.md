@@ -1,6 +1,6 @@
 # tailestim
 
-[GitHub](https://github.com/mu373/tailestim) | [PyPI](https://pypi.org/project/tailestim/) | [Documentation](https://tailestim.readthedocs.io/en/latest/)
+[GitHub](https://github.com/mu373/tailestim) | [PyPI](https://pypi.org/project/tailestim/) | [conda-forge](https://anaconda.org/conda-forge/tailestim) | [Documentation](https://tailestim.readthedocs.io/en/latest/)
 
 [![PyPI version](https://img.shields.io/pypi/v/tailestim)](https://pypi.org/project/tailestim/) [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tailestim.svg)](https://anaconda.org/conda-forge/tailestim) [![PyPI status](https://img.shields.io/pypi/status/tailestim)](https://pypi.org/project/tailestim/)  [![Test CI status](https://github.com/mu373/tailestim/actions/workflows/test.yml/badge.svg)](https://github.com/mu373/tailestim/actions/workflows/test.yml) [![GitHub license](https://img.shields.io/github/license/mu373/tailestim)](https://github.com/mu373/tailestim/blob/main/LICENSE.txt)
 
