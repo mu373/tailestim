@@ -2,12 +2,12 @@
 
 [GitHub](https://github.com/mu373/tailestim) | [PyPI](https://pypi.org/project/tailestim/) | [Documentation](https://tailestim.readthedocs.io/en/latest/)
 
-[![PyPI version](https://img.shields.io/pypi/v/tailestim)](https://pypi.org/project/tailestim/) [![PyPI status](https://img.shields.io/pypi/status/tailestim)](https://pypi.org/project/tailestim/) [![Test CI status](https://github.com/mu373/tailestim/actions/workflows/test.yml/badge.svg)](https://github.com/mu373/tailestim/actions/workflows/test.yml) [![GitHub license](https://img.shields.io/github/license/mu373/tailestim)](https://github.com/mu373/tailestim/blob/main/LICENSE.txt)
+[![PyPI version](https://img.shields.io/pypi/v/tailestim)](https://pypi.org/project/tailestim/) [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tailestim.svg)](https://anaconda.org/conda-forge/tailestim) [![PyPI status](https://img.shields.io/pypi/status/tailestim)](https://pypi.org/project/tailestim/)  [![Test CI status](https://github.com/mu373/tailestim/actions/workflows/test.yml/badge.svg)](https://github.com/mu373/tailestim/actions/workflows/test.yml) [![GitHub license](https://img.shields.io/github/license/mu373/tailestim)](https://github.com/mu373/tailestim/blob/main/LICENSE.txt)
 
 A Python package for estimating tail parameters of heavy-tailed distributions, which is useful for analyzing power-law behavior in complex networks. Currently in development (alpha version).
 
 > [!NOTE]
-The original estimation implementations are from [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation), which is based on the paper ["Scale-free networks well done" (Voitalov et al. 2019)](https://doi.org/10.1103/PhysRevResearch.1.033034). `tailestim` is a wrapper package that provides a more convenient/modern interface and logging, installable through `pip`.
+The original estimation implementations are from [ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation), which is based on the paper ["Scale-free networks well done" (Voitalov et al. 2019)](https://doi.org/10.1103/PhysRevResearch.1.033034). `tailestim` is a wrapper package that provides a more convenient/modern interface and logging, installable through `pip` and `conda`.
 
 ## Features
 - Multiple estimation methods including Hill, Moments, Kernel, Pickands, and Smooth Hill estimators
@@ -15,8 +15,10 @@ The original estimation implementations are from [ivanvoitalov/tail-estimation](
 - Built-in example datasets
 
 ## Installation
+The package can be installed from [PyPI](https://pypi.org/project/tailestim/) and [conda-forge](https://anaconda.org/conda-forge/tailestim).
 ```bash
 pip install tailestim
+conda install conda-forge::tailestim
 ```
 
 ## Quick Start
