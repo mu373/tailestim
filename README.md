@@ -38,6 +38,8 @@ estimator.fit(data)
 
 # Get the estimated parameters
 result = estimator.get_parameters()
+
+# Get the power law exponent
 gamma = result['gamma']
 
 # Print full results
@@ -59,6 +61,8 @@ estimator.fit(degree)
 
 # Get the estimated parameters
 result = estimator.get_parameters()
+
+# Get the power law exponent
 gamma = result['gamma']
 
 # Print full results
