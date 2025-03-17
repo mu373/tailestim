@@ -1,7 +1,7 @@
 tailestim
 ==================================
 
-tailestim is a Python package for estimating tail parameters of heavy-tailed distributions, which is useful for analyzing power-law behavior in complex networks.
+**tailestim** is a Python package for estimating tail parameters of heavy-tailed distributions, including the powerlaw exponent.
 
 .. note::
    The original estimation implementations are from `ivanvoitalov/tail-estimation <https://github.com/ivanvoitalov/tail-estimation>`_, which is based on the paper `"Scale-free networks well done" <https://doi.org/10.1103/PhysRevResearch.1.033034>`_ (Voitalov et al. 2019). tailestim is a wrapper package that provides a more convenient/modern interface and logging, that can be installed using ``pip`` and ``conda``.
@@ -18,13 +18,11 @@ Contents
 
 .. toctree::
    :maxdepth: 2
-   :caption: User Guide
 
    usage
 
 .. toctree::
    :maxdepth: 2
-   :caption: API Documentation
 
    api
 
