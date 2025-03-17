@@ -124,8 +124,6 @@ from tailestim import TailData
 data = TailData(name='dataset_name').data
 ```
 
-Loaded data 
-
 ## References
 - I. Voitalov, P. van der Hoorn, R. van der Hofstad, and D. Krioukov. Scale-free networks well done. *Phys. Rev. Res.*, Oct. 2019, doi: [10.1103/PhysRevResearch.1.033034](https://doi.org/10.1103/PhysRevResearch.1.033034).
 - I. Voitalov. `ivanvoitalov/tail-estimation`, GitHub. Mar. 2018. [https://github.com/ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation).
