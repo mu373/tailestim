@@ -17,4 +17,6 @@ Tests and releases are automated using GitHub Actions.
    - Tags the commit and makes a [release](https://github.com/mu373/tailestim/releases) in GitHub
    - Builds and publishes to [PyPI](https://pypi.org/project/powerlaw/)
 
-
+## conda-forge
+- Once a release is pubslihed to [PyPI](https://pypi.org/project/tailestim/), a bot (`@regro-cf-autotick-bot`) will automatically detect the new version and publishes it to [conda-forge](https://anaconda.org/conda-forge/tailestim). This could take some time (few hours).
+- Recipe is available at [conda-forge/tailestim-feedstock](https://github.com/conda-forge/tailestim-feedstock). 
