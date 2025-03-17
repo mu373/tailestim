@@ -59,6 +59,14 @@ jobs:
           git tag "v$VERSION"
           git push origin "v$VERSION"
 
+      - name: Get previous tag
+        id: prev_tag
+        run: |
+          # Sort tags in descending order and pick the second one as the previous version
+          PREV_TAG=$(git tag --sort=-v:refname | sed -n '2p')
+          echo "Previous tag is $PREV_TAG"
+          echo "::set-output name=PREV_TAG::$PREV_TAG"
+
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
@@ -67,7 +75,10 @@ jobs:
         with:
           tag_name: "v${{ github.event.inputs.version }}"
           release_name: "v${{ github.event.inputs.version }}"
-          body: "Automated release of version v${{ github.event.inputs.version }}."
+          body: |
+            Automated release of version v${{ github.event.inputs.version }}.
+
+            **Full Changelog**: https://github.com/mu373/tailestim/compare/${{ steps.prev_tag.outputs.PREV_TAG }}...v${{ github.event.inputs.version }}
 
       - name: Build package
         run: |
