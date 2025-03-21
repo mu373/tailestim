@@ -39,8 +39,8 @@ jobs:
           
       - name: Update version
         run: |
-          # Use the manually provided version
-          VERSION="${{ github.event.inputs.version }}"
+          # Use the manually provided version. Remove "v" and "spaces" if there is any included in the input.
+          VERSION=$(echo "${{ github.event.inputs.version }}" | sed -r "s/(^v| *)//g" )
           echo "Updating version to $VERSION"
           # Update version in __about__.py
           sed -i "s/__version__ = \".*\"/__version__ = \"$VERSION\"/" src/tailestim/__about__.py
