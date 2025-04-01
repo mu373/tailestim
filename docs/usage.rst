@@ -115,8 +115,8 @@ When you ``print(estimator)`` after fitting, you will get the following output:
     First bootstrap minimum AMSE fraction: 0.2744
     Second bootstrap minimum AMSE fraction: 0.2745
 
-Built-in Datasets
----------------
+Built-in Datasets and Custom Data
+-------------------------------
 
 The package includes several example datasets:
 
@@ -130,3 +130,23 @@ Load any example dataset using:
 
     from tailestim import TailData
     data = TailData(name='dataset_name').data
+
+You can also load your own custom datasets by providing a path:
+
+.. code-block:: python
+
+    from tailestim import TailData
+    data = TailData(path='path/to/my/data.dat').data
+
+The custom data file should follow the same format as the built-in datasets:
+a plain text file where each line contains two values separated by a space:
+- The first value (k) is the degree or value
+- The second value (n(k)) is the count or frequency of that value
+
+For example:
+```
+10 3
+20 2
+30 1
+```
+This represents that there are 3 instances of value 10, 2 instances of value 20, and 1 instance of value 30.
