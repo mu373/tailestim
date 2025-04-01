@@ -34,10 +34,10 @@ Using Built-in Datasets
 
     # Get the estimated parameters
     result = estimator.get_parameters()
-    gamma = result['gamma']
+    gamma = result.gamma
 
     # Print full results
-    print(estimator)
+    print(result)
 
 Using degree sequence from networkx graphs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,10 +57,10 @@ Using degree sequence from networkx graphs
 
     # Get the estimated parameters
     result = estimator.get_parameters()
-    gamma = result['gamma']
+    gamma = result.gamma
 
     # Print full results
-    print(estimator)
+    print(result)
 
 Available Estimators
 ------------------
@@ -84,7 +84,7 @@ The package provides several estimators for tail estimation. For details on each
 Results
 -------
 
-The full result can be obtained by ``estimator.get_parameters()``, which returns a dictionary. This includes:
+The full result can be obtained by ``result = estimator.get_parameters()``. You can either print the result, or access individual attributes (e.g., `result.gamma`). The output will include:
 
 - ``gamma``: Power law exponent (γ = 1 + 1/ξ)
 - ``xi_star``: Tail index (ξ)
@@ -96,24 +96,31 @@ The full result can be obtained by ``estimator.get_parameters()``, which returns
 Example Output
 ------------
 
-When you ``print(estimator)`` after fitting, you will get the following output:
+When you ``print(result)`` after fitting, you will get the following output:
 
 .. code-block:: text
 
-    ==================================================
-    Tail Estimation Results (HillEstimator)
-    ==================================================
+   --------------------------------------------------
+   Result
+   --------------------------------------------------
+   Order statistics: Array of shape (200,) [1.0000, 1.0000, 1.0000, ...]
+   Tail index estimates: Array of shape (200,) [1614487461647431761920.0000, 1249994621547387551744.0000, 967791073562264862720.0000, ...]
+   Optimal order statistic (k*): 25153
+   Tail index (ξ): 0.5942
+   Power law exponent (γ): 2.6828
+   Bootstrap Results: 
+   First Bootstrap: 
+      Fraction of order statistics: None
+      AMSE values: None
+      H Min: 0.9059
+      Maximum index: None
+   Second Bootstrap: 
+      Fraction of order statistics: None
+      AMSE values: None
+      H Min: 0.9090
+      Maximum index: None
 
-    Parameters:
-    --------------------
-    Optimal order statistic (k*): 26708
-    Tail index (ξ): 0.3974
-    Gamma (powerlaw exponent) (γ): 3.5167
 
-    Bootstrap Results:
-    --------------------
-    First bootstrap minimum AMSE fraction: 0.2744
-    Second bootstrap minimum AMSE fraction: 0.2745
 
 Built-in Datasets
 ---------------
