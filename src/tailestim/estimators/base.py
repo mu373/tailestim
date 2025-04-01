@@ -1,7 +1,7 @@
 """Base class for tail index estimation."""
 import numpy as np
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, Tuple, Union
 from numpy.random import BitGenerator, SeedSequence, RandomState, Generator
 
 class BaseTailEstimator(ABC):
@@ -25,7 +25,7 @@ class BaseTailEstimator(ABC):
     def __init__(
             self,
             bootstrap: bool = True,
-            base_seed: None | SeedSequence | BitGenerator | Generator | RandomState = None,
+            base_seed: Union[None, SeedSequence, BitGenerator, Generator, RandomState] = None,
             **kwargs):
         self.bootstrap = bootstrap
         self.base_seed = base_seed

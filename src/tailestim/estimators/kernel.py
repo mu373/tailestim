@@ -1,6 +1,6 @@
 """Kernel-type estimator implementation for tail index estimation."""
 import numpy as np
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, Tuple, Union
 from numpy.random import BitGenerator, SeedSequence, RandomState, Generator
 from .base import BaseTailEstimator
 from .tail_methods import kernel_type_estimator as kernel_estimate
@@ -48,7 +48,7 @@ class KernelTypeEstimator(BaseTailEstimator):
         eps_stop: float = 0.99,
         verbose: bool = False,
         diagn_plots: bool = False,
-        base_seed: None | SeedSequence | BitGenerator | Generator | RandomState = None,
+        base_seed: Union[None, SeedSequence, BitGenerator, Generator, RandomState] = None,
         **kwargs
     ):
         super().__init__(bootstrap=bootstrap, base_seed=base_seed, **kwargs)
