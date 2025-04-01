@@ -49,18 +49,18 @@ def test_hill_estimator():
     estimator = HillEstimator(bootstrap=False)
     estimator.fit(data)
     params = estimator.get_parameters()
-    assert 'k_arr' in params
-    assert 'xi_arr' in params
-    assert len(params['k_arr']) == len(params['xi_arr'])
+    assert hasattr(params, 'k_arr')
+    assert hasattr(params, 'xi_arr')
+    assert len(params.k_arr) == len(params.xi_arr)
     
     # Test with bootstrap
     estimator = HillEstimator(bootstrap=True, r_bootstrap=100)
     estimator.fit(data)
     params = estimator.get_parameters()
-    assert 'k_star' in params
-    assert 'xi_star' in params
-    assert 'gamma' in params
-    assert params['gamma'] is not None
+    assert hasattr(params, 'k_star')
+    assert hasattr(params, 'xi_star')
+    assert hasattr(params, 'gamma')
+    assert params.gamma is not None
 
     # Test with bootstrap with seed. Run multiple times to ensure consistency.
     bs1_results = []
@@ -69,8 +69,8 @@ def test_hill_estimator():
         estimator = HillEstimator(bootstrap=True, base_seed=42, r_bootstrap=100)
         estimator.fit(data)
         params = estimator.get_parameters()
-        bs1_kmin = params['bootstrap_results']['first_bootstrap']['k_min']
-        bs2_kmin = params['bootstrap_results']['second_bootstrap']['k_min']
+        bs1_kmin = params.bootstrap_results.first_bootstrap.k_min
+        bs2_kmin = params.bootstrap_results.second_bootstrap.k_min
         bs1_results.append(bs1_kmin)
         bs2_results.append(bs2_kmin)
     # Assert that all values in bs1_results are the same
@@ -84,10 +84,10 @@ def test_smooth_hill_estimator():
     estimator = SmoothHillEstimator(r_smooth=2)
     estimator.fit(data)
     params = estimator.get_parameters()
-    assert 'k_arr' in params
-    assert 'xi_arr' in params
-    assert len(params['k_arr']) == len(params['xi_arr'])
-    assert np.all(np.isfinite(params['xi_arr']))
+    assert hasattr(params, 'k_arr')
+    assert hasattr(params, 'xi_arr')
+    assert len(params.k_arr) == len(params.xi_arr)
+    assert np.all(np.isfinite(params.xi_arr))
 
 # Test moments estimator
 def test_moments_estimator():
@@ -98,18 +98,18 @@ def test_moments_estimator():
     estimator = MomentsEstimator(bootstrap=False)
     estimator.fit(data)
     params = estimator.get_parameters()
-    assert 'k_arr' in params
-    assert 'xi_arr' in params
-    assert len(params['k_arr']) == len(params['xi_arr'])
+    assert hasattr(params, 'k_arr')
+    assert hasattr(params, 'xi_arr')
+    assert len(params.k_arr) == len(params.xi_arr)
     
     # Test with bootstrap
     estimator = MomentsEstimator(bootstrap=True, r_bootstrap=100)
     estimator.fit(data)
     params = estimator.get_parameters()
-    assert 'k_star' in params
-    assert 'xi_star' in params
-    assert params['k_star'] is not None
-    assert params['xi_star'] is not None
+    assert hasattr(params, 'k_star')
+    assert hasattr(params, 'xi_star')
+    assert params.k_star is not None
+    assert params.xi_star is not None
 
     # Test with bootstrap with seed. Run multiple times to ensure consistency.
     bs1_results = []
@@ -118,8 +118,8 @@ def test_moments_estimator():
         estimator = MomentsEstimator(bootstrap=True, base_seed=42, r_bootstrap=100)
         estimator.fit(data)
         params = estimator.get_parameters()
-        bs1_kmin = params['bootstrap_results']['first_bootstrap']['k_min']
-        bs2_kmin = params['bootstrap_results']['second_bootstrap']['k_min']
+        bs1_kmin = params.bootstrap_results.first_bootstrap.k_min
+        bs2_kmin = params.bootstrap_results.second_bootstrap.k_min
         bs1_results.append(bs1_kmin)
         bs2_results.append(bs2_kmin)
     # Assert that all values in bs1_results are the same
@@ -135,18 +135,18 @@ def test_kernel_type_estimator():
     estimator = KernelTypeEstimator(hsteps=50, bootstrap=False)
     estimator.fit(data)
     params = estimator.get_parameters()
-    assert 'k_arr' in params
-    assert 'xi_arr' in params
-    assert len(params['k_arr']) == len(params['xi_arr'])
+    assert hasattr(params, 'k_arr')
+    assert hasattr(params, 'xi_arr')
+    assert len(params.k_arr) == len(params.xi_arr)
     
     # Test with bootstrap
     estimator = KernelTypeEstimator(hsteps=50, bootstrap=True, r_bootstrap=100)
     estimator.fit(data)
     params = estimator.get_parameters()
-    assert 'k_star' in params
-    assert 'xi_star' in params
-    assert params['k_star'] is not None
-    assert params['xi_star'] is not None
+    assert hasattr(params, 'k_star')
+    assert hasattr(params, 'xi_star')
+    assert params.k_star is not None
+    assert params.xi_star is not None
 
     # Test with bootstrap with seed. Run multiple times to ensure consistency.
     bs1_results = []
@@ -155,8 +155,8 @@ def test_kernel_type_estimator():
         estimator = KernelTypeEstimator(hsteps=50, bootstrap=True, base_seed=42, r_bootstrap=100)
         estimator.fit(data)
         params = estimator.get_parameters()
-        bs1_kmin = params['bootstrap_results']['first_bootstrap']['h_min']
-        bs2_kmin = params['bootstrap_results']['second_bootstrap']['h_min']
+        bs1_kmin = params.bootstrap_results.first_bootstrap.h_min
+        bs2_kmin = params.bootstrap_results.second_bootstrap.h_min
         bs1_results.append(bs1_kmin)
         bs2_results.append(bs2_kmin)
     # Assert that all values in bs1_results are the same
@@ -171,7 +171,7 @@ def test_pickands_estimator():
     estimator = PickandsEstimator()
     estimator.fit(data)
     params = estimator.get_parameters()
-    assert 'k_arr' in params
-    assert 'xi_arr' in params
-    assert len(params['k_arr']) == len(params['xi_arr'])
-    assert len(params['k_arr']) <= len(data) // 4  # Pickands can only estimate up to n/4 order statistics
+    assert hasattr(params, 'k_arr')
+    assert hasattr(params, 'xi_arr')
+    assert len(params.k_arr) == len(params.xi_arr)
+    assert len(params.k_arr) <= len(data) // 4  # Pickands can only estimate up to n/4 order statistics
