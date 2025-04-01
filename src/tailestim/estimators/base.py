@@ -3,6 +3,7 @@ import numpy as np
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Tuple, Union
 from numpy.random import BitGenerator, SeedSequence, RandomState, Generator
+from .result import TailEstimatorResult
 
 class BaseTailEstimator(ABC):
     """Abstract base class for tail index estimation.
@@ -60,52 +61,39 @@ class BaseTailEstimator(ABC):
         self.results = self._estimate(ordered_data)
 
     @abstractmethod
-    def get_parameters(self) -> Dict[str, Any]:
+    def get_parameters(self) -> TailEstimatorResult:
         """Get the estimated parameters.
         
         Returns
         -------
-        Dict[str, Any]
-            Dictionary containing the estimated parameters.
+        TailEstimatorResult
+            Object containing the estimated parameters.
             The structure depends on the specific estimation method.
         """
         if self.results is None:
             raise ValueError("Model not fitted yet. Call fit() first.")
-        return {}
+        return TailEstimatorResult()
 
     def __str__(self) -> str:
-        """Format estimation results as a string."""
+        """Format estimation object as a string."""
+        # Create a string with the estimator type and fitted status
+        estim_str = "-" * 50 + "\n"
+        estim_str += f"Estimator Type: {self.__class__.__name__}\n"
+        estim_str += "-" * 50 + "\n"
+        estim_str += f"Fitted: {'Yes' if self.results is not None else 'No'}\n"
+        
+        # Add the arguments provided
+        estim_str += "Arguments:\n"
+        estim_str += f"  bootstrap: {self.bootstrap}\n"
+        estim_str += f"  base_seed: {self.base_seed}\n"
+        
+        # Add any additional kwargs
+        if self.kwargs:
+            for key, value in self.kwargs.items():
+                estim_str += f"  {key}: {value}\n"
+        
+        # If the model is not fitted, return just the estim_str 
         if self.results is None:
-            return "Model not fitted yet. Call fit() first."
+            return estim_str + "Model not fitted yet. Call fit() first."
         
-        params = self.get_parameters()
-        
-        # Create header
-        header = "=" * 50 + "\n"
-        header += f"Tail Estimation Results ({self.__class__.__name__})\n"
-        header += "=" * 50 + "\n\n"
-        
-        # Format main parameters
-        main_params = "Parameters:\n"
-        main_params += "-" * 20 + "\n"
-        
-        # Add method-specific parameter formatting
-        params_str = self._format_params(params)
-        
-        return header + main_params + params_str
-
-    @abstractmethod
-    def _format_params(self, params: Dict[str, Any]) -> str:
-        """Format method-specific parameters as a string.
-        
-        Parameters
-        ----------
-        params : Dict[str, Any]
-            Dictionary of parameters to format.
-            
-        Returns
-        -------
-        str
-            Formatted parameter string.
-        """
-        pass
+        return estim_str 
