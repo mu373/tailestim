@@ -46,9 +46,9 @@ class BaseTailEstimator(ABC):
         Parameters
         ----------
         data : np.ndarray
-            Input data array.
+            Input data array (e.g., degree sequence). The data will automatically be sorted in decreasing order.
         """
-        ordered_data = np.sort(data)[::-1]  # decreasing order required
+        ordered_data = np.sort(data)[::-1]  # Each estimating functions require the data to be in decreasing order
         self.results = self._estimate(ordered_data)
 
     @abstractmethod
