@@ -1,7 +1,9 @@
 """Hill estimator implementation for tail index estimation."""
 import numpy as np
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, Tuple, Union
+from numpy.random import BitGenerator, SeedSequence, RandomState, Generator
 from .base import BaseTailEstimator
+from .result import TailEstimatorResult
 from .tail_methods import hill_estimator as hill_estimate
 
 class HillEstimator(BaseTailEstimator):
@@ -27,6 +29,8 @@ class HillEstimator(BaseTailEstimator):
         Flag controlling bootstrap verbosity.
     diagn_plots : bool, default=False
         Flag to switch on/off generation of AMSE diagnostic plots.
+    base_seed: None | SeedSequence | BitGenerator | Generator | RandomState, default=None
+        Base random seed for reproducibility of bootstrap.
     """
     
     def __init__(
@@ -37,9 +41,10 @@ class HillEstimator(BaseTailEstimator):
         eps_stop: float = 0.99,
         verbose: bool = False,
         diagn_plots: bool = False,
+        base_seed: Union[None, SeedSequence, BitGenerator, Generator, RandomState] = None,
         **kwargs
     ):
-        super().__init__(bootstrap=bootstrap, **kwargs)
+        super().__init__(bootstrap=bootstrap, base_seed=base_seed, **kwargs)
         self.t_bootstrap = t_bootstrap
         self.r_bootstrap = r_bootstrap
         self.eps_stop = eps_stop
@@ -66,16 +71,17 @@ class HillEstimator(BaseTailEstimator):
             r_bootstrap=self.r_bootstrap,
             verbose=self.verbose,
             diagn_plots=self.diagn_plots,
-            eps_stop=self.eps_stop
+            eps_stop=self.eps_stop,
+            base_seed=self.base_seed
         )
 
-    def get_parameters(self) -> Dict[str, Any]:
+    def get_parameters(self) -> TailEstimatorResult:
         """Get the estimated parameters.
         
         Returns
         -------
-        Dict[str, Any]
-            Dictionary containing:
+        TailEstimatorResult
+            Object containing:
             - k_arr: Array of order statistics
             - xi_arr: Array of tail index estimates
             - k_star: Optimal order statistic (if bootstrap=True)
@@ -116,38 +122,4 @@ class HillEstimator(BaseTailEstimator):
                 }
             })
         
-        return params
-
-    def _format_params(self, params: Dict[str, Any]) -> str:
-        """Format Hill estimator parameters as a string.
-        
-        Parameters
-        ----------
-        params : Dict[str, Any]
-            Dictionary of parameters to format.
-            
-        Returns
-        -------
-        str
-            Formatted parameter string.
-        """
-        output = ""
-        
-        if 'k_star' in params:
-            output += f"Optimal order statistic (k*): {params['k_star']:.0f}\n"
-            output += f"Tail index (ξ): {params['xi_star']:.4f}\n"
-            output += f"Gamma (powerlaw exponent) (γ): {params['gamma']:.4f}\n"
-            
-            if self.bootstrap:
-                output += "\nBootstrap Results:\n"
-                output += "-" * 20 + "\n"
-                bs1 = params['bootstrap_results']['first_bootstrap']
-                bs2 = params['bootstrap_results']['second_bootstrap']
-                output += f"First bootstrap minimum AMSE fraction: {bs1['k_min']:.4f}\n"
-                output += f"Second bootstrap minimum AMSE fraction: {bs2['k_min']:.4f}\n"
-        else:
-            output += "Note: No bootstrap results available\n"
-            output += f"Number of order statistics: {len(params['k_arr'])}\n"
-            output += f"Range of tail index estimates: [{min(params['xi_arr']):.4f}, {max(params['xi_arr']):.4f}]\n"
-        
-        return output
+        return TailEstimatorResult(params)

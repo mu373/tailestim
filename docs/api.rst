@@ -8,5 +8,6 @@ This section provides detailed API documentation for the tailestim package.
 
    base
    estimators/index
+   result
    data
 

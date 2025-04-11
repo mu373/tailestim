@@ -170,7 +170,7 @@ def get_moments_estimates_3(ordered_data):
 
 def hill_dbs(ordered_data, t_bootstrap = 0.5,
             r_bootstrap = 500, eps_stop = 1.0,
-            verbose = False, diagn_plots = False):
+            verbose = False, diagn_plots = False, base_seed=None):
     """
         Function to perform double-bootstrap procedure for
         Hill estimator.
@@ -188,6 +188,7 @@ def hill_dbs(ordered_data, t_bootstrap = 0.5,
             verbose:      flag controlling bootstrap verbosity. 
             diagn_plots:  flag to switch on/off generation of AMSE diagnostic
                           plots.
+            base_seed:    base random seed for reproducibility of bootstrap (default is None).
 
         Returns:
             k_star:     number of order statistics optimal for estimation
@@ -223,10 +224,15 @@ def hill_dbs(ordered_data, t_bootstrap = 0.5,
     k2 = None
     min_index1 = 1
     min_index2 = 1
+
+    base_rng = np.random.default_rng(seed=base_seed)  # Accept random seed for reproducibility. Default seed is None.
+
     while k2 == None:
         # first bootstrap with n1 sample size
         for i in range(r_bootstrap):
-            sample = np.random.choice(ordered_data, n1, replace = True)
+            bs1_seed = base_rng.integers(0, 1_000_000)
+            bs1_rng = np.random.default_rng(bs1_seed)
+            sample = bs1_rng.choice(ordered_data, n1, replace = True)
             sample[::-1].sort()
             M1, M2 = get_moments_estimates_2(sample)
             current_amse1 = (M2 - 2.*(M1)**2)**2
@@ -246,7 +252,9 @@ def hill_dbs(ordered_data, t_bootstrap = 0.5,
         good_counts2 = np.zeros(n2-1)
     
         for i in range(r_bootstrap):
-            sample = np.random.choice(ordered_data, n2, replace = True)
+            bs2_seed = base_rng.integers(0, 1_000_000)
+            bs2_rng = np.random.default_rng(bs2_seed)
+            sample = bs2_rng.choice(ordered_data, n2, replace = True)
             sample[::-1].sort()
             M1, M2 = get_moments_estimates_2(sample)
             current_amse2 = (M2 - 2.*(M1**2))**2
@@ -303,7 +311,7 @@ def hill_dbs(ordered_data, t_bootstrap = 0.5,
 def hill_estimator(ordered_data,
                    bootstrap = True, t_bootstrap = 0.5,
                    r_bootstrap = 500, verbose = False,
-                   diagn_plots = False, eps_stop = 0.99):
+                   diagn_plots = False, eps_stop = 0.99, base_seed = None):
     """
     Function to calculate Hill estimator for a given dataset.
     If bootstrap flag is True, double-bootstrap procedure
@@ -324,6 +332,7 @@ def hill_estimator(ordered_data,
         verbose:      flag controlling bootstrap verbosity. 
         diagn_plots:  flag to switch on/off generation of AMSE diagnostic
                       plots.
+        base_seed:    base random seed for reproducibility of bootstrap (default is None).
 
     Returns:
         results: list containing an array of order statistics,
@@ -347,7 +356,8 @@ def hill_estimator(ordered_data,
                            r_bootstrap = r_bootstrap,
                            verbose = verbose, 
                            diagn_plots = diagn_plots,
-                           eps_stop = eps_stop)
+                           eps_stop = eps_stop,
+                           base_seed = base_seed)
         k_star, x1_arr, n1_amse, k1, max_index1, x2_arr, n2_amse, k2, max_index2 = results
         while k_star == None:
             logging.debug("Resampling...")
@@ -356,7 +366,8 @@ def hill_estimator(ordered_data,
                            r_bootstrap = r_bootstrap,
                            verbose = verbose, 
                            diagn_plots = diagn_plots,
-                           eps_stop = eps_stop)
+                           eps_stop = eps_stop,
+                           base_seed = base_seed)
             k_star, x1_arr, n1_amse, k1, max_index1, x2_arr, n2_amse, k2, max_index2 = results
         xi_star = xi_arr[k_star-1]
         logging.info("Adjusted Hill estimated gamma:", 1 + 1./xi_star)
@@ -477,7 +488,7 @@ def moments_dbs_prefactor(xi_n, n1, k1):
 
 def moments_dbs(ordered_data, xi_n, t_bootstrap = 0.5,
                 r_bootstrap = 500, eps_stop = 1.0,
-                verbose = False, diagn_plots = False):
+                verbose = False, diagn_plots = False, base_seed=None):
     """
     Function to perform double-bootstrap procedure for 
     moments estimator.
@@ -497,6 +508,7 @@ def moments_dbs(ordered_data, xi_n, t_bootstrap = 0.5,
         verbose:      flag controlling bootstrap verbosity. 
         diagn_plots:  flag to switch on/off generation of AMSE diagnostic
                       plots.
+        base_seed:    base random seed for reproducibility of bootstrap (default is None).
         
 
     Returns:
@@ -526,12 +538,16 @@ def moments_dbs(ordered_data, xi_n, t_bootstrap = 0.5,
     n = len(ordered_data)
     eps_bootstrap = 0.5*(1+np.log(int(t_bootstrap*n))/np.log(n))
 
+    base_rng = np.random.default_rng(seed=base_seed)  # Accept random seed for reproducibility. Default seed is None.
+
     # first bootstrap with n1 sample size
     n1 = int(n**eps_bootstrap)
     samples_n1 = np.zeros(n1-1)
     good_counts1 = np.zeros(n1-1)
     for i in range(r_bootstrap):
-        sample = np.random.choice(ordered_data, n1, replace = True)
+        bs1_seed = base_rng.integers(0, 1_000_000)
+        bs1_rng = np.random.default_rng(bs1_seed)
+        sample = bs1_rng.choice(ordered_data, n1, replace = True)
         sample[::-1].sort()
         M1, M2, M3 = get_moments_estimates_3(sample)
         xi_2 = M1 + 1. - 0.5*((1. - (M1*M1)/M2))**(-1.)
@@ -551,7 +567,9 @@ def moments_dbs(ordered_data, xi_n, t_bootstrap = 0.5,
     samples_n2 = np.zeros(n2-1)
     good_counts2 = np.zeros(n2-1)
     for i in range(r_bootstrap):
-        sample = np.random.choice(ordered_data, n2, replace = True)
+        bs2_seed = base_rng.integers(0, 1_000_000)
+        bs2_rng = np.random.default_rng(bs2_seed)
+        sample = bs2_rng.choice(ordered_data, n2, replace = True)
         sample[::-1].sort()
         M1, M2, M3 = get_moments_estimates_3(sample)
         xi_2 = M1 + 1. - 0.5*(1. - (M1*M1)/M2)**(-1.)
@@ -592,7 +610,7 @@ def moments_dbs(ordered_data, xi_n, t_bootstrap = 0.5,
 def moments_estimator(ordered_data,
                       bootstrap = True, t_bootstrap = 0.5,
                       r_bootstrap = 500, verbose = False,
-                      diagn_plots = False, eps_stop = 0.99):
+                      diagn_plots = False, eps_stop = 0.99, base_seed = None):
     """
     Function to calculate moments estimator for a given dataset.
     If bootstrap flag is True, double-bootstrap procedure
@@ -613,6 +631,7 @@ def moments_estimator(ordered_data,
         verbose:      flag controlling bootstrap verbosity. 
         diagn_plots:  flag to switch on/off generation of AMSE diagnostic
                       plots.
+        base_seed:    base random seed for reproducibility of bootstrap (default is None).
 
     Returns:
         results: list containing an array of order statistics,
@@ -639,7 +658,8 @@ def moments_estimator(ordered_data,
                               r_bootstrap = r_bootstrap,
                               verbose = verbose, 
                               diagn_plots = diagn_plots,
-                              eps_stop = eps_stop)
+                              eps_stop = eps_stop,
+                              base_seed = base_seed)
         while results[0] == None:
             logging.debug("Resampling...")
             results = moments_dbs(ordered_data, xi_n,
@@ -647,7 +667,8 @@ def moments_estimator(ordered_data,
                                   r_bootstrap = r_bootstrap,
                                   verbose = verbose, 
                                   diagn_plots = diagn_plots,
-                                  eps_stop = eps_stop)
+                                  eps_stop = eps_stop,
+                                  base_seed = base_seed)
         k_star, x1_arr, n1_amse, k1, max_index1, x2_arr, n2_amse, k2, max_index2 = results
         xi_star = xi_arr[k_star-1]
         if xi_star <= 0:
@@ -785,7 +806,7 @@ def get_triweight_kernel_estimates(ordered_data, hsteps, alpha):
 
 def kernel_type_dbs(ordered_data, hsteps, t_bootstrap = 0.5,
                     r_bootstrap = 500, alpha = 0.6, eps_stop = 1.0,
-                    verbose = False, diagn_plots = False):
+                    verbose = False, diagn_plots = False, base_seed=None):
     """
     Function to perform double-bootstrap procedure for 
     moments estimator.
@@ -808,6 +829,7 @@ def kernel_type_dbs(ordered_data, hsteps, t_bootstrap = 0.5,
         verbose:      flag controlling bootstrap verbosity. 
         diagn_plots:  flag to switch on/off generation of AMSE diagnostic
                       plots.
+        base_seed:    base random seed for reproducibility of bootstrap (default is None).
         
 
     Returns:
@@ -836,13 +858,17 @@ def kernel_type_dbs(ordered_data, hsteps, t_bootstrap = 0.5,
         logging.debug("Performing kernel double-bootstrap...")
     n = len(ordered_data)
     eps_bootstrap = 0.5*(1+np.log(int(t_bootstrap*n))/np.log(n))
+
+    base_rng = np.random.default_rng(seed=base_seed)  # Accept random seed for reproducibility. Default seed is None.
     
     # first bootstrap with n1 sample size
     n1 = int(n**eps_bootstrap)
     samples_n1 = np.zeros(hsteps)
     good_counts1 = np.zeros(hsteps)
     for i in range(r_bootstrap):
-        sample = np.random.choice(ordered_data, n1, replace = True)
+        bs1_seed = base_rng.integers(0, 1_000_000)
+        bs1_rng = np.random.default_rng(bs1_seed)
+        sample = bs1_rng.choice(ordered_data, n1, replace = True)
         sample[::-1].sort()
         _, xi2_arr = get_biweight_kernel_estimates(sample, hsteps, alpha)
         _, xi3_arr = get_triweight_kernel_estimates(sample, hsteps, alpha)
@@ -866,7 +892,9 @@ def kernel_type_dbs(ordered_data, hsteps, t_bootstrap = 0.5,
     samples_n2 = np.zeros(hsteps)
     good_counts2 = np.zeros(hsteps)
     for i in range(r_bootstrap):
-        sample = np.random.choice(ordered_data, n2, replace = True)
+        bs2_seed = base_rng.integers(0, 1_000_000)
+        bs2_rng = np.random.default_rng(bs2_seed)
+        sample = bs2_rng.choice(ordered_data, n2, replace = True)
         sample[::-1].sort()
         _, xi2_arr = get_biweight_kernel_estimates(sample, hsteps, alpha)
         _, xi3_arr = get_triweight_kernel_estimates(sample, hsteps, alpha)
@@ -913,7 +941,7 @@ def kernel_type_dbs(ordered_data, hsteps, t_bootstrap = 0.5,
 def kernel_type_estimator(ordered_data, hsteps, alpha = 0.6,
                          bootstrap = True, t_bootstrap = 0.5,
                          r_bootstrap = 500, verbose = False,
-                         diagn_plots = False, eps_stop = 0.99):
+                         diagn_plots = False, eps_stop = 0.99, base_seed = None):
     """
     Function to calculate kernel-type estimator for a given dataset.
     If bootstrap flag is True, double-bootstrap procedure
@@ -939,6 +967,7 @@ def kernel_type_estimator(ordered_data, hsteps, alpha = 0.6,
         verbose:      flag controlling bootstrap verbosity. 
         diagn_plots:  flag to switch on/off generation of AMSE diagnostic
                       plots.
+        base_seed:    base random seed for reproducibility of bootstrap (default is None).
 
     Returns:
         results: list containing an array of fractions of order statistics,
@@ -963,7 +992,7 @@ def kernel_type_estimator(ordered_data, hsteps, alpha = 0.6,
                                   t_bootstrap = t_bootstrap,
                                   alpha = alpha, r_bootstrap = r_bootstrap,
                                   verbose = verbose, diagn_plots = diagn_plots,
-                                  eps_stop = eps_stop)
+                                  eps_stop = eps_stop, base_seed = base_seed)
         h_star, x1_arr, n1_amse, h1, max_index1, x2_arr, n2_amse, h2, max_index2 = results
         while h_star == None:
             logging.debug("Resampling...")
@@ -971,7 +1000,7 @@ def kernel_type_estimator(ordered_data, hsteps, alpha = 0.6,
                                   t_bootstrap = t_bootstrap,
                                   alpha = alpha, r_bootstrap = r_bootstrap,
                                   verbose = verbose, diagn_plots = diagn_plots,
-                                  eps_stop = eps_stop)
+                                  eps_stop = eps_stop, base_seed = base_seed)
             h_star, x1_arr, n1_amse, h1, max_index1, x2_arr, n2_amse, h2, max_index2 = results
         
         #get k index which corresponds to h_star
