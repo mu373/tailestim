@@ -16,7 +16,7 @@ print(estimator)
 result = estimator.get_parameters()
 
 # Get the power law exponent
-gamma = result['gamma']
+gamma = result.gamma
 
 # Print full results
 print(result)

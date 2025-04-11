@@ -1,6 +1,7 @@
 """Smooth Hill estimator implementation for tail index estimation."""
 import numpy as np
 from typing import Dict, Any, Tuple
+from .result import TailEstimatorResult
 from .base import BaseTailEstimator
 from .tail_methods import smooth_hill_estimator as smooth_hill_estimate
 
@@ -47,7 +48,7 @@ class SmoothHillEstimator(BaseTailEstimator):
         """
         return smooth_hill_estimate(ordered_data, r_smooth=self.r_smooth)
 
-    def get_parameters(self) -> Dict[str, Any]:
+    def get_parameters(self) -> TailEstimatorResult:
         """Get the estimated parameters.
         
         Returns
@@ -62,27 +63,9 @@ class SmoothHillEstimator(BaseTailEstimator):
         
         k_arr, xi_arr = self.results
         
-        return {
+        params = {
             'k_arr': k_arr,
             'xi_arr': xi_arr
         }
-
-    def _format_params(self, params: Dict[str, Any]) -> str:
-        """Format Smooth Hill estimator parameters as a string.
         
-        Parameters
-        ----------
-        params : Dict[str, Any]
-            Dictionary of parameters to format.
-            
-        Returns
-        -------
-        str
-            Formatted parameter string.
-        """
-        output = "Note: This method provides arrays of estimates\n"
-        output += f"Smoothing window width (r): {self.r_smooth}\n"
-        output += f"Number of order statistics: {len(params['k_arr'])}\n"
-        output += f"Range of tail index estimates: [{min(params['xi_arr']):.4f}, {max(params['xi_arr']):.4f}]\n"
-        
-        return output
+        return TailEstimatorResult(params)
