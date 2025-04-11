@@ -5,6 +5,10 @@ on:
     branches: [ main ]
     paths:
       - 'requirements.txt'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'requirements.txt'
   workflow_dispatch:
 
 jobs:
