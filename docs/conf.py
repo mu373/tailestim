@@ -23,10 +23,14 @@ sys.path.insert(0, os.path.abspath('../src'))
 
 extensions = [
     'sphinx.ext.autodoc',
+    'numpydoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
     'sphinx.ext.intersphinx',
 ]
+
+numpydoc_show_class_members = False
+autodoc_typehints = "none"
 
 # Napoleon settings
 napoleon_google_docstring = True
