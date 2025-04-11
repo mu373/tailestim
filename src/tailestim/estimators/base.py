@@ -1,7 +1,8 @@
 """Base class for tail index estimation."""
 import numpy as np
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, Tuple, Union
+from numpy.random import BitGenerator, SeedSequence, RandomState, Generator
 
 class BaseTailEstimator(ABC):
     """Abstract base class for tail index estimation.
@@ -15,12 +16,19 @@ class BaseTailEstimator(ABC):
     bootstrap : bool, default=True
         Whether to use double-bootstrap for optimal threshold selection.
         May not be applicable for all methods.
+    base_seed: None | SeedSequence | BitGenerator | Generator | RandomState, default=None
+        Base random seed for reproducibility of bootstrap. Only used for methods with bootstrap.
     **kwargs : dict
         Additional parameters specific to each estimation method.
     """
     
-    def __init__(self, bootstrap: bool = True, **kwargs):
+    def __init__(
+            self,
+            bootstrap: bool = True,
+            base_seed: Union[None, SeedSequence, BitGenerator, Generator, RandomState] = None,
+            **kwargs):
         self.bootstrap = bootstrap
+        self.base_seed = base_seed
         self.kwargs = kwargs
         self.results = None
 

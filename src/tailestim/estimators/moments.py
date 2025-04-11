@@ -1,6 +1,7 @@
 """Moments estimator implementation for tail index estimation."""
 import numpy as np
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, Tuple, Union
+from numpy.random import BitGenerator, SeedSequence, RandomState, Generator
 from .base import BaseTailEstimator
 from .tail_methods import moments_estimator as moments_estimate
 
@@ -27,6 +28,8 @@ class MomentsEstimator(BaseTailEstimator):
         Flag controlling bootstrap verbosity.
     diagn_plots : bool, default=False
         Flag to switch on/off generation of AMSE diagnostic plots.
+    base_seed: None | SeedSequence | BitGenerator | Generator | RandomState, default=None
+        Base random seed for reproducibility of bootstrap.
     """
     
     def __init__(
@@ -37,9 +40,10 @@ class MomentsEstimator(BaseTailEstimator):
         eps_stop: float = 0.99,
         verbose: bool = False,
         diagn_plots: bool = False,
+        base_seed: Union[None, SeedSequence, BitGenerator, Generator, RandomState] = None,
         **kwargs
     ):
-        super().__init__(bootstrap=bootstrap, **kwargs)
+        super().__init__(bootstrap=bootstrap, base_seed=base_seed, **kwargs)
         self.t_bootstrap = t_bootstrap
         self.r_bootstrap = r_bootstrap
         self.eps_stop = eps_stop
@@ -66,7 +70,8 @@ class MomentsEstimator(BaseTailEstimator):
             r_bootstrap=self.r_bootstrap,
             verbose=self.verbose,
             diagn_plots=self.diagn_plots,
-            eps_stop=self.eps_stop
+            eps_stop=self.eps_stop,
+            base_seed=self.base_seed
         )
 
     def get_parameters(self) -> Dict[str, Any]:

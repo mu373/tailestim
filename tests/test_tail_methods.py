@@ -62,6 +62,21 @@ def test_hill_estimator():
     assert 'gamma' in params
     assert params['gamma'] is not None
 
+    # Test with bootstrap with seed. Run multiple times to ensure consistency.
+    bs1_results = []
+    bs2_results = []
+    for i in range(3):
+        estimator = HillEstimator(bootstrap=True, base_seed=42, r_bootstrap=100)
+        estimator.fit(data)
+        params = estimator.get_parameters()
+        bs1_kmin = params['bootstrap_results']['first_bootstrap']['k_min']
+        bs2_kmin = params['bootstrap_results']['second_bootstrap']['k_min']
+        bs1_results.append(bs1_kmin)
+        bs2_results.append(bs2_kmin)
+    # Assert that all values in bs1_results are the same
+    assert all(x == bs1_results[0] for x in bs1_results), "Bootstrap results with same seed should be identical"
+    assert all(x == bs2_results[0] for x in bs2_results), "Second bootstrap results with same seed should be identical"
+
 def test_smooth_hill_estimator():
     np.random.seed(42)
     data = np.random.pareto(2, 1000)
@@ -96,6 +111,21 @@ def test_moments_estimator():
     assert params['k_star'] is not None
     assert params['xi_star'] is not None
 
+    # Test with bootstrap with seed. Run multiple times to ensure consistency.
+    bs1_results = []
+    bs2_results = []
+    for i in range(3):
+        estimator = MomentsEstimator(bootstrap=True, base_seed=42, r_bootstrap=100)
+        estimator.fit(data)
+        params = estimator.get_parameters()
+        bs1_kmin = params['bootstrap_results']['first_bootstrap']['k_min']
+        bs2_kmin = params['bootstrap_results']['second_bootstrap']['k_min']
+        bs1_results.append(bs1_kmin)
+        bs2_results.append(bs2_kmin)
+    # Assert that all values in bs1_results are the same
+    assert all(x == bs1_results[0] for x in bs1_results), "Bootstrap results with same seed should be identical"
+    assert all(x == bs2_results[0] for x in bs2_results), "Second bootstrap results with same seed should be identical"
+
 # Test kernel estimator
 def test_kernel_type_estimator():
     np.random.seed(42)
@@ -117,6 +147,21 @@ def test_kernel_type_estimator():
     assert 'xi_star' in params
     assert params['k_star'] is not None
     assert params['xi_star'] is not None
+
+    # Test with bootstrap with seed. Run multiple times to ensure consistency.
+    bs1_results = []
+    bs2_results = []
+    for i in range(3):
+        estimator = KernelTypeEstimator(hsteps=50, bootstrap=True, base_seed=42, r_bootstrap=100)
+        estimator.fit(data)
+        params = estimator.get_parameters()
+        bs1_kmin = params['bootstrap_results']['first_bootstrap']['h_min']
+        bs2_kmin = params['bootstrap_results']['second_bootstrap']['h_min']
+        bs1_results.append(bs1_kmin)
+        bs2_results.append(bs2_kmin)
+    # Assert that all values in bs1_results are the same
+    assert all(x == bs1_results[0] for x in bs1_results), "Bootstrap results with same seed should be identical"
+    assert all(x == bs2_results[0] for x in bs2_results), "Second bootstrap results with same seed should be identical"
 
 # Test Pickands estimator
 def test_pickands_estimator():
