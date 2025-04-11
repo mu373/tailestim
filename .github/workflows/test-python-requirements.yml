@@ -1,4 +1,4 @@
-name: Test Python requirements
+name: Test Sphinx requirements
 
 on:
   push:
