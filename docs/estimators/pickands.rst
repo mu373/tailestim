@@ -1,5 +1,5 @@
 Pickands Estimator
-================
+==================
 
 .. currentmodule:: tailestim.estimators
 

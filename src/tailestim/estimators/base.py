@@ -67,8 +67,16 @@ class BaseTailEstimator(ABC):
         Returns
         -------
         TailEstimatorResult
-            Object containing the estimated parameters.
-            The structure depends on the specific estimation method.
+            Object containing the estimated parameters. Parameters and results included varies by method.
+
+        Examples
+        --------
+        >>> hill = HillEstimator()
+        >>> hill.fit(data)
+        >>> result = hill.get_parameters()
+        >>> gamma = result.gamma  # Access the tail index
+        >>> xi = result.xi  # Access the shape parameter (if available)
+
         """
         if self.results is None:
             raise ValueError("Model not fitted yet. Call fit() first.")

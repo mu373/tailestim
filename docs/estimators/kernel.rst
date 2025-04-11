@@ -1,5 +1,5 @@
 Kernel-Type Estimator
-==================
+======================
 
 .. currentmodule:: tailestim.estimators
 

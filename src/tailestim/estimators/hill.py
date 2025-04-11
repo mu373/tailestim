@@ -77,18 +77,27 @@ class HillEstimator(BaseTailEstimator):
 
     def get_parameters(self) -> TailEstimatorResult:
         """Get the estimated parameters.
-        
+
+        Attributes
+        ----------
+        xi_star : float
+            Optimal tail index estimate (ξ).
+        gamma : float
+            Power law exponent (γ).
+        k_arr : np.ndarray
+            Array of order statistics.
+        xi_arr : np.ndarray
+            Array of tail index estimates.
+        k_star : float
+            Optimal order statistic (k*).
+        bootstrap_results : dict
+            Bootstrap results.
+
         Returns
         -------
         TailEstimatorResult
-            Object containing:
-            - k_arr: Array of order statistics
-            - xi_arr: Array of tail index estimates
-            - k_star: Optimal order statistic (if bootstrap=True)
-            - xi_star: Optimal tail index estimate (if bootstrap=True)
-            - gamma: Power law exponent (if bootstrap=True)
-            - bootstrap_results: Bootstrap details (if bootstrap=True)
         """
+
         if self.results is None:
             raise ValueError("Model not fitted yet. Call fit() first.")
         
