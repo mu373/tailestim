@@ -1,29 +1,35 @@
 import os
 import pytest
 import numpy as np
+import tempfile
 from tailestim.datasets import TailData
 
 def test_load_existing_data():
     """Test loading an existing dataset"""
     # Test with CAIDA dataset
-    data = TailData("CAIDA_KONECT")
+    data = TailData(name="CAIDA_KONECT")
     assert isinstance(data.data, np.ndarray)
     assert len(data.data) > 0
     
     # Test with Libimseti dataset
-    data = TailData("Libimseti_in_KONECT")
+    data = TailData(name="Libimseti_in_KONECT")
     assert isinstance(data.data, np.ndarray)
     assert len(data.data) > 0
     
     # Test with Pareto dataset
-    data = TailData("Pareto")
+    data = TailData(name="Pareto")
     assert isinstance(data.data, np.ndarray)
     assert len(data.data) > 0
 
 def test_nonexistent_data():
     """Test handling of non-existent dataset"""
     with pytest.raises(FileNotFoundError):
-        TailData("nonexistent_dataset")
+        TailData(name="nonexistent_dataset")
+        
+def test_missing_parameters():
+    """Test handling of missing parameters"""
+    with pytest.raises(ValueError):
+        TailData()
 
 def test_data_format():
     """Test if data is properly formatted"""
@@ -49,10 +55,9 @@ def test_representation():
     # Check format
     assert repr_str.startswith("TailData(")
     assert repr_str.endswith(")")
-
 def test_data_consistency():
     """Test if loaded data is consistent with file content"""
-    data = TailData("CAIDA_KONECT")
+    data = TailData(name="CAIDA_KONECT")
     
     # Get the data file path
     examples_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src', 'tailestim', 'data')
@@ -73,3 +78,49 @@ def test_data_consistency():
     first_value = float(first_line[0])
     first_count = int(first_line[1])
     assert np.all(data.data[:first_count] == first_value)
+    
+def test_data_load_custom_path():
+    """Test loading data from a custom path"""
+    # Create a temporary file with test data
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        temp_file.write("10 3\n")
+        temp_file.write("20 2\n")
+        temp_file.write("30 1\n")
+        temp_path = temp_file.name
+    
+    try:
+        # Load data from the custom path
+        data = TailData(path=temp_path)
+        
+        # Verify the data was loaded correctly
+        assert isinstance(data.data, np.ndarray)
+        assert len(data.data) == 6  # 3 + 2 + 1 = 6
+        assert np.all(data.data[:3] == 10)
+        assert np.all(data.data[3:5] == 20)
+        assert data.data[5] == 30
+        
+        # Check the string representation
+        repr_str = repr(data)
+        assert temp_path in repr_str
+        assert "data_length=6" in repr_str
+    finally:
+        # Clean up the temporary file
+        os.unlink(temp_path)
+        
+def test_path_precedence():
+    """Test that path takes precedence over name when both are provided"""
+    # Create a temporary file with test data
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        temp_file.write("100 1\n")
+        temp_path = temp_file.name
+    
+    try:
+        # Load data with both name and path
+        data = TailData(name="CAIDA_KONECT", path=temp_path)
+        
+        # Verify that the path was used, not the name
+        assert len(data.data) == 1
+        assert data.data[0] == 100
+    finally:
+        # Clean up the temporary file
+        os.unlink(temp_path)
