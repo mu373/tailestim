@@ -1,0 +1,31 @@
+name: Test Python requirements
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'requirements.txt'
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    if: ${{ github.event.head_commit && !contains(github.event.head_commit.message, '[skip ci]') }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Python versions
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.13
+          cache: pip
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
