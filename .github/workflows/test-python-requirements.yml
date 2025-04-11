@@ -4,11 +4,11 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'requirements.txt'
+      - 'docs/requirements.txt'
   pull_request:
     branches: [ main ]
     paths:
-      - 'requirements.txt'
+      - 'docs/requirements.txt'
   workflow_dispatch:
 
 jobs:
