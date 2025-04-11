@@ -1,5 +1,5 @@
 Moments Estimator
-================
+==================
 
 .. currentmodule:: tailestim.estimators
 

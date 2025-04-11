@@ -48,12 +48,16 @@ class PickandsEstimator(BaseTailEstimator):
     def get_parameters(self) -> TailEstimatorResult:
         """Get the estimated parameters.
         
+        Attributes
+        ----------
+        k_arr : np.ndarray
+            Array of order statistics.
+        xi_arr : np.ndarray
+            Array of tail index estimates.
+
         Returns
         -------
-        Dict[str, Any]
-            Dictionary containing:
-            - k_arr: Array of order statistics
-            - xi_arr: Array of tail index estimates
+        TailEstimatorResult
         """
         if self.results is None:
             raise ValueError("Model not fitted yet. Call fit() first.")

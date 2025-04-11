@@ -3,9 +3,32 @@ import numpy as np
 
 class TailEstimatorResult:
     """
-    Class for storing the results of a tail estimator.
-    It recursively converts nested dictionaries into TailEstimatorResult objects.
+    Class for storing the results of a tail estimator. Attributes available depends on the estimator used.
+
+    Attributes
+    ----------
+    xi_star : float
+        Optimal tail index estimate (ξ).
+    gamma : float
+        Power law exponent (γ).
+    k_arr : np.ndarray
+        Array of order statistics.
+    xi_arr : np.ndarray
+        Array of tail index estimates.
+    k_star : float
+        Optimal order statistic (k*).
+    bootstrap_results : dict
+        Bootstrap results.
+    k_min : float
+        Minimum AMSE fraction.
+    amse : np.ndarray
+        AMSE values.
+    max_index : int
+        Maximum index.
+    x_arr : np.ndarray
+        Fraction of order statistics.
     """
+
     # Mapping of keys to human-readable labels
     _key_labels = {
         'k_arr': 'Order statistics',
@@ -72,7 +95,6 @@ class TailEstimatorResult:
         
         return '\n'.join(output)
 
-    
     def __repr__(self) -> str:
         """
         Return a string representation of the TailEstimatorResult.

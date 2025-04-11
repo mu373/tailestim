@@ -27,7 +27,7 @@ Contents
    api
 
 References
----------
+------------
 
 - I. Voitalov, P. van der Hoorn, R. van der Hofstad, and D. Krioukov. Scale-free networks well done. *Phys. Rev. Res.*, Oct. 2019, doi: `10.1103/PhysRevResearch.1.033034 <https://doi.org/10.1103/PhysRevResearch.1.033034>`_.
 - I. Voitalov. `ivanvoitalov/tail-estimation <https://github.com/ivanvoitalov/tail-estimation>`_, GitHub. Mar. 2018.

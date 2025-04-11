@@ -1,5 +1,5 @@
 Hill Estimator
-=============
+===============
 
 .. currentmodule:: tailestim.estimators
 
