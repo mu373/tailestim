@@ -1,8 +1,18 @@
 # Development notes
 
+## Getting started
+- Install [hatch](https://hatch.pypa.io/latest/install/)
+
+
 ## Building package
 ```sh
+# Run all tests on multiple Python versions (3.8 to 3.13)
 hatch run test:all
+
+# Run single test on specific Python version
+hatch env run -e test -i py=310 pytest tests/test_datasets.py
+
+# Build
 hatch build
 ```
 
@@ -10,7 +20,7 @@ hatch build
 Tests and releases are automated using GitHub Actions.
 - `test.yml`: Test CI
    - This CI runs when new pushes and pull requests are made in `main` branch.
-   - It runs [tests](https://github.com/mu373/tailestim/tree/main/tests) in different Python versions
+   - It runs [tests](https://github.com/mu373/tailestim/tree/main/tests) in different Python versions using `hatch`.
 - `release.yml`: Release CI
    - To make a new release, manually trigger [this GitHub Actions](https://github.com/mu373/tailestim/actions/workflows/release.yml). Click on the "Run Workflow" button and enter the new version name.
    - This CI includes following steps:
