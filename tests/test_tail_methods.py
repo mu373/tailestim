@@ -1,5 +1,9 @@
 import numpy as np
 import pytest
+pytestmark = [
+    pytest.mark.filterwarnings("ignore:invalid value encountered in divide:RuntimeWarning"),
+    pytest.mark.filterwarnings("ignore:divide by zero encountered in divide:RuntimeWarning")
+]
 from tailestim.estimators.tail_methods import (
     add_uniform_noise,
     get_distribution,
