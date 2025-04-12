@@ -703,8 +703,8 @@ def make_diagnostic_plots(ordered_data, results, output_file_path=None, number_o
     axes_d[2].plot(x1_k_arr[min_k1:max_k1], n1_k_amse[min_k1:max_k1],
                    alpha = 0.5, lw = 1.5,
                    color = "#d55e00", label = r"$n_1$ samples")
-    axes_d[2].scatter([h1], [n1_k_amse[np.where(x1_k_arr == h1)]], color = "#d55e00",
-                      marker = 'o', edgecolor = "black", alpha = 0.5,
+    axes_d[2].scatter([h1], [n1_k_amse[np.where(x1_k_arr == h1)][0]], color = "#d55e00",
+                       marker = 'o', edgecolor = "black", alpha = 0.5,
                       label = r"Min for $n_1$ sample")
     # plot boundary of minimization
     axes_d[2].axvline(max_k_index1, color = "#d55e00",
@@ -713,8 +713,8 @@ def make_diagnostic_plots(ordered_data, results, output_file_path=None, number_o
     axes_d[2].plot(x2_k_arr[min_k2:max_k2], n2_k_amse[min_k2:max_k2],
                    alpha = 0.5, lw = 1.5,
                    color = "#0072b2", label = r"$n_2$ samples")
-    axes_d[2].scatter([h2], [n2_k_amse[np.where(x2_k_arr == h2)]], color = "#0072b2",
-                      marker = 'o', edgecolor = "black", alpha = 0.5,
+    axes_d[2].scatter([h2], [n2_k_amse[np.where(x2_k_arr == h2)][0]], color = "#0072b2",
+                       marker = 'o', edgecolor = "black", alpha = 0.5,
                       label = r"Min for $n_2$ sample")
     axes_d[2].axvline(max_k_index2, color = "#0072b2",
                       ls = '--', alpha = 0.5,
