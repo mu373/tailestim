@@ -7,10 +7,7 @@ from .plot.plot_methods import make_plots
 
 class TailEstimatorSet:
     """
-    Class for creating and managing a set of tail estimators with plotting capabilities.
-    
-    This class provides a convenient interface for fitting multiple tail estimators to data
-    and creating comparative plots. It runs all the estimators internally.
+    Class for running estimation with multiple estimator methods at once and creating a plot for comparison.
     
     Parameters
     ----------
@@ -61,15 +58,7 @@ class TailEstimatorSet:
     base_seed: None | SeedSequence | BitGenerator | Generator | RandomState, default=None
         Base random seed for reproducibility of bootstrap. Only used for methods with bootstrap.
     
-    Examples
-    --------
-    >>> from tailestim import TailData, TailEstimatorSet
-    >>> import matplotlib.pyplot as plt
-    >>>
-    >>> data = TailData(name='CAIDA_KONECT').data
-    >>> estset = TailEstimatorSet.fit(data)
-    >>> fig, ax = estset.plot()
-    >>> plt.show()
+
     """
     
     def __init__(
