@@ -1,6 +1,9 @@
 from tailestim import TailData
 from tailestim import HillEstimator, KernelTypeEstimator, MomentsEstimator
 
+from tailestim import TailEstimatorSet
+import matplotlib.pyplot as plt
+
 # Load a built-in dataset
 data = TailData(name='CAIDA_KONECT').data
 
@@ -20,3 +23,12 @@ gamma = result.gamma
 
 # Print full results
 print(result)
+
+# Compare multiple estimators and plot results
+estim_set = TailEstimatorSet.fit(data)
+estim_set.plot()
+plt.show()
+
+# You can also plot diagnostic plots
+estim_set.plot_diagnostics()
+plt.show()
