@@ -221,19 +221,11 @@ class TailEstimatorSet:
             ordered_data=self.ordered_data,
             results=self.results,
             output_file_path=self.output_file_path,
-            number_of_bins=self.number_of_bins,
-            r_smooth=self.r_smooth,
-            alpha=self.alpha,
             hsteps=self.hsteps,
             bootstrap_flag=self.bootstrap_flag,
-            t_bootstrap=self.t_bootstrap,
-            r_bootstrap=self.r_bootstrap,
-            eps_stop=self.eps_stop,
             verbose=self.verbose,
             noise_flag=self.noise_flag,
-            p_noise=self.p_noise,
-            savedata=self.savedata,
-            base_seed=self.base_seed
+            savedata=self.savedata
         )
     
     def _create_plots(self) -> Tuple[plt.Figure, np.ndarray]:
@@ -250,22 +242,13 @@ class TailEstimatorSet:
             ordered_data=self.ordered_data,
             results=self.results,
             output_file_path=self.output_file_path,
-            number_of_bins=self.number_of_bins,
-            r_smooth=self.r_smooth,
-            alpha=self.alpha,
-            hsteps=self.hsteps,
             bootstrap_flag=self.bootstrap_flag,
-            t_bootstrap=self.t_bootstrap,
-            r_bootstrap=self.r_bootstrap,
             diagn_plots=self.diagnostic_plots,
-            eps_stop=self.eps_stop,
             theta1=self.theta1,
             theta2=self.theta2,
             verbose=self.verbose,
             noise_flag=self.noise_flag,
-            p_noise=self.p_noise,
-            savedata=self.savedata,
-            base_seed=self.base_seed
+            savedata=self.savedata
         )
     
     def get_parameters(self) -> Dict[str, Any]:
