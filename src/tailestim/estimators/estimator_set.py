@@ -11,8 +11,6 @@ class TailEstimatorSet:
     
     Parameters
     ----------
-    data : np.ndarray
-        The data to plot.
     output_file_path : str, optional
         File path to which plots should be saved. If None, the figure is not saved.
     number_of_bins : int, default=30
@@ -63,7 +61,6 @@ class TailEstimatorSet:
     
     def __init__(
         self,
-        data: np.ndarray = None,
         output_file_path: Optional[str] = None,
         number_of_bins: int = 30,
         r_smooth: int = 2,
@@ -111,14 +108,6 @@ class TailEstimatorSet:
         self.fig = None
         self.axes = None
         
-        # Fit data if provided
-        if data is not None:
-            self.fit(data)
-            
-        # Create the plots immediately if auto_plot is True and data is provided
-        if auto_plot and data is not None:
-            self.plot()
-            
     def fit(self, data: np.ndarray) -> 'TailEstimatorSet':
         """Fit the estimators to the data.
         
