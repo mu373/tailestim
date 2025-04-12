@@ -29,7 +29,7 @@ dependencies = [
 ]
 
 [project.urls]
-Documentation = "https://github.com/mu373/tailestim#readme"
+Documentation = "https://tailestim.readthedocs.io/en/latest/index.html"
 Issues = "https://github.com/mu373/tailestim/issues"
 Source = "https://github.com/mu373/tailestim"
 
