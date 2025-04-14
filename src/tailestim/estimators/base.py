@@ -74,7 +74,7 @@ class BaseTailEstimator(ABC):
         >>> hill = HillEstimator()
         >>> hill.fit(data)
         >>> result = hill.get_result()
-        >>> gamma = result.gamma  # Access the tail index
+        >>> gamma = result.gamma_  # Access the tail index
         >>> xi = result.xi  # Access the shape parameter (if available)
 
         """

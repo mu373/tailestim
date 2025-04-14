@@ -92,10 +92,10 @@ def fit_estimators(ordered_data, number_of_bins=30, r_smooth=2, alpha=0.6, hstep
     pickands = PickandsEstimator()
     pickands.fit(ordered_data)
     pickands_result = pickands.get_result()
-    k_p_arr, xi_p_arr = pickands_result.k_arr, pickands_result.xi_arr
+    k_p_arr, xi_p_arr = pickands_result.k_arr_, pickands_result.xi_arr_
     t2 = time.time()
     logging.debug("Elapsed time (Pickands):", t2-t1)
-    results['pickands'] = {'k_arr': k_p_arr, 'xi_arr': xi_p_arr}
+    results['pickands'] = {'k_arr_': k_p_arr, 'xi_arr_': xi_p_arr}
 
     # perform smooth Hill estimation
     logging.debug("Calculating smooth Hill...")
@@ -103,10 +103,10 @@ def fit_estimators(ordered_data, number_of_bins=30, r_smooth=2, alpha=0.6, hstep
     smooth_hill = SmoothHillEstimator(r_smooth=r_smooth)
     smooth_hill.fit(ordered_data)
     smooth_hill_result = smooth_hill.get_result()
-    k_sh_arr, xi_sh_arr = smooth_hill_result.k_arr, smooth_hill_result.xi_arr
+    k_sh_arr, xi_sh_arr = smooth_hill_result.k_arr_, smooth_hill_result.xi_arr_
     t2 = time.time()
     logging.debug("Elapsed time (smooth Hill):", t2-t1)
-    results['smooth_hill'] = {'k_arr': k_sh_arr, 'xi_arr': xi_sh_arr}
+    results['smooth_hill'] = {'k_arr_': k_sh_arr, 'xi_arr_': xi_sh_arr}
 
     # perform adjusted Hill estimation
     logging.debug("Calculating adjusted Hill...")
@@ -122,38 +122,38 @@ def fit_estimators(ordered_data, number_of_bins=30, r_smooth=2, alpha=0.6, hstep
     )
     hill.fit(ordered_data)
     hill_result = hill.get_result()
-    k_h_arr = hill_result.k_arr
-    xi_h_arr = hill_result.xi_arr
+    k_h_arr = hill_result.k_arr_
+    xi_h_arr = hill_result.xi_arr_
     
-    results['hill'] = {'k_arr': k_h_arr, 'xi_arr': xi_h_arr}
+    results['hill'] = {'k_arr_': k_h_arr, 'xi_arr_': xi_h_arr}
     
-    if bootstrap_flag and hasattr(hill_result, 'k_star'):
-        k_h_star = hill_result.k_star
-        xi_h_star = hill_result.xi_star
-        x1_h_arr = hill_result.bootstrap_results.first_bootstrap.x_arr
-        n1_h_amse = hill_result.bootstrap_results.first_bootstrap.amse
-        k1_h = hill_result.bootstrap_results.first_bootstrap.k_min
-        max_h_index1 = hill_result.bootstrap_results.first_bootstrap.max_index
-        x2_h_arr = hill_result.bootstrap_results.second_bootstrap.x_arr
-        n2_h_amse = hill_result.bootstrap_results.second_bootstrap.amse
-        k2_h = hill_result.bootstrap_results.second_bootstrap.k_min
-        max_h_index2 = hill_result.bootstrap_results.second_bootstrap.max_index
+    if bootstrap_flag and hasattr(hill_result, 'k_star_'):
+        k_h_star = hill_result.k_star_
+        xi_h_star = hill_result.xi_star_
+        x1_h_arr = hill_result.bootstrap_results_.first_bootstrap_.x_arr_
+        n1_h_amse = hill_result.bootstrap_results_.first_bootstrap_.amse_
+        k1_h = hill_result.bootstrap_results_.first_bootstrap_.k_min_
+        max_h_index1 = hill_result.bootstrap_results_.first_bootstrap_.max_index_
+        x2_h_arr = hill_result.bootstrap_results_.second_bootstrap_.x_arr_
+        n2_h_amse = hill_result.bootstrap_results_.second_bootstrap_.amse_
+        k2_h = hill_result.bootstrap_results_.second_bootstrap_.k_min_
+        max_h_index2 = hill_result.bootstrap_results_.second_bootstrap_.max_index_
         
         results['hill'].update({
-            'k_star': k_h_star,
-            'xi_star': xi_h_star,
-            'bootstrap_results': {
-                'first_bootstrap': {
-                    'x_arr': x1_h_arr,
-                    'amse': n1_h_amse,
-                    'k_min': k1_h,
-                    'max_index': max_h_index1
+            'k_star_': k_h_star,
+            'xi_star_': xi_h_star,
+            'bootstrap_results_': {
+                'first_bootstrap_': {
+                    'x_arr_': x1_h_arr,
+                    'amse_': n1_h_amse,
+                    'k_min_': k1_h,
+                    'max_index_': max_h_index1
                 },
-                'second_bootstrap': {
-                    'x_arr': x2_h_arr,
-                    'amse': n2_h_amse,
-                    'k_min': k2_h,
-                    'max_index': max_h_index2
+                'second_bootstrap_': {
+                    'x_arr_': x2_h_arr,
+                    'amse_': n2_h_amse,
+                    'k_min_': k2_h,
+                    'max_index_': max_h_index2
                 }
             }
         })
@@ -177,38 +177,38 @@ def fit_estimators(ordered_data, number_of_bins=30, r_smooth=2, alpha=0.6, hstep
     )
     moments.fit(ordered_data)
     moments_result = moments.get_result()
-    k_m_arr = moments_result.k_arr
-    xi_m_arr = moments_result.xi_arr
+    k_m_arr = moments_result.k_arr_
+    xi_m_arr = moments_result.xi_arr_
     
-    results['moments'] = {'k_arr': k_m_arr, 'xi_arr': xi_m_arr}
+    results['moments'] = {'k_arr_': k_m_arr, 'xi_arr_': xi_m_arr}
     
-    if bootstrap_flag and hasattr(moments_result, 'k_star'):
-        k_m_star = moments_result.k_star
-        xi_m_star = moments_result.xi_star
-        x1_m_arr = moments_result.bootstrap_results.first_bootstrap.x_arr
-        n1_m_amse = moments_result.bootstrap_results.first_bootstrap.amse
-        k1_m = moments_result.bootstrap_results.first_bootstrap.k_min
-        max_m_index1 = moments_result.bootstrap_results.first_bootstrap.max_index
-        x2_m_arr = moments_result.bootstrap_results.second_bootstrap.x_arr
-        n2_m_amse = moments_result.bootstrap_results.second_bootstrap.amse
-        k2_m = moments_result.bootstrap_results.second_bootstrap.k_min
-        max_m_index2 = moments_result.bootstrap_results.second_bootstrap.max_index
+    if bootstrap_flag and hasattr(moments_result, 'k_star_'):
+        k_m_star = moments_result.k_star_
+        xi_m_star = moments_result.xi_star_
+        x1_m_arr = moments_result.bootstrap_results_.first_bootstrap_.x_arr_
+        n1_m_amse = moments_result.bootstrap_results_.first_bootstrap_.amse_
+        k1_m = moments_result.bootstrap_results_.first_bootstrap_.k_min_
+        max_m_index1 = moments_result.bootstrap_results_.first_bootstrap_.max_index_
+        x2_m_arr = moments_result.bootstrap_results_.second_bootstrap_.x_arr_
+        n2_m_amse = moments_result.bootstrap_results_.second_bootstrap_.amse_
+        k2_m = moments_result.bootstrap_results_.second_bootstrap_.k_min_
+        max_m_index2 = moments_result.bootstrap_results_.second_bootstrap_.max_index_
         
         results['moments'].update({
-            'k_star': k_m_star,
-            'xi_star': xi_m_star,
-            'bootstrap_results': {
-                'first_bootstrap': {
-                    'x_arr': x1_m_arr,
-                    'amse': n1_m_amse,
-                    'k_min': k1_m,
-                    'max_index': max_m_index1
+            'k_star_': k_m_star,
+            'xi_star_': xi_m_star,
+            'bootstrap_results_': {
+                'first_bootstrap_': {
+                    'x_arr_': x1_m_arr,
+                    'amse_': n1_m_amse,
+                    'k_min_': k1_m,
+                    'max_index_': max_m_index1
                 },
-                'second_bootstrap': {
-                    'x_arr': x2_m_arr,
-                    'amse': n2_m_amse,
-                    'k_min': k2_m,
-                    'max_index': max_m_index2
+                'second_bootstrap_': {
+                    'x_arr_': x2_m_arr,
+                    'amse_': n2_m_amse,
+                    'k_min_': k2_m,
+                    'max_index_': max_m_index2
                 }
             }
         })
@@ -234,38 +234,38 @@ def fit_estimators(ordered_data, number_of_bins=30, r_smooth=2, alpha=0.6, hstep
     )
     kernel.fit(ordered_data)
     kernel_result = kernel.get_result()
-    k_k_arr = kernel_result.k_arr
-    xi_k_arr = kernel_result.xi_arr
+    k_k_arr = kernel_result.k_arr_
+    xi_k_arr = kernel_result.xi_arr_
     
-    results['kernel'] = {'k_arr': k_k_arr, 'xi_arr': xi_k_arr}
+    results['kernel'] = {'k_arr_': k_k_arr, 'xi_arr_': xi_k_arr}
     
-    if bootstrap_flag and hasattr(kernel_result, 'k_star'):
-        k_k_star = kernel_result.k_star
-        xi_k_star = kernel_result.xi_star
-        x1_k_arr = kernel_result.bootstrap_results.first_bootstrap.x_arr
-        n1_k_amse = kernel_result.bootstrap_results.first_bootstrap.amse
-        h1 = kernel_result.bootstrap_results.first_bootstrap.h_min
-        max_k_index1 = kernel_result.bootstrap_results.first_bootstrap.max_index
-        x2_k_arr = kernel_result.bootstrap_results.second_bootstrap.x_arr
-        n2_k_amse = kernel_result.bootstrap_results.second_bootstrap.amse
-        h2 = kernel_result.bootstrap_results.second_bootstrap.h_min
-        max_k_index2 = kernel_result.bootstrap_results.second_bootstrap.max_index
+    if bootstrap_flag and hasattr(kernel_result, 'k_star_'):
+        k_k_star = kernel_result.k_star_
+        xi_k_star = kernel_result.xi_star_
+        x1_k_arr = kernel_result.bootstrap_results_.first_bootstrap_.x_arr_
+        n1_k_amse = kernel_result.bootstrap_results_.first_bootstrap_.amse_
+        h1 = kernel_result.bootstrap_results_.first_bootstrap_.h_min_
+        max_k_index1 = kernel_result.bootstrap_results_.first_bootstrap_.max_index_
+        x2_k_arr = kernel_result.bootstrap_results_.second_bootstrap_.x_arr_
+        n2_k_amse = kernel_result.bootstrap_results_.second_bootstrap_.amse_
+        h2 = kernel_result.bootstrap_results_.second_bootstrap_.h_min_
+        max_k_index2 = kernel_result.bootstrap_results_.second_bootstrap_.max_index_
         
         results['kernel'].update({
-            'k_star': k_k_star,
-            'xi_star': xi_k_star,
-            'bootstrap_results': {
-                'first_bootstrap': {
-                    'x_arr': x1_k_arr,
-                    'amse': n1_k_amse,
+            'k_star_': k_k_star,
+            'xi_star_': xi_k_star,
+            'bootstrap_results_': {
+                'first_bootstrap_': {
+                    'x_arr_': x1_k_arr,
+                    'amse_': n1_k_amse,
                     'h_min': h1,
-                    'max_index': max_k_index1
+                    'max_index_': max_k_index1
                 },
-                'second_bootstrap': {
-                    'x_arr': x2_k_arr,
-                    'amse': n2_k_amse,
+                'second_bootstrap_': {
+                    'x_arr_': x2_k_arr,
+                    'amse_': n2_k_amse,
                     'h_min': h2,
-                    'max_index': max_k_index2
+                    'max_index_': max_k_index2
                 }
             }
         })

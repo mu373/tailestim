@@ -24,6 +24,6 @@ Examples
    print(result)
 
    # Access individual parameters
-   gamma = result.gamma  # Power-law exponent estimate
-   xi = result.xi  # Tail index estimate
+   gamma = result.gamma_  # Power-law exponent estimate
+   xi = result.xi_  # Tail index estimate
  

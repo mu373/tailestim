@@ -17,13 +17,6 @@ class PickandsEstimator(BaseTailEstimator):
     **kwargs : dict
         Additional parameters (not used by this estimator).
 
-    Attributes
-    ----------
-    results : tuple or None
-        Stores the estimation results after calling fit().
-        Contains:
-        - k_arr: Array of order statistics
-        - xi_arr: Array of tail index estimates
     """
     
     def __init__(self, **kwargs):
@@ -50,9 +43,9 @@ class PickandsEstimator(BaseTailEstimator):
         
         Attributes
         ----------
-        k_arr : np.ndarray
+        k_arr_ : np.ndarray
             Array of order statistics.
-        xi_arr : np.ndarray
+        xi_arr_ : np.ndarray
             Array of tail index estimates.
 
         Returns
@@ -65,8 +58,8 @@ class PickandsEstimator(BaseTailEstimator):
         k_arr, xi_arr = self.results
         
         params = {
-            'k_arr': k_arr,
-            'xi_arr': xi_arr
+            'k_arr_': k_arr,
+            'xi_arr_': xi_arr
         }
         
         return TailEstimatorResult(params)

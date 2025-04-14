@@ -7,42 +7,42 @@ class TailEstimatorResult:
 
     Attributes
     ----------
-    xi_star : float
+    xi_star_ : float
         Optimal tail index estimate (ξ).
-    gamma : float
+    gamma_ : float
         Power law exponent (γ).
-    k_arr : np.ndarray
+    k_arr_ : np.ndarray
         Array of order statistics.
-    xi_arr : np.ndarray
+    xi_arr_ : np.ndarray
         Array of tail index estimates.
-    k_star : float
+    k_star_ : float
         Optimal order statistic (k*).
-    bootstrap_results : dict
+    bootstrap_results_ : dict
         Bootstrap results.
-    k_min : float
+    k_min_ : float
         Minimum AMSE fraction.
-    amse : np.ndarray
+    amse_ : np.ndarray
         AMSE values.
-    max_index : int
+    max_index_ : int
         Maximum index.
-    x_arr : np.ndarray
+    x_arr_ : np.ndarray
         Fraction of order statistics.
     """
 
     # Mapping of keys to human-readable labels
     _key_labels = {
-        'k_arr': 'Order statistics',
-        'xi_arr': 'Tail index estimates',
-        'k_star': 'Optimal order statistic (k*)',
-        'xi_star': 'Tail index (ξ)',
-        'gamma': 'Power law exponent (γ)',
-        'bootstrap_results': 'Bootstrap Results',
-        'first_bootstrap': 'First Bootstrap',
-        'second_bootstrap': 'Second Bootstrap',
-        'k_min': 'Minimum AMSE fraction',
-        'amse': 'AMSE values',
-        'max_index': 'Maximum index',
-        'x_arr': 'Fraction of order statistics'
+        'k_arr_': 'Order statistics',
+        'xi_arr_': 'Tail index estimates',
+        'k_star_': 'Optimal order statistic (k*)',
+        'xi_star_': 'Tail index (ξ)',
+        'gamma_': 'Power law exponent (γ)',
+        'bootstrap_results_': 'Bootstrap Results',
+        'first_bootstrap_': 'First Bootstrap',
+        'second_bootstrap_': 'Second Bootstrap',
+        'k_min_': 'Minimum AMSE fraction',
+        'amse_': 'AMSE values',
+        'max_index_': 'Maximum index',
+        'x_arr_': 'Fraction of order statistics'
     }
     
     def __init__(self, initial_data: Dict[str, Any] = None, **kwargs):

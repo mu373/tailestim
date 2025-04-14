@@ -80,17 +80,17 @@ class MomentsEstimator(BaseTailEstimator):
 
         Attributes
         ----------
-        xi_star : float
+        xi_star_ : float
             Optimal tail index estimate (ξ).
-        gamma : float
+        gamma_ : float
             Power law exponent (γ).
-        k_arr : np.ndarray
+        k_arr_ : np.ndarray
             Array of order statistics.
-        xi_arr : np.ndarray
+        xi_arr_ : np.ndarray
             Array of tail index estimates.
-        k_star : float
+        k_star_ : float
             Optimal order statistic (k*).
-        bootstrap_results : dict
+        bootstrap_results_ : dict
             Bootstrap results.
 
         Returns
@@ -104,28 +104,28 @@ class MomentsEstimator(BaseTailEstimator):
         x2_arr, n2_amse, k2, max_index2 = self.results
         
         params = {
-            'k_arr': k_arr,
-            'xi_arr': xi_arr,
+            'k_arr_': k_arr,
+            'xi_arr_': xi_arr,
         }
         
         if self.bootstrap and k_star is not None:
             gamma = float('inf') if xi_star <= 0 else 1 + 1./xi_star
             params.update({
-                'k_star': k_star,
-                'xi_star': xi_star,
-                'gamma': gamma,
-                'bootstrap_results': {
-                    'first_bootstrap': {
-                        'x_arr': x1_arr,
-                        'amse': n1_amse,
-                        'k_min': k1,
-                        'max_index': max_index1
+                'k_star_': k_star,
+                'xi_star_': xi_star,
+                'gamma_': gamma,
+                'bootstrap_results_': {
+                    'first_bootstrap_': {
+                        'x_arr_': x1_arr,
+                        'amse_': n1_amse,
+                        'k_min_': k1,
+                        'max_index_': max_index1
                     },
-                    'second_bootstrap': {
-                        'x_arr': x2_arr,
-                        'amse': n2_amse,
-                        'k_min': k2,
-                        'max_index': max_index2
+                    'second_bootstrap_': {
+                        'x_arr_': x2_arr,
+                        'amse_': n2_amse,
+                        'k_min_': k2,
+                        'max_index_': max_index2
                     }
                 }
             })

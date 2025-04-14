@@ -40,7 +40,7 @@ estimator.fit(data)
 result = estimator.get_result()
 
 # Get the power law exponent
-gamma = result.gamma
+gamma = result.gamma_
 
 # Print full results
 print(result)
@@ -63,7 +63,7 @@ estimator.fit(degree)
 result = estimator.get_result()
 
 # Get the power law exponent
-gamma = result.gamma
+gamma = result.gamma_
 
 # Print full results
 print(result)
@@ -87,10 +87,10 @@ The package provides several estimators for tail estimation. For details on para
    - Smoothed version of the Hill estimator (no bootstrap)
 
 ## Results
-The full result can be obtained by `estimator.get_result()`, which returns a dictionary. This includes:
-- `gamma`: Power law exponent (γ = 1 + 1/ξ)
-- `xi_star`: Tail index (ξ)
-- `k_star`: Optimal order statistic
+The full result can be obtained by `estimator.get_result()`, which is a TailEstimatorResult object. This includes attributes such as:
+- `gamma_`: Power law exponent (γ = 1 + 1/ξ)
+- `xi_star_`: Tail index (ξ)
+- `k_star_`: Optimal order statistic
 - Bootstrap results (when applicable):
   - First and second bootstrap AMSE values
   - Optimal bandwidths or minimum AMSE fractions
