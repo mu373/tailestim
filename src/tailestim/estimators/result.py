@@ -1,12 +1,15 @@
 from typing import Dict, Any
 import numpy as np
 
+
 class TailEstimatorResult:
     """
     Class for storing the results of a tail estimator. Attributes available depends on the estimator used.
 
     Attributes
     ----------
+    estimator : BaseTailEstimator
+        The estimator instance (e.g., HillEstimator, PickandsEstimator, etc.) used for estimation.
     xi_star_ : float
         Optimal tail index estimate (ξ).
     gamma_ : float
@@ -31,11 +34,12 @@ class TailEstimatorResult:
 
     # Mapping of keys to human-readable labels
     _key_labels = {
+        'estimator': 'Estimator',
+        'xi_star_': 'Tail index (ξ)',
+        'gamma_': 'Power law exponent (γ)',
         'k_arr_': 'Order statistics',
         'xi_arr_': 'Tail index estimates',
         'k_star_': 'Optimal order statistic (k*)',
-        'xi_star_': 'Tail index (ξ)',
-        'gamma_': 'Power law exponent (γ)',
         'bootstrap_results_': 'Bootstrap Results',
         'first_bootstrap_': 'First Bootstrap',
         'second_bootstrap_': 'Second Bootstrap',
@@ -64,17 +68,26 @@ class TailEstimatorResult:
             Whether to include the "Result" header. This is set to False for nested objects.
         """
         output = []
+        from .base import BaseTailEstimator
         
         # Add a header for the result section, but only for the top-level object
         if include_header:
             output.extend(["-"* 50, "Result", "-"* 50])
         
-        # Format each attribute
-        for key, value in self.__dict__.items():
+        # Order the attributes based on the keys in _key_labels
+        ordered_keys = [k for k in self._key_labels if k in self.__dict__]
+        # Add any keys that aren't in _key_labels at the end
+        ordered_keys.extend([k for k in self.__dict__ if k not in self._key_labels])
+
+        for key in ordered_keys:
+            value = self.__dict__[key]
             label = self._key_labels.get(key, key.replace('_', ' ').title())
-            
+
             # Format the value based on its type
-            if isinstance(value, np.ndarray):
+            if isinstance(value, BaseTailEstimator):
+                # Print estimator type
+                value_str = f"{value.__class__.__name__}"
+            elif isinstance(value, np.ndarray):
                 if len(value) > 5:
                     # For large arrays, show shape and a few values
                     value_str = f"Array of shape {value.shape} [{', '.join(f'{v:.4f}' for v in value[:3])}, ...]"

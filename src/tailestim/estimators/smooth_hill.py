@@ -46,6 +46,8 @@ class SmoothHillEstimator(BaseTailEstimator):
                 
         Attributes
         ----------
+        estimator : BaseTailEstimator
+            The estimator instance (e.g., HillEstimator, PickandsEstimator, etc.) used for estimation.
         k_arr : np.ndarray
             Array of order statistics.
         xi_arr : np.ndarray
@@ -61,6 +63,7 @@ class SmoothHillEstimator(BaseTailEstimator):
         k_arr, xi_arr = self.results
         
         params = {
+            'estimator': self,
             'k_arr_': k_arr,
             'xi_arr_': xi_arr
         }

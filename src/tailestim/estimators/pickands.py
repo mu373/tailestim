@@ -43,6 +43,8 @@ class PickandsEstimator(BaseTailEstimator):
         
         Attributes
         ----------
+        estimator : BaseTailEstimator
+            The estimator instance (e.g., HillEstimator, PickandsEstimator, etc.) used for estimation.
         k_arr_ : np.ndarray
             Array of order statistics.
         xi_arr_ : np.ndarray
@@ -58,6 +60,7 @@ class PickandsEstimator(BaseTailEstimator):
         k_arr, xi_arr = self.results
         
         params = {
+            'estimator': self,
             'k_arr_': k_arr,
             'xi_arr_': xi_arr
         }

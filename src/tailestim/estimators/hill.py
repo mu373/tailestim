@@ -80,6 +80,8 @@ class HillEstimator(BaseTailEstimator):
 
         Attributes
         ----------
+        estimator : BaseTailEstimator
+            The estimator instance (e.g., HillEstimator, PickandsEstimator, etc.) used for estimation.
         xi_star_ : float
             Optimal tail index estimate (ξ).
         gamma_ : float
@@ -112,6 +114,7 @@ class HillEstimator(BaseTailEstimator):
         if self.bootstrap and k_star is not None:
             gamma = 1 + 1./xi_star
             params.update({
+                'estimator': self,
                 'k_star_': k_star,
                 'xi_star_': xi_star,
                 'gamma_': gamma,

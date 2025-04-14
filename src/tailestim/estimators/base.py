@@ -82,7 +82,7 @@ class BaseTailEstimator(ABC):
             raise ValueError("Model not fitted yet. Call fit() first.")
         return TailEstimatorResult()
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         """Format estimation object as a string."""
         # Create a string with the estimator type and fitted status
         estim_str = "-" * 50 + "\n"
