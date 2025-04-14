@@ -76,7 +76,7 @@ class KernelTypeEstimator(BaseTailEstimator):
         """
         return kernel_estimate(
             ordered_data,
-            self.hsteps,
+            hsteps=self.hsteps,
             alpha=self.alpha,
             bootstrap=self.bootstrap,
             t_bootstrap=self.t_bootstrap,
@@ -86,6 +86,27 @@ class KernelTypeEstimator(BaseTailEstimator):
             eps_stop=self.eps_stop,
             base_seed=self.base_seed
         )
+
+    def get_params(self) -> Dict[str, Any]:
+        """Get the parameters of the estimator.
+        
+        Returns
+        -------
+        dict
+            Dictionary containing the parameters of the estimator.
+        """
+        return {
+            "base_seed": self.base_seed,
+            "bootstrap": self.bootstrap,
+            "t_bootstrap": self.t_bootstrap,
+            "r_bootstrap": self.r_bootstrap,
+            "eps_stop": self.eps_stop,
+            "verbose": self.verbose,
+            "diagn_plots": self.diagn_plots,
+            "alpha": self.alpha,
+            "hsteps": self.hsteps,
+            **self.kwargs
+        }
 
     def get_result(self) -> TailEstimatorResult:
         """Get the estimated parameters.

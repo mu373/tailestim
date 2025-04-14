@@ -56,6 +56,10 @@ def test_hill_estimator():
     assert hasattr(res, 'k_arr_')
     assert hasattr(res, 'xi_arr_')
     assert len(res.k_arr_) == len(res.xi_arr_)
+
+    # Test that params are returned
+    params = estimator.get_params()
+    assert params is not None
     
     # Test with bootstrap
     estimator = HillEstimator(bootstrap=True, r_bootstrap=100)
@@ -97,6 +101,10 @@ def test_smooth_hill_estimator():
     assert len(res.k_arr_) == len(res.xi_arr_)
     assert np.all(np.isfinite(res.xi_arr_))
 
+    # Test that params are returned
+    params = estimator.get_params()
+    assert params is not None
+
 # Test moments estimator
 def test_moments_estimator():
     np.random.seed(42)
@@ -109,6 +117,10 @@ def test_moments_estimator():
     assert hasattr(res, 'k_arr_')
     assert hasattr(res, 'xi_arr_')
     assert len(res.k_arr_) == len(res.xi_arr_)
+
+    # Test that params are returned
+    params = estimator.get_params()
+    assert params is not None
     
     # Test with bootstrap
     estimator = MomentsEstimator(bootstrap=True, r_bootstrap=100)
@@ -148,6 +160,10 @@ def test_kernel_type_estimator():
     assert hasattr(res, 'k_arr_')
     assert hasattr(res, 'xi_arr_')
     assert len(res.k_arr_) == len(res.xi_arr_)
+
+    # Test that params are returned
+    params = estimator.get_params()
+    assert params is not None
     
     # Test with bootstrap
     estimator = KernelTypeEstimator(hsteps=50, bootstrap=True, r_bootstrap=100)
@@ -189,3 +205,7 @@ def test_pickands_estimator():
     assert hasattr(res, 'xi_arr_')
     assert len(res.k_arr_) == len(res.xi_arr_)
     assert len(res.k_arr_) <= len(data) // 4  # Pickands can only estimate up to n/4 order statistics
+
+    # Test that params are returned
+    params = estimator.get_params()
+    assert params is not None

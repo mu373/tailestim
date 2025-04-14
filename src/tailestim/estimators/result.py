@@ -112,4 +112,4 @@ class TailEstimatorResult:
         """
         Return a string representation of the TailEstimatorResult.
         """
-        return f"TailEstimatorResult({self.__dict__})"
+        return f"TailEstimatorResult(estimator={self.estimator.__class__.__name__})"

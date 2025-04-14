@@ -41,6 +41,19 @@ class SmoothHillEstimator(BaseTailEstimator):
         """
         return smooth_hill_estimate(ordered_data, r_smooth=self.r_smooth)
 
+    def get_params(self) -> Dict[str, Any]:
+        """Get the parameters of the estimator.
+        
+        Returns
+        -------
+        dict
+            Dictionary containing the parameters of the estimator.
+        """
+        return {
+            "r_smooth": self.r_smooth,
+            **self.kwargs
+        }
+
     def get_result(self) -> TailEstimatorResult:
         """Get the estimated parameters.
                 

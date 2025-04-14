@@ -61,6 +61,21 @@ class BaseTailEstimator(ABC):
         self.results = self._estimate(ordered_data)
 
     @abstractmethod
+    def get_params(self) -> Dict[str, Any]:
+        """Get the parameters of the estimator.
+        
+        Returns
+        -------
+        dict
+            Dictionary containing the parameters of the estimator.
+        """
+        return {
+            "bootstrap": self.bootstrap,
+            "base_seed": self.base_seed,
+            **self.kwargs
+        }
+
+    @abstractmethod
     def get_result(self) -> TailEstimatorResult:
         """Get the estimated parameters.
         
@@ -81,8 +96,12 @@ class BaseTailEstimator(ABC):
         if self.results is None:
             raise ValueError("Model not fitted yet. Call fit() first.")
         return TailEstimatorResult()
-
+    
     def __repr__(self) -> str:
+        """Return a string representation of the estimator."""
+        return f"{self.__class__.__name__}(bootstrap={self.bootstrap}, base_seed={self.base_seed}, kwargs={self.kwargs})"
+
+    def __str__(self) -> str:
         """Format estimation object as a string."""
         # Create a string with the estimator type and fitted status
         estim_str = "-" * 50 + "\n"

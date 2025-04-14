@@ -38,6 +38,18 @@ class PickandsEstimator(BaseTailEstimator):
         """
         return pickands_estimate(ordered_data)
 
+    def get_params(self) -> Dict[str, Any]:
+        """Get the parameters of the estimator.
+        
+        Returns
+        -------
+        dict
+            Dictionary containing the parameters of the estimator.
+        """
+        return {
+            **self.kwargs
+        }
+
     def get_result(self) -> TailEstimatorResult:
         """Get the estimated parameters.
         
