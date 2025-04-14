@@ -52,7 +52,7 @@ def test_hill_estimator():
     # Test without bootstrap
     estimator = HillEstimator(bootstrap=False)
     estimator.fit(data)
-    params = estimator.get_parameters()
+    params = estimator.get_result()
     assert hasattr(params, 'k_arr')
     assert hasattr(params, 'xi_arr')
     assert len(params.k_arr) == len(params.xi_arr)
@@ -60,7 +60,7 @@ def test_hill_estimator():
     # Test with bootstrap
     estimator = HillEstimator(bootstrap=True, r_bootstrap=100)
     estimator.fit(data)
-    params = estimator.get_parameters()
+    params = estimator.get_result()
     assert hasattr(params, 'k_star')
     assert hasattr(params, 'xi_star')
     assert hasattr(params, 'gamma')
@@ -72,7 +72,7 @@ def test_hill_estimator():
     for i in range(3):
         estimator = HillEstimator(bootstrap=True, base_seed=42, r_bootstrap=100)
         estimator.fit(data)
-        params = estimator.get_parameters()
+        params = estimator.get_result()
         bs1_kmin = params.bootstrap_results.first_bootstrap.k_min
         bs2_kmin = params.bootstrap_results.second_bootstrap.k_min
         bs1_results.append(bs1_kmin)
@@ -87,7 +87,7 @@ def test_smooth_hill_estimator():
     
     estimator = SmoothHillEstimator(r_smooth=2)
     estimator.fit(data)
-    params = estimator.get_parameters()
+    params = estimator.get_result()
     assert hasattr(params, 'k_arr')
     assert hasattr(params, 'xi_arr')
     assert len(params.k_arr) == len(params.xi_arr)
@@ -101,7 +101,7 @@ def test_moments_estimator():
     # Test without bootstrap
     estimator = MomentsEstimator(bootstrap=False)
     estimator.fit(data)
-    params = estimator.get_parameters()
+    params = estimator.get_result()
     assert hasattr(params, 'k_arr')
     assert hasattr(params, 'xi_arr')
     assert len(params.k_arr) == len(params.xi_arr)
@@ -109,7 +109,7 @@ def test_moments_estimator():
     # Test with bootstrap
     estimator = MomentsEstimator(bootstrap=True, r_bootstrap=100)
     estimator.fit(data)
-    params = estimator.get_parameters()
+    params = estimator.get_result()
     assert hasattr(params, 'k_star')
     assert hasattr(params, 'xi_star')
     assert params.k_star is not None
@@ -121,7 +121,7 @@ def test_moments_estimator():
     for i in range(3):
         estimator = MomentsEstimator(bootstrap=True, base_seed=42, r_bootstrap=100)
         estimator.fit(data)
-        params = estimator.get_parameters()
+        params = estimator.get_result()
         bs1_kmin = params.bootstrap_results.first_bootstrap.k_min
         bs2_kmin = params.bootstrap_results.second_bootstrap.k_min
         bs1_results.append(bs1_kmin)
@@ -138,7 +138,7 @@ def test_kernel_type_estimator():
     # Test without bootstrap
     estimator = KernelTypeEstimator(hsteps=50, bootstrap=False)
     estimator.fit(data)
-    params = estimator.get_parameters()
+    params = estimator.get_result()
     assert hasattr(params, 'k_arr')
     assert hasattr(params, 'xi_arr')
     assert len(params.k_arr) == len(params.xi_arr)
@@ -146,7 +146,7 @@ def test_kernel_type_estimator():
     # Test with bootstrap
     estimator = KernelTypeEstimator(hsteps=50, bootstrap=True, r_bootstrap=100)
     estimator.fit(data)
-    params = estimator.get_parameters()
+    params = estimator.get_result()
     assert hasattr(params, 'k_star')
     assert hasattr(params, 'xi_star')
     assert params.k_star is not None
@@ -158,7 +158,7 @@ def test_kernel_type_estimator():
     for i in range(3):
         estimator = KernelTypeEstimator(hsteps=50, bootstrap=True, base_seed=42, r_bootstrap=100)
         estimator.fit(data)
-        params = estimator.get_parameters()
+        params = estimator.get_result()
         bs1_kmin = params.bootstrap_results.first_bootstrap.h_min
         bs2_kmin = params.bootstrap_results.second_bootstrap.h_min
         bs1_results.append(bs1_kmin)
@@ -174,7 +174,7 @@ def test_pickands_estimator():
     
     estimator = PickandsEstimator()
     estimator.fit(data)
-    params = estimator.get_parameters()
+    params = estimator.get_result()
     assert hasattr(params, 'k_arr')
     assert hasattr(params, 'xi_arr')
     assert len(params.k_arr) == len(params.xi_arr)

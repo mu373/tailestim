@@ -45,7 +45,7 @@ class PickandsEstimator(BaseTailEstimator):
         """
         return pickands_estimate(ordered_data)
 
-    def get_parameters(self) -> TailEstimatorResult:
+    def get_result(self) -> TailEstimatorResult:
         """Get the estimated parameters.
         
         Attributes

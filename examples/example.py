@@ -16,7 +16,7 @@ estimator.fit(data)
 print(estimator)
 
 # Get the estimated parameters
-result = estimator.get_parameters()
+result = estimator.get_result()
 
 # Get the power law exponent
 gamma = result.gamma

@@ -33,7 +33,7 @@ Using Built-in Datasets
     estimator.fit(data)
 
     # Get the estimated parameters
-    result = estimator.get_parameters()
+    result = estimator.get_result()
     gamma = result.gamma
 
     # Print full results
@@ -56,7 +56,7 @@ Using degree sequence from networkx graphs
     estimator.fit(degree)
 
     # Get the estimated parameters
-    result = estimator.get_parameters()
+    result = estimator.get_result()
     gamma = result.gamma
 
     # Print full results
@@ -84,7 +84,7 @@ The package provides several estimators for tail estimation. For details on each
 Results
 -------
 
-The full result can be obtained by ``result = estimator.get_parameters()``. You can either print the result, or access individual attributes (e.g., `result.gamma`). The output will include:
+The full result can be obtained by ``result = estimator.get_result()``. You can either print the result, or access individual attributes (e.g., `result.gamma`). The output will include:
 
 - ``gamma``: Power law exponent (γ = 1 + 1/ξ)
 - ``xi_star``: Tail index (ξ)

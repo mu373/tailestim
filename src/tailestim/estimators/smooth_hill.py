@@ -48,7 +48,7 @@ class SmoothHillEstimator(BaseTailEstimator):
         """
         return smooth_hill_estimate(ordered_data, r_smooth=self.r_smooth)
 
-    def get_parameters(self) -> TailEstimatorResult:
+    def get_result(self) -> TailEstimatorResult:
         """Get the estimated parameters.
                 
         Attributes

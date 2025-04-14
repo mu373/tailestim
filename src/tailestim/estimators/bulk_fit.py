@@ -91,7 +91,7 @@ def fit_estimators(ordered_data, number_of_bins=30, r_smooth=2, alpha=0.6, hstep
     t1 = time.time()
     pickands = PickandsEstimator()
     pickands.fit(ordered_data)
-    pickands_result = pickands.get_parameters()
+    pickands_result = pickands.get_result()
     k_p_arr, xi_p_arr = pickands_result.k_arr, pickands_result.xi_arr
     t2 = time.time()
     logging.debug("Elapsed time (Pickands):", t2-t1)
@@ -102,7 +102,7 @@ def fit_estimators(ordered_data, number_of_bins=30, r_smooth=2, alpha=0.6, hstep
     t1 = time.time()
     smooth_hill = SmoothHillEstimator(r_smooth=r_smooth)
     smooth_hill.fit(ordered_data)
-    smooth_hill_result = smooth_hill.get_parameters()
+    smooth_hill_result = smooth_hill.get_result()
     k_sh_arr, xi_sh_arr = smooth_hill_result.k_arr, smooth_hill_result.xi_arr
     t2 = time.time()
     logging.debug("Elapsed time (smooth Hill):", t2-t1)
@@ -121,7 +121,7 @@ def fit_estimators(ordered_data, number_of_bins=30, r_smooth=2, alpha=0.6, hstep
         base_seed=base_seed
     )
     hill.fit(ordered_data)
-    hill_result = hill.get_parameters()
+    hill_result = hill.get_result()
     k_h_arr = hill_result.k_arr
     xi_h_arr = hill_result.xi_arr
     
@@ -176,7 +176,7 @@ def fit_estimators(ordered_data, number_of_bins=30, r_smooth=2, alpha=0.6, hstep
         base_seed=base_seed
     )
     moments.fit(ordered_data)
-    moments_result = moments.get_parameters()
+    moments_result = moments.get_result()
     k_m_arr = moments_result.k_arr
     xi_m_arr = moments_result.xi_arr
     
@@ -233,7 +233,7 @@ def fit_estimators(ordered_data, number_of_bins=30, r_smooth=2, alpha=0.6, hstep
         base_seed=base_seed
     )
     kernel.fit(ordered_data)
-    kernel_result = kernel.get_parameters()
+    kernel_result = kernel.get_result()
     k_k_arr = kernel_result.k_arr
     xi_k_arr = kernel_result.xi_arr
     

@@ -61,7 +61,7 @@ class BaseTailEstimator(ABC):
         self.results = self._estimate(ordered_data)
 
     @abstractmethod
-    def get_parameters(self) -> TailEstimatorResult:
+    def get_result(self) -> TailEstimatorResult:
         """Get the estimated parameters.
         
         Returns
@@ -73,7 +73,7 @@ class BaseTailEstimator(ABC):
         --------
         >>> hill = HillEstimator()
         >>> hill.fit(data)
-        >>> result = hill.get_parameters()
+        >>> result = hill.get_result()
         >>> gamma = result.gamma  # Access the tail index
         >>> xi = result.xi  # Access the shape parameter (if available)
 

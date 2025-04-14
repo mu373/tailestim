@@ -268,7 +268,7 @@ class TailEstimatorSet:
             base_seed=self.base_seed
         )
     
-    def get_parameters(self) -> Dict[str, Any]:
+    def get_result(self) -> Dict[str, Any]:
         """Get the parameters used for plotting.
         
         Returns

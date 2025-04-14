@@ -24,4 +24,4 @@ Examples
     moments.fit(data)
     
     # Get estimated parameters
-    params = moments.get_parameters()
+    params = moments.get_result()

@@ -87,7 +87,7 @@ class KernelTypeEstimator(BaseTailEstimator):
             base_seed=self.base_seed
         )
 
-    def get_parameters(self) -> TailEstimatorResult:
+    def get_result(self) -> TailEstimatorResult:
         """Get the estimated parameters.
 
         Attributes
