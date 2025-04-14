@@ -36,7 +36,7 @@ data = TailData(name='CAIDA_KONECT').data
 estimator = HillEstimator()
 estimator.fit(data)
 
-# Get the estimated parameters
+# Get the estimated results
 result = estimator.get_result()
 
 # Get the power law exponent
@@ -59,7 +59,7 @@ degree = list(dict(G.degree()).values()) # Degree sequence
 estimator = HillEstimator()
 estimator.fit(degree)
 
-# Get the estimated parameters
+# Get the estimated results
 result = estimator.get_result()
 
 # Get the power law exponent

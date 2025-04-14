@@ -19,7 +19,7 @@ Examples
    hill = HillEstimator()
    hill.fit(data)
    
-   # Get estimated parameters
+   # Get estimated values
    result = hill.get_result() # This returns TailEstimatorResult class.
    print(result)
 

@@ -22,6 +22,6 @@ Examples
     smooth_hill = SmoothHillEstimator()
     smooth_hill.fit(data)
     
-    # Get estimated parameters
+    # Get estimated values
     res = smooth_hill.get_result()
 

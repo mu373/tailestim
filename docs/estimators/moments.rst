@@ -23,5 +23,5 @@ Examples
     moments = MomentsEstimator()
     moments.fit(data)
     
-    # Get estimated parameters
+    # Get estimated values
     res = moments.get_result()

@@ -32,7 +32,7 @@ Using Built-in Datasets
     estimator = HillEstimator()
     estimator.fit(data)
 
-    # Get the estimated parameters
+    # Get estimated values
     result = estimator.get_result()
     gamma = result.gamma_
 
@@ -55,7 +55,7 @@ Using degree sequence from networkx graphs
     estimator = HillEstimator()
     estimator.fit(degree)
 
-    # Get the estimated parameters
+    # Get estimated values
     result = estimator.get_result()
     gamma = result.gamma_
 

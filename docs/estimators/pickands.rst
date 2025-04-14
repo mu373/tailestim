@@ -22,5 +22,5 @@ Examples
     pickands = PickandsEstimator()
     pickands.fit(data)
     
-    # Get estimated parameters
+    # Get estimated values
     res = pickands.get_result()
