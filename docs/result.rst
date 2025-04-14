@@ -19,11 +19,11 @@ Examples
    hill = HillEstimator()
    hill.fit(data)
    
-   # Get estimated parameters
-   result = hill.get_parameters() # This returns TailEstimatorResult class.
+   # Get estimated values
+   result = hill.get_result() # This returns TailEstimatorResult class.
    print(result)
 
    # Access individual parameters
-   gamma = result.gamma  # Power-law exponent estimate
-   xi = result.xi  # Tail index estimate
+   gamma = result.gamma_  # Power-law exponent estimate
+   xi = result.xi_  # Tail index estimate
  

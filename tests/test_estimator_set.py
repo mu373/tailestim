@@ -170,7 +170,7 @@ def test_tail_estimator_set_parameters():
     estimator_set.fit(data)
     
     # Get parameters
-    params = estimator_set.get_parameters()
+    params = estimator_set.get_params()
     
     # Check that parameters were correctly stored
     assert params['number_of_bins'] == custom_bins

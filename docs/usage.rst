@@ -32,9 +32,9 @@ Using Built-in Datasets
     estimator = HillEstimator()
     estimator.fit(data)
 
-    # Get the estimated parameters
-    result = estimator.get_parameters()
-    gamma = result.gamma
+    # Get estimated values
+    result = estimator.get_result()
+    gamma = result.gamma_
 
     # Print full results
     print(result)
@@ -55,9 +55,9 @@ Using degree sequence from networkx graphs
     estimator = HillEstimator()
     estimator.fit(degree)
 
-    # Get the estimated parameters
-    result = estimator.get_parameters()
-    gamma = result.gamma
+    # Get estimated values
+    result = estimator.get_result()
+    gamma = result.gamma_
 
     # Print full results
     print(result)
@@ -84,11 +84,11 @@ The package provides several estimators for tail estimation. For details on each
 Results
 -------
 
-The full result can be obtained by ``result = estimator.get_parameters()``. You can either print the result, or access individual attributes (e.g., `result.gamma`). The output will include:
+The full result can be obtained by ``result = estimator.get_result()``. You can either print the result, or access individual attributes (e.g., `result.gamma_`). The output will include values such as:
 
-- ``gamma``: Power law exponent (γ = 1 + 1/ξ)
-- ``xi_star``: Tail index (ξ)
-- ``k_star``: Optimal order statistic
+- ``gamma_``: Power law exponent (γ = 1 + 1/ξ)
+- ``xi_star_``: Tail index (ξ)
+- ``k_star_``: Optimal order statistic
 - Bootstrap results (when applicable):
   - First and second bootstrap AMSE values
   - Optimal bandwidths or minimum AMSE fractions

@@ -22,5 +22,5 @@ Examples
     hill = HillEstimator()
     hill.fit(data)
     
-    # Get estimated parameters
-    params = hill.get_parameters()
+    # Get estimated values
+    res = hill.get_result()

@@ -2,10 +2,9 @@ import os
 import numpy as np
 from matplotlib import pyplot as plt
 
-def make_plots(ordered_data, results, output_file_path, number_of_bins=30,
-               r_smooth=2, alpha=0.6, hsteps=200, bootstrap_flag=True, t_bootstrap=0.5,
-               r_bootstrap=500, diagn_plots=False, eps_stop=1.0, theta1=0.01, theta2=0.99,
-               verbose=False, noise_flag=True, p_noise=1, savedata=False, base_seed=None):
+def make_plots(ordered_data, results, output_file_path, alpha=0.6,
+               bootstrap_flag=True, diagn_plots=False, theta1=0.01, theta2=0.99,
+               verbose=False, noise_flag=True, savedata=False):
     """
     Create plots for tail index estimation.
     
@@ -17,27 +16,13 @@ def make_plots(ordered_data, results, output_file_path, number_of_bins=30,
         Dictionary containing the results from fit_estimators.
     output_file_path : str or None, optional
         File path to which plots should be saved. If None, the figure is not saved.
-    number_of_bins : int, optional
-        Number of log-bins for degree distribution, default is 30.
-    r_smooth : int, optional
-        Parameter controlling the width of smoothing window. 
-        Typically small value such as 2 or 3, default is 2.
     alpha : float, optional
         Parameter controlling the amount of "smoothing" for the kernel-type estimator. 
         Should be greater than 0.5, default is 0.6.
-    hsteps : int, optional
-        Parameter controlling number of bandwidth steps of the kernel-type estimator, default is 200.
     bootstrap_flag : bool, optional
         Flag to switch on/off double-bootstrap procedure, default is True.
-    t_bootstrap : float, optional
-        Parameter controlling the size of the 2nd bootstrap, defined from n2 = n*(t_bootstrap), default is 0.5.
-    r_bootstrap : int, optional
-        Number of bootstrap resamplings for the 1st and 2nd bootstraps, default is 500.
     diagn_plots : bool, optional
         Flag to switch on/off generation of AMSE diagnostic plots, default is False.
-    eps_stop : float, optional
-        Parameter controlling range of AMSE minimization, defined as the fraction of order statistics 
-        to consider during the AMSE minimization step, default is 1.0.
     theta1 : float, optional
         Lower bound of plotting range, defined as k_min = ceil(n^theta1).
         Overwritten if plots behave badly within the range, default is 0.01.
@@ -49,13 +34,8 @@ def make_plots(ordered_data, results, output_file_path, number_of_bins=30,
     noise_flag : bool, optional
         Switch on/off uniform noise in range [-5*10^(-p), 5*10^(-p)] that is added to each
         data point. Used for integer-valued sequences with p = 1, default is True.
-    p_noise : int, optional
-        Integer parameter controlling noise amplitude, default is 1.
     savedata : bool, optional
         Flag to save data files in the directory with plots, default is False.
-    base_seed : int or None, optional
-        Base random seed for reproducibility of bootstrap.
-        Only used for methods with bootstrap, default is None.
         
     Returns
     -------
@@ -71,24 +51,24 @@ def make_plots(ordered_data, results, output_file_path, number_of_bins=30,
         discrete_ordered_data = results['discrete_ordered_data']
     
     # Pickands results
-    k_p_arr, xi_p_arr = results['pickands']['k_arr'], results['pickands']['xi_arr']
+    k_p_arr, xi_p_arr = results['pickands']['k_arr_'], results['pickands']['xi_arr_']
     
     # Smooth Hill results
-    k_sh_arr, xi_sh_arr = results['smooth_hill']['k_arr'], results['smooth_hill']['xi_arr']
+    k_sh_arr, xi_sh_arr = results['smooth_hill']['k_arr_'], results['smooth_hill']['xi_arr_']
     
     # Hill results
-    k_h_arr, xi_h_arr = results['hill']['k_arr'], results['hill']['xi_arr']
-    if bootstrap_flag and 'k_star' in results['hill']:
-        k_h_star = results['hill']['k_star']
-        xi_h_star = results['hill']['xi_star']
-        x1_h_arr = results['hill']['bootstrap_results']['first_bootstrap']['x_arr']
-        n1_h_amse = results['hill']['bootstrap_results']['first_bootstrap']['amse']
-        k1_h = results['hill']['bootstrap_results']['first_bootstrap']['k_min']
-        max_h_index1 = results['hill']['bootstrap_results']['first_bootstrap']['max_index']
-        x2_h_arr = results['hill']['bootstrap_results']['second_bootstrap']['x_arr']
-        n2_h_amse = results['hill']['bootstrap_results']['second_bootstrap']['amse']
-        k2_h = results['hill']['bootstrap_results']['second_bootstrap']['k_min']
-        max_h_index2 = results['hill']['bootstrap_results']['second_bootstrap']['max_index']
+    k_h_arr, xi_h_arr = results['hill']['k_arr_'], results['hill']['xi_arr_']
+    if bootstrap_flag and 'k_star_' in results['hill']:
+        k_h_star = results['hill']['k_star_']
+        xi_h_star = results['hill']['xi_star_']
+        x1_h_arr = results['hill']['bootstrap_results_']['first_bootstrap_']['x_arr_']
+        n1_h_amse = results['hill']['bootstrap_results_']['first_bootstrap_']['amse_']
+        k1_h = results['hill']['bootstrap_results_']['first_bootstrap_']['k_min_']
+        max_h_index1 = results['hill']['bootstrap_results_']['first_bootstrap_']['max_index_']
+        x2_h_arr = results['hill']['bootstrap_results_']['second_bootstrap_']['x_arr_']
+        n2_h_amse = results['hill']['bootstrap_results_']['second_bootstrap_']['amse_']
+        k2_h = results['hill']['bootstrap_results_']['second_bootstrap_']['k_min_']
+        max_h_index2 = results['hill']['bootstrap_results_']['second_bootstrap_']['max_index_']
     else:
         k_h_star = None
         xi_h_star = None
@@ -96,18 +76,18 @@ def make_plots(ordered_data, results, output_file_path, number_of_bins=30,
         x2_h_arr, n2_h_amse, k2_h, max_h_index2 = None, None, None, None
     
     # Moments results
-    k_m_arr, xi_m_arr = results['moments']['k_arr'], results['moments']['xi_arr']
-    if bootstrap_flag and 'k_star' in results['moments']:
-        k_m_star = results['moments']['k_star']
-        xi_m_star = results['moments']['xi_star']
-        x1_m_arr = results['moments']['bootstrap_results']['first_bootstrap']['x_arr']
-        n1_m_amse = results['moments']['bootstrap_results']['first_bootstrap']['amse']
-        k1_m = results['moments']['bootstrap_results']['first_bootstrap']['k_min']
-        max_m_index1 = results['moments']['bootstrap_results']['first_bootstrap']['max_index']
-        x2_m_arr = results['moments']['bootstrap_results']['second_bootstrap']['x_arr']
-        n2_m_amse = results['moments']['bootstrap_results']['second_bootstrap']['amse']
-        k2_m = results['moments']['bootstrap_results']['second_bootstrap']['k_min']
-        max_m_index2 = results['moments']['bootstrap_results']['second_bootstrap']['max_index']
+    k_m_arr, xi_m_arr = results['moments']['k_arr_'], results['moments']['xi_arr_']
+    if bootstrap_flag and 'k_star_' in results['moments']:
+        k_m_star = results['moments']['k_star_']
+        xi_m_star = results['moments']['xi_star_']
+        x1_m_arr = results['moments']['bootstrap_results_']['first_bootstrap_']['x_arr_']
+        n1_m_amse = results['moments']['bootstrap_results_']['first_bootstrap_']['amse_']
+        k1_m = results['moments']['bootstrap_results_']['first_bootstrap_']['k_min_']
+        max_m_index1 = results['moments']['bootstrap_results_']['first_bootstrap_']['max_index_']
+        x2_m_arr = results['moments']['bootstrap_results_']['second_bootstrap_']['x_arr_']
+        n2_m_amse = results['moments']['bootstrap_results_']['second_bootstrap_']['amse_']
+        k2_m = results['moments']['bootstrap_results_']['second_bootstrap_']['k_min_']
+        max_m_index2 = results['moments']['bootstrap_results_']['second_bootstrap_']['max_index_']
     else:
         k_m_star = None
         xi_m_star = None
@@ -115,18 +95,18 @@ def make_plots(ordered_data, results, output_file_path, number_of_bins=30,
         x2_m_arr, n2_m_amse, k2_m, max_m_index2 = None, None, None, None
     
     # Kernel results
-    k_k_arr, xi_k_arr = results['kernel']['k_arr'], results['kernel']['xi_arr']
-    if bootstrap_flag and 'k_star' in results['kernel']:
-        k_k_star = results['kernel']['k_star']
-        xi_k_star = results['kernel']['xi_star']
-        x1_k_arr = results['kernel']['bootstrap_results']['first_bootstrap']['x_arr']
-        n1_k_amse = results['kernel']['bootstrap_results']['first_bootstrap']['amse']
-        h1 = results['kernel']['bootstrap_results']['first_bootstrap']['h_min']
-        max_k_index1 = results['kernel']['bootstrap_results']['first_bootstrap']['max_index']
-        x2_k_arr = results['kernel']['bootstrap_results']['second_bootstrap']['x_arr']
-        n2_k_amse = results['kernel']['bootstrap_results']['second_bootstrap']['amse']
-        h2 = results['kernel']['bootstrap_results']['second_bootstrap']['h_min']
-        max_k_index2 = results['kernel']['bootstrap_results']['second_bootstrap']['max_index']
+    k_k_arr, xi_k_arr = results['kernel']['k_arr_'], results['kernel']['xi_arr_']
+    if bootstrap_flag and 'k_star_' in results['kernel']:
+        k_k_star = results['kernel']['k_star_']
+        xi_k_star = results['kernel']['xi_star_']
+        x1_k_arr = results['kernel']['bootstrap_results_']['first_bootstrap_']['x_arr_']
+        n1_k_amse = results['kernel']['bootstrap_results_']['first_bootstrap_']['amse_']
+        h1 = results['kernel']['bootstrap_results_']['first_bootstrap_']['h_min']
+        max_k_index1 = results['kernel']['bootstrap_results_']['first_bootstrap_']['max_index_']
+        x2_k_arr = results['kernel']['bootstrap_results_']['second_bootstrap_']['x_arr_']
+        n2_k_amse = results['kernel']['bootstrap_results_']['second_bootstrap_']['amse_']
+        h2 = results['kernel']['bootstrap_results_']['second_bootstrap_']['h_min']
+        max_k_index2 = results['kernel']['bootstrap_results_']['second_bootstrap_']['max_index_']
         k_k1_star = results['kernel'].get('k_k1_star')
     else:
         k_k_star = None
@@ -440,52 +420,29 @@ def make_plots(ordered_data, results, output_file_path, number_of_bins=30,
     
     return fig, axes
 
-def make_diagnostic_plots(ordered_data, results, output_file_path=None, number_of_bins=30,
-                         r_smooth=2, alpha=0.6, hsteps=200, bootstrap_flag=True, t_bootstrap=0.5,
-                         r_bootstrap=500, eps_stop=1.0, verbose=False, noise_flag=True, p_noise=1,
-                         savedata=False, base_seed=None):
+def make_diagnostic_plots(results, output_file_path=None,
+                         hsteps=200, bootstrap_flag=True, verbose=False, noise_flag=True,
+                         savedata=False):
     """
     Create diagnostic plots for tail index estimation.
     
     Parameters
     ----------
-    ordered_data : numpy.ndarray
-        Array for which tail index estimation is performed (decreasing ordering required).
     results : dict
         Dictionary containing the results from fit_estimators.
     output_file_path : str or None, optional
         File path to which plots should be saved. If None, the figure is not saved.
-    number_of_bins : int, optional
-        Number of log-bins for degree distribution, default is 30.
-    r_smooth : int, optional
-        Parameter controlling the width of smoothing window. 
-        Typically small value such as 2 or 3, default is 2.
-    alpha : float, optional
-        Parameter controlling the amount of "smoothing" for the kernel-type estimator. 
-        Should be greater than 0.5, default is 0.6.
     hsteps : int, optional
         Parameter controlling number of bandwidth steps of the kernel-type estimator, default is 200.
     bootstrap_flag : bool, optional
         Flag to switch on/off double-bootstrap procedure, default is True.
-    t_bootstrap : float, optional
-        Parameter controlling the size of the 2nd bootstrap, defined from n2 = n*(t_bootstrap), default is 0.5.
-    r_bootstrap : int, optional
-        Number of bootstrap resamplings for the 1st and 2nd bootstraps, default is 500.
-    eps_stop : float, optional
-        Parameter controlling range of AMSE minimization, defined as the fraction of order statistics 
-        to consider during the AMSE minimization step, default is 1.0.
     verbose : bool, optional
         Flag controlling bootstrap verbosity, default is False.
     noise_flag : bool, optional
         Switch on/off uniform noise in range [-5*10^(-p), 5*10^(-p)] that is added to each
         data point. Used for integer-valued sequences with p = 1, default is True.
-    p_noise : int, optional
-        Integer parameter controlling noise amplitude, default is 1.
     savedata : bool, optional
         Flag to save data files in the directory with plots, default is False.
-    base_seed : int or None, optional
-        Base random seed for reproducibility of bootstrap.
-        Only used for methods with bootstrap, default is None.
         
     Returns
     -------
@@ -504,18 +461,18 @@ def make_diagnostic_plots(ordered_data, results, output_file_path=None, number_o
         discrete_ordered_data = results['discrete_ordered_data']
     
     # Hill results
-    k_h_arr, xi_h_arr = results['hill']['k_arr'], results['hill']['xi_arr']
-    if 'k_star' in results['hill']:
-        k_h_star = results['hill']['k_star']
-        xi_h_star = results['hill']['xi_star']
-        x1_h_arr = results['hill']['bootstrap_results']['first_bootstrap']['x_arr']
-        n1_h_amse = results['hill']['bootstrap_results']['first_bootstrap']['amse']
-        k1_h = results['hill']['bootstrap_results']['first_bootstrap']['k_min']
-        max_h_index1 = results['hill']['bootstrap_results']['first_bootstrap']['max_index']
-        x2_h_arr = results['hill']['bootstrap_results']['second_bootstrap']['x_arr']
-        n2_h_amse = results['hill']['bootstrap_results']['second_bootstrap']['amse']
-        k2_h = results['hill']['bootstrap_results']['second_bootstrap']['k_min']
-        max_h_index2 = results['hill']['bootstrap_results']['second_bootstrap']['max_index']
+    k_h_arr, xi_h_arr = results['hill']['k_arr_'], results['hill']['xi_arr_']
+    if 'k_star_' in results['hill']:
+        k_h_star = results['hill']['k_star_']
+        xi_h_star = results['hill']['xi_star_']
+        x1_h_arr = results['hill']['bootstrap_results_']['first_bootstrap_']['x_arr_']
+        n1_h_amse = results['hill']['bootstrap_results_']['first_bootstrap_']['amse_']
+        k1_h = results['hill']['bootstrap_results_']['first_bootstrap_']['k_min_']
+        max_h_index1 = results['hill']['bootstrap_results_']['first_bootstrap_']['max_index_']
+        x2_h_arr = results['hill']['bootstrap_results_']['second_bootstrap_']['x_arr_']
+        n2_h_amse = results['hill']['bootstrap_results_']['second_bootstrap_']['amse_']
+        k2_h = results['hill']['bootstrap_results_']['second_bootstrap_']['k_min_']
+        max_h_index2 = results['hill']['bootstrap_results_']['second_bootstrap_']['max_index_']
     else:
         k_h_star = None
         xi_h_star = None
@@ -523,18 +480,18 @@ def make_diagnostic_plots(ordered_data, results, output_file_path=None, number_o
         x2_h_arr, n2_h_amse, k2_h, max_h_index2 = None, None, None, None
     
     # Moments results
-    k_m_arr, xi_m_arr = results['moments']['k_arr'], results['moments']['xi_arr']
-    if 'k_star' in results['moments']:
-        k_m_star = results['moments']['k_star']
-        xi_m_star = results['moments']['xi_star']
-        x1_m_arr = results['moments']['bootstrap_results']['first_bootstrap']['x_arr']
-        n1_m_amse = results['moments']['bootstrap_results']['first_bootstrap']['amse']
-        k1_m = results['moments']['bootstrap_results']['first_bootstrap']['k_min']
-        max_m_index1 = results['moments']['bootstrap_results']['first_bootstrap']['max_index']
-        x2_m_arr = results['moments']['bootstrap_results']['second_bootstrap']['x_arr']
-        n2_m_amse = results['moments']['bootstrap_results']['second_bootstrap']['amse']
-        k2_m = results['moments']['bootstrap_results']['second_bootstrap']['k_min']
-        max_m_index2 = results['moments']['bootstrap_results']['second_bootstrap']['max_index']
+    k_m_arr, xi_m_arr = results['moments']['k_arr_'], results['moments']['xi_arr_']
+    if 'k_star_' in results['moments']:
+        k_m_star = results['moments']['k_star_']
+        xi_m_star = results['moments']['xi_star_']
+        x1_m_arr = results['moments']['bootstrap_results_']['first_bootstrap_']['x_arr_']
+        n1_m_amse = results['moments']['bootstrap_results_']['first_bootstrap_']['amse_']
+        k1_m = results['moments']['bootstrap_results_']['first_bootstrap_']['k_min_']
+        max_m_index1 = results['moments']['bootstrap_results_']['first_bootstrap_']['max_index_']
+        x2_m_arr = results['moments']['bootstrap_results_']['second_bootstrap_']['x_arr_']
+        n2_m_amse = results['moments']['bootstrap_results_']['second_bootstrap_']['amse_']
+        k2_m = results['moments']['bootstrap_results_']['second_bootstrap_']['k_min_']
+        max_m_index2 = results['moments']['bootstrap_results_']['second_bootstrap_']['max_index_']
     else:
         k_m_star = None
         xi_m_star = None
@@ -542,18 +499,18 @@ def make_diagnostic_plots(ordered_data, results, output_file_path=None, number_o
         x2_m_arr, n2_m_amse, k2_m, max_m_index2 = None, None, None, None
     
     # Kernel results
-    k_k_arr, xi_k_arr = results['kernel']['k_arr'], results['kernel']['xi_arr']
-    if 'k_star' in results['kernel']:
-        k_k_star = results['kernel']['k_star']
-        xi_k_star = results['kernel']['xi_star']
-        x1_k_arr = results['kernel']['bootstrap_results']['first_bootstrap']['x_arr']
-        n1_k_amse = results['kernel']['bootstrap_results']['first_bootstrap']['amse']
-        h1 = results['kernel']['bootstrap_results']['first_bootstrap']['h_min']
-        max_k_index1 = results['kernel']['bootstrap_results']['first_bootstrap']['max_index']
-        x2_k_arr = results['kernel']['bootstrap_results']['second_bootstrap']['x_arr']
-        n2_k_amse = results['kernel']['bootstrap_results']['second_bootstrap']['amse']
-        h2 = results['kernel']['bootstrap_results']['second_bootstrap']['h_min']
-        max_k_index2 = results['kernel']['bootstrap_results']['second_bootstrap']['max_index']
+    k_k_arr, xi_k_arr = results['kernel']['k_arr_'], results['kernel']['xi_arr_']
+    if 'k_star_' in results['kernel']:
+        k_k_star = results['kernel']['k_star_']
+        xi_k_star = results['kernel']['xi_star_']
+        x1_k_arr = results['kernel']['bootstrap_results_']['first_bootstrap_']['x_arr_']
+        n1_k_amse = results['kernel']['bootstrap_results_']['first_bootstrap_']['amse_']
+        h1 = results['kernel']['bootstrap_results_']['first_bootstrap_']['h_min']
+        max_k_index1 = results['kernel']['bootstrap_results_']['first_bootstrap_']['max_index_']
+        x2_k_arr = results['kernel']['bootstrap_results_']['second_bootstrap_']['x_arr_']
+        n2_k_amse = results['kernel']['bootstrap_results_']['second_bootstrap_']['amse_']
+        h2 = results['kernel']['bootstrap_results_']['second_bootstrap_']['h_min']
+        max_k_index2 = results['kernel']['bootstrap_results_']['second_bootstrap_']['max_index_']
         k_k1_star = results['kernel'].get('k_k1_star')
     else:
         k_k_star = None

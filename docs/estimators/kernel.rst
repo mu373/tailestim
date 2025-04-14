@@ -27,5 +27,5 @@ Examples
     )
     kernel.fit(data)
     
-    # Get estimated parameters
-    params = kernel.get_parameters()
+    # Get estimated values
+    res = kernel.get_result()

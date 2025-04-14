@@ -76,7 +76,7 @@ class KernelTypeEstimator(BaseTailEstimator):
         """
         return kernel_estimate(
             ordered_data,
-            self.hsteps,
+            hsteps=self.hsteps,
             alpha=self.alpha,
             bootstrap=self.bootstrap,
             t_bootstrap=self.t_bootstrap,
@@ -87,22 +87,45 @@ class KernelTypeEstimator(BaseTailEstimator):
             base_seed=self.base_seed
         )
 
-    def get_parameters(self) -> TailEstimatorResult:
+    def get_params(self) -> Dict[str, Any]:
+        """Get the parameters of the estimator.
+        
+        Returns
+        -------
+        dict
+            Dictionary containing the parameters of the estimator.
+        """
+        return {
+            "base_seed": self.base_seed,
+            "bootstrap": self.bootstrap,
+            "t_bootstrap": self.t_bootstrap,
+            "r_bootstrap": self.r_bootstrap,
+            "eps_stop": self.eps_stop,
+            "verbose": self.verbose,
+            "diagn_plots": self.diagn_plots,
+            "alpha": self.alpha,
+            "hsteps": self.hsteps,
+            **self.kwargs
+        }
+
+    def get_result(self) -> TailEstimatorResult:
         """Get the estimated parameters.
 
         Attributes
         ----------
-        xi_star : float
+        estimator : BaseTailEstimator
+            The estimator instance (e.g., HillEstimator, PickandsEstimator, etc.) used for estimation.
+        xi_star_ : float
             Optimal tail index estimate (ξ).
-        gamma : float
+        gamma_ : float
             Power law exponent (γ).
-        k_arr : np.ndarray
+        k_arr_ : np.ndarray
             Array of order statistics.
-        xi_arr : np.ndarray
+        xi_arr_ : np.ndarray
             Array of tail index estimates.
-        k_star : float
+        k_star_ : float
             Optimal order statistic (k*).
-        bootstrap_results : dict
+        bootstrap_results_ : dict
             Bootstrap results.
         
         Returns
@@ -115,68 +138,32 @@ class KernelTypeEstimator(BaseTailEstimator):
         k_arr, xi_arr, k_star, xi_star, x1_arr, n1_amse, h1, max_index1, \
         x2_arr, n2_amse, h2, max_index2 = self.results
         
-        params = {
-            'k_arr': k_arr,
-            'xi_arr': xi_arr,
+        res = {
+            'k_arr_': k_arr,
+            'xi_arr_': xi_arr,
         }
         
         if self.bootstrap and k_star is not None:
             gamma = float('inf') if xi_star <= 0 else 1 + 1./xi_star
-            params.update({
-                'k_star': k_star,
-                'xi_star': xi_star,
-                'gamma': gamma,
-                'bootstrap_results': {
-                    'first_bootstrap': {
-                        'x_arr': x1_arr,
-                        'amse': n1_amse,
-                        'h_min': h1,
-                        'max_index': max_index1
+            res.update({
+                'estimator': self,
+                'k_star_': k_star,
+                'xi_star_': xi_star,
+                'gamma_': gamma,
+                'bootstrap_results_': {
+                    'first_bootstrap_': {
+                        'x_arr_': x1_arr,
+                        'amse_': n1_amse,
+                        'h_min_': h1,
+                        'max_index_': max_index1
                     },
-                    'second_bootstrap': {
-                        'x_arr': x2_arr,
-                        'amse': n2_amse,
-                        'h_min': h2,
-                        'max_index': max_index2
+                    'second_bootstrap_': {
+                        'x_arr_': x2_arr,
+                        'amse_': n2_amse,
+                        'h_min_': h2,
+                        'max_index_': max_index2
                     }
                 }
             })
         
-        return TailEstimatorResult(params)
-
-    def _format_params(self, params: Dict[str, Any]) -> str:
-        """Format Kernel-type estimator parameters as a string.
-        
-        Parameters
-        ----------
-        params : Dict[str, Any]
-            Dictionary of parameters to format.
-            
-        Returns
-        -------
-        str
-            Formatted parameter string.
-        """
-        output = ""
-        
-        if hasattr(params, 'k_star'):
-            output += f"Optimal order statistic (k*): {params.k_star:.0f}\n"
-            output += f"Tail index (ξ): {params.xi_star:.4f}\n"
-            if params.gamma == float('inf'):
-                output += "Gamma (powerlaw exponent) (γ): infinity (ξ <= 0)\n"
-            else:
-                output += f"Gamma (powerlaw exponent) (γ): {params.gamma:.4f}\n"
-            
-            if self.bootstrap:
-                output += "\nBootstrap Results:\n"
-                output += "-" * 20 + "\n"
-                bs1 = params.bootstrap_results.first_bootstrap
-                bs2 = params.bootstrap_results.second_bootstrap
-                output += f"First bootstrap optimal bandwidth: {bs1.h_min:.4f}\n"
-                output += f"Second bootstrap optimal bandwidth: {bs2.h_min:.4f}\n"
-        else:
-            output += "Note: No bootstrap results available\n"
-            output += f"Number of order statistics: {len(params.k_arr)}\n"
-            output += f"Range of tail index estimates: [{min(params.xi_arr):.4f}, {max(params.xi_arr):.4f}]\n"
-        
-        return output
+        return TailEstimatorResult(res)

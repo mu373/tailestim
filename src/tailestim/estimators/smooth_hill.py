@@ -19,13 +19,6 @@ class SmoothHillEstimator(BaseTailEstimator):
     **kwargs : dict
         Additional parameters (not used by this estimator).
 
-    Attributes
-    ----------
-    results : tuple or None
-        Stores the estimation results after calling fit().
-        Contains:
-        - k_arr: Array of order statistics
-        - xi_arr: Array of tail index estimates
     """
     
     def __init__(self, r_smooth: int = 2, **kwargs):
@@ -48,11 +41,26 @@ class SmoothHillEstimator(BaseTailEstimator):
         """
         return smooth_hill_estimate(ordered_data, r_smooth=self.r_smooth)
 
-    def get_parameters(self) -> TailEstimatorResult:
+    def get_params(self) -> Dict[str, Any]:
+        """Get the parameters of the estimator.
+        
+        Returns
+        -------
+        dict
+            Dictionary containing the parameters of the estimator.
+        """
+        return {
+            "r_smooth": self.r_smooth,
+            **self.kwargs
+        }
+
+    def get_result(self) -> TailEstimatorResult:
         """Get the estimated parameters.
                 
         Attributes
         ----------
+        estimator : BaseTailEstimator
+            The estimator instance (e.g., HillEstimator, PickandsEstimator, etc.) used for estimation.
         k_arr : np.ndarray
             Array of order statistics.
         xi_arr : np.ndarray
@@ -67,9 +75,10 @@ class SmoothHillEstimator(BaseTailEstimator):
         
         k_arr, xi_arr = self.results
         
-        params = {
-            'k_arr': k_arr,
-            'xi_arr': xi_arr
+        res = {
+            'estimator': self,
+            'k_arr_': k_arr,
+            'xi_arr_': xi_arr
         }
         
-        return TailEstimatorResult(params)
+        return TailEstimatorResult(res)

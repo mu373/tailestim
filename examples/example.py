@@ -15,11 +15,14 @@ estimator = HillEstimator(base_seed=1)
 estimator.fit(data)
 print(estimator)
 
-# Get the estimated parameters
-result = estimator.get_parameters()
+# Get the parameters of the estimator
+params = estimator.get_params()
+
+# Get estimated values
+result = estimator.get_result()
 
 # Get the power law exponent
-gamma = result.gamma
+gamma = result.gamma_
 
 # Print full results
 print(result)
