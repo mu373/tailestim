@@ -2,10 +2,9 @@ import os
 import numpy as np
 from matplotlib import pyplot as plt
 
-def make_plots(ordered_data, results, output_file_path, number_of_bins=30,
-               r_smooth=2, alpha=0.6, hsteps=200, bootstrap_flag=True, t_bootstrap=0.5,
-               r_bootstrap=500, diagn_plots=False, eps_stop=1.0, theta1=0.01, theta2=0.99,
-               verbose=False, noise_flag=True, p_noise=1, savedata=False, base_seed=None):
+def make_plots(ordered_data, results, output_file_path, alpha=0.6,
+               bootstrap_flag=True, diagn_plots=False, theta1=0.01, theta2=0.99,
+               verbose=False, noise_flag=True, savedata=False):
     """
     Create plots for tail index estimation.
     
@@ -17,27 +16,13 @@ def make_plots(ordered_data, results, output_file_path, number_of_bins=30,
         Dictionary containing the results from fit_estimators.
     output_file_path : str or None, optional
         File path to which plots should be saved. If None, the figure is not saved.
-    number_of_bins : int, optional
-        Number of log-bins for degree distribution, default is 30.
-    r_smooth : int, optional
-        Parameter controlling the width of smoothing window. 
-        Typically small value such as 2 or 3, default is 2.
     alpha : float, optional
         Parameter controlling the amount of "smoothing" for the kernel-type estimator. 
         Should be greater than 0.5, default is 0.6.
-    hsteps : int, optional
-        Parameter controlling number of bandwidth steps of the kernel-type estimator, default is 200.
     bootstrap_flag : bool, optional
         Flag to switch on/off double-bootstrap procedure, default is True.
-    t_bootstrap : float, optional
-        Parameter controlling the size of the 2nd bootstrap, defined from n2 = n*(t_bootstrap), default is 0.5.
-    r_bootstrap : int, optional
-        Number of bootstrap resamplings for the 1st and 2nd bootstraps, default is 500.
     diagn_plots : bool, optional
         Flag to switch on/off generation of AMSE diagnostic plots, default is False.
-    eps_stop : float, optional
-        Parameter controlling range of AMSE minimization, defined as the fraction of order statistics 
-        to consider during the AMSE minimization step, default is 1.0.
     theta1 : float, optional
         Lower bound of plotting range, defined as k_min = ceil(n^theta1).
         Overwritten if plots behave badly within the range, default is 0.01.
@@ -49,13 +34,8 @@ def make_plots(ordered_data, results, output_file_path, number_of_bins=30,
     noise_flag : bool, optional
         Switch on/off uniform noise in range [-5*10^(-p), 5*10^(-p)] that is added to each
         data point. Used for integer-valued sequences with p = 1, default is True.
-    p_noise : int, optional
-        Integer parameter controlling noise amplitude, default is 1.
     savedata : bool, optional
         Flag to save data files in the directory with plots, default is False.
-    base_seed : int or None, optional
-        Base random seed for reproducibility of bootstrap.
-        Only used for methods with bootstrap, default is None.
         
     Returns
     -------
@@ -440,52 +420,29 @@ def make_plots(ordered_data, results, output_file_path, number_of_bins=30,
     
     return fig, axes
 
-def make_diagnostic_plots(ordered_data, results, output_file_path=None, number_of_bins=30,
-                         r_smooth=2, alpha=0.6, hsteps=200, bootstrap_flag=True, t_bootstrap=0.5,
-                         r_bootstrap=500, eps_stop=1.0, verbose=False, noise_flag=True, p_noise=1,
-                         savedata=False, base_seed=None):
+def make_diagnostic_plots(results, output_file_path=None,
+                         hsteps=200, bootstrap_flag=True, verbose=False, noise_flag=True,
+                         savedata=False):
     """
     Create diagnostic plots for tail index estimation.
     
     Parameters
     ----------
-    ordered_data : numpy.ndarray
-        Array for which tail index estimation is performed (decreasing ordering required).
     results : dict
         Dictionary containing the results from fit_estimators.
     output_file_path : str or None, optional
         File path to which plots should be saved. If None, the figure is not saved.
-    number_of_bins : int, optional
-        Number of log-bins for degree distribution, default is 30.
-    r_smooth : int, optional
-        Parameter controlling the width of smoothing window. 
-        Typically small value such as 2 or 3, default is 2.
-    alpha : float, optional
-        Parameter controlling the amount of "smoothing" for the kernel-type estimator. 
-        Should be greater than 0.5, default is 0.6.
     hsteps : int, optional
         Parameter controlling number of bandwidth steps of the kernel-type estimator, default is 200.
     bootstrap_flag : bool, optional
         Flag to switch on/off double-bootstrap procedure, default is True.
-    t_bootstrap : float, optional
-        Parameter controlling the size of the 2nd bootstrap, defined from n2 = n*(t_bootstrap), default is 0.5.
-    r_bootstrap : int, optional
-        Number of bootstrap resamplings for the 1st and 2nd bootstraps, default is 500.
-    eps_stop : float, optional
-        Parameter controlling range of AMSE minimization, defined as the fraction of order statistics 
-        to consider during the AMSE minimization step, default is 1.0.
     verbose : bool, optional
         Flag controlling bootstrap verbosity, default is False.
     noise_flag : bool, optional
         Switch on/off uniform noise in range [-5*10^(-p), 5*10^(-p)] that is added to each
         data point. Used for integer-valued sequences with p = 1, default is True.
-    p_noise : int, optional
-        Integer parameter controlling noise amplitude, default is 1.
     savedata : bool, optional
         Flag to save data files in the directory with plots, default is False.
-    base_seed : int or None, optional
-        Base random seed for reproducibility of bootstrap.
-        Only used for methods with bootstrap, default is None.
         
     Returns
     -------
