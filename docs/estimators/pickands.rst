@@ -23,4 +23,4 @@ Examples
     pickands.fit(data)
     
     # Get estimated parameters
-    params = pickands.get_result()
+    res = pickands.get_result()

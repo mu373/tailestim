@@ -59,10 +59,10 @@ class PickandsEstimator(BaseTailEstimator):
         
         k_arr, xi_arr = self.results
         
-        params = {
+        res = {
             'estimator': self,
             'k_arr_': k_arr,
             'xi_arr_': xi_arr
         }
         
-        return TailEstimatorResult(params)
+        return TailEstimatorResult(res)

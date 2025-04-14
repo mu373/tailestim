@@ -23,4 +23,4 @@ Examples
     hill.fit(data)
     
     # Get estimated parameters
-    params = hill.get_result()
+    res = hill.get_result()

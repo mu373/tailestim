@@ -106,14 +106,14 @@ class HillEstimator(BaseTailEstimator):
         k_arr, xi_arr, k_star, xi_star, x1_arr, n1_amse, k1, max_index1, \
         x2_arr, n2_amse, k2, max_index2 = self.results
         
-        params = {
+        res = {
             'k_arr_': k_arr,
             'xi_arr_': xi_arr,
         }
         
         if self.bootstrap and k_star is not None:
             gamma = 1 + 1./xi_star
-            params.update({
+            res.update({
                 'estimator': self,
                 'k_star_': k_star,
                 'xi_star_': xi_star,
@@ -134,4 +134,4 @@ class HillEstimator(BaseTailEstimator):
                 }
             })
         
-        return TailEstimatorResult(params)
+        return TailEstimatorResult(res)

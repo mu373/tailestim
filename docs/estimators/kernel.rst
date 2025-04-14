@@ -28,4 +28,4 @@ Examples
     kernel.fit(data)
     
     # Get estimated parameters
-    params = kernel.get_result()
+    res = kernel.get_result()

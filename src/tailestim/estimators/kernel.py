@@ -117,14 +117,14 @@ class KernelTypeEstimator(BaseTailEstimator):
         k_arr, xi_arr, k_star, xi_star, x1_arr, n1_amse, h1, max_index1, \
         x2_arr, n2_amse, h2, max_index2 = self.results
         
-        params = {
+        res = {
             'k_arr_': k_arr,
             'xi_arr_': xi_arr,
         }
         
         if self.bootstrap and k_star is not None:
             gamma = float('inf') if xi_star <= 0 else 1 + 1./xi_star
-            params.update({
+            res.update({
                 'estimator': self,
                 'k_star_': k_star,
                 'xi_star_': xi_star,
@@ -145,7 +145,7 @@ class KernelTypeEstimator(BaseTailEstimator):
                 }
             })
         
-        return TailEstimatorResult(params)
+        return TailEstimatorResult(res)
 
     def _format_params(self, params: Dict[str, Any]) -> str:
         """Format Kernel-type estimator parameters as a string.
@@ -162,24 +162,24 @@ class KernelTypeEstimator(BaseTailEstimator):
         """
         output = ""
         
-        if hasattr(params, 'k_star_'):
-            output += f"Optimal order statistic (k*): {params.k_star_:.0f}\n"
-            output += f"Tail index (ξ): {params.xi_star_:.4f}\n"
-            if params.gamma_ == float('inf'):
+        if hasattr(res, 'k_star_'):
+            output += f"Optimal order statistic (k*): {res.k_star_:.0f}\n"
+            output += f"Tail index (ξ): {res.xi_star_:.4f}\n"
+            if res.gamma_ == float('inf'):
                 output += "Gamma (powerlaw exponent) (γ): infinity (ξ <= 0)\n"
             else:
-                output += f"Gamma (powerlaw exponent) (γ): {params.gamma_:.4f}\n"
+                output += f"Gamma (powerlaw exponent) (γ): {res.gamma_:.4f}\n"
             
             if self.bootstrap:
                 output += "\nBootstrap Results:\n"
                 output += "-" * 20 + "\n"
-                bs1 = params.bootstrap_results_.first_bootstrap_
-                bs2 = params.bootstrap_results_.second_bootstrap
+                bs1 = res.bootstrap_results_.first_bootstrap_
+                bs2 = res.bootstrap_results_.second_bootstrap
                 output += f"First bootstrap optimal bandwidth: {bs1.h_min:.4f}\n"
                 output += f"Second bootstrap optimal bandwidth: {bs2.h_min:.4f}\n"
         else:
             output += "Note: No bootstrap results available\n"
-            output += f"Number of order statistics: {len(params.k_arr_)}\n"
-            output += f"Range of tail index estimates: [{min(params.xi_arr_):.4f}, {max(params.xi_arr_):.4f}]\n"
+            output += f"Number of order statistics: {len(res.k_arr_)}\n"
+            output += f"Range of tail index estimates: [{min(res.xi_arr_):.4f}, {max(res.xi_arr_):.4f}]\n"
         
         return output
