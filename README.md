@@ -132,6 +132,60 @@ from tailestim import TailData
 data = TailData(name='dataset_name').data
 ```
 
+## Testing
+
+The package includes comprehensive test suites to ensure correctness and numerical accuracy.
+
+### Running Tests
+
+Run the test suite using pytest:
+```bash
+pytest tests/
+```
+
+For verbose output:
+```bash
+pytest tests/ -v
+```
+
+### Test Structure
+
+#### Unit Tests
+Located in `tests/test_*.py`, these tests verify:
+- Individual estimator functionality (Hill, Moments, Kernel, Pickands)
+- Noise generation and random seed handling
+- Edge cases and error handling
+- Result data structures and attributes
+
+#### Validation Tests
+`tests/test_tailestimation_validation.py` provides cross-package validation against the original [tail-estimation](https://github.com/ivanvoitalov/tail-estimation) implementation:
+- Validates numerical equivalence for each estimator (Hill, Moments, Kernel, Pickands)
+- Comprehensive multi-dataset validation across all estimators
+- Reproducibility tests with various random seeds
+- Plot data comparison (PDF, CCDF, bootstrap AMSE)
+
+The validation tests ensure that `tailestim` produces **identical results** to the original implementation when using the same `base_seed` parameter.
+
+**Example datasets tested:**
+- CAIDA_KONECT (26,475 samples)
+- Libimseti_in_KONECT (168,791 samples)
+- Pareto distributions (synthetic, various sizes)
+- Complete graphs (synthetic): produces error in both cases, as intended
+
+Run validation tests:
+```bash
+pytest tests/test_tailestimation_validation.py -v
+```
+
+Run quick validation (smaller datasets):
+```bash
+pytest tests/test_tailestimation_validation.py -k "quick" -v
+```
+
+### Interactive Validation
+
+The [`examples/validation.ipynb`](examples/validation.ipynb) notebook provides an interactive demonstration of the validation process with visualizations comparing `tailestim` and `tail-estimation` outputs side-by-side.
+
 ## References
 - I. Voitalov, P. van der Hoorn, R. van der Hofstad, and D. Krioukov. Scale-free networks well done. *Phys. Rev. Res.*, Oct. 2019, doi: [10.1103/PhysRevResearch.1.033034](https://doi.org/10.1103/PhysRevResearch.1.033034).
 - I. Voitalov. `ivanvoitalov/tail-estimation`, GitHub. Mar. 2018. [https://github.com/ivanvoitalov/tail-estimation](https://github.com/ivanvoitalov/tail-estimation).
