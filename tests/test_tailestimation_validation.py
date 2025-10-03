@@ -19,7 +19,7 @@ from pathlib import Path
 import importlib.util
 
 # Add tail-estimation to path
-TAIL_EST_PATH = Path(__file__).parent.parent / "tail-estimation-private" / "Python3"
+TAIL_EST_PATH = Path(__file__).parent.parent / "tail-estimation" / "Python3"
 TAIL_EST_FILE = TAIL_EST_PATH / "tail-estimation.py"
 
 # Load the tail-estimation module dynamically
