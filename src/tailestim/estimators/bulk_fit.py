@@ -80,7 +80,7 @@ def fit_estimators(ordered_data, number_of_bins=30, r_smooth=2, alpha=0.6, hstep
         original_discrete_data = ordered_data
         discrete_ordered_data = ordered_data.copy()
         discrete_ordered_data[::-1].sort()
-        ordered_data = add_uniform_noise(ordered_data, p=p_noise)
+        ordered_data = add_uniform_noise(ordered_data, p=p_noise, base_seed=base_seed)
     ordered_data[::-1].sort()
     results['ordered_data'] = ordered_data
     if noise_flag:

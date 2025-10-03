@@ -26,6 +26,21 @@ def test_add_uniform_noise():
     # Test with invalid p
     assert add_uniform_noise(data, p=0) is None
 
+    # Test reproducibility with same seed
+    data = np.array([10.0, 20.0, 30.0, 40.0, 50.0])
+    result1 = add_uniform_noise(data, p=1, base_seed=42)
+    result2 = add_uniform_noise(data, p=1, base_seed=42)
+    np.testing.assert_array_equal(result1, result2)
+
+    # Test that different seeds produce different results
+    result3 = add_uniform_noise(data, p=1, base_seed=123)
+    assert not np.array_equal(result1, result3)
+
+    # Test that None seed still works (random behavior)
+    result4 = add_uniform_noise(data, p=1, base_seed=None)
+    assert len(result4) > 0  # Should return valid array
+    assert np.all(result4 > 0)  # All values should be positive
+
 def test_get_distribution():
     data = np.array([1, 2, 2, 3, 3, 3, 4, 4, 5])
     x, y = get_distribution(data, number_of_bins=5)

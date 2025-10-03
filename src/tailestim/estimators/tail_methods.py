@@ -3,7 +3,7 @@ import sys
 import logging
 logging.basicConfig(level=logging.WARNING)
 
-def add_uniform_noise(data_sequence, p = 1):
+def add_uniform_noise(data_sequence, p = 1, base_seed = None):
     """
     Function to add uniform random noise to a given dataset.
     Uniform noise in range [-5*10^(-p), 5*10^(-p)] is added to each
@@ -12,6 +12,7 @@ def add_uniform_noise(data_sequence, p = 1):
     Args:
         data_sequence: numpy array of data to be processed.
         p: integer parameter controlling noise amplitude.
+        base_seed: base random seed for reproducibility of noise generation (default is None).
 
     Returns:
         numpy array with noise-added entries.
@@ -19,7 +20,13 @@ def add_uniform_noise(data_sequence, p = 1):
     if p < 1:
         logging.error("Parameter p should be greater or equal to 1.")
         return None
-    noise = np.random.uniform(-5.*10**(-p), 5*10**(-p), size = len(data_sequence))
+
+    # UPD: adding random seed
+    base_rng = np.random.default_rng(seed=base_seed)
+    cur_seed = base_rng.integers(0, 1_000_000)
+    cur_rng = np.random.default_rng(cur_seed)
+
+    noise = cur_rng.uniform(-5.*10**(-p), 5*10**(-p), size = len(data_sequence))
     randomized_data_sequence = data_sequence + noise
     # ensure there are no negative entries after noise is added
     randomized_data_sequence = randomized_data_sequence[np.where(randomized_data_sequence > 0)]
