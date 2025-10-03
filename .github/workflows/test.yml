@@ -34,6 +34,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Checkout tailestimation as subdirectory
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.TAILESTIMATION_REPO }}
+          token: ${{ secrets.TAILESTIMATION_PAT }}
+          path: tail-estimation
           
       - name: Set up Python versions
         uses: actions/setup-python@v5
