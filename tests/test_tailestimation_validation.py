@@ -123,9 +123,7 @@ QUICK_DATASETS = [
 ]
 
 # Full test suite including large datasets
-FULL_DATASETS = DATASET_CONFIGS + [
-    ("large", DatasetGenerator.generate_large_pareto),
-]
+FULL_DATASETS = [*DATASET_CONFIGS, ("large", DatasetGenerator.generate_large_pareto)]
 
 
 # ============================================================================
@@ -238,7 +236,7 @@ class TestHillEstimator:
         # tail-estimation
         ordered_data = np.sort(data)[::-1]
         results_old = tail_estimation_old.hill_estimator(ordered_data, bootstrap=False)
-        k_arr_old, xi_arr_old, k_star_old, xi_star_old = results_old[:4]
+        k_arr_old, xi_arr_old, _k_star_old, _xi_star_old = results_old[:4]
 
         # tailestim
         from tailestim.estimators import HillEstimator
@@ -479,7 +477,7 @@ class TestPickandsEstimator:
 
     def test_pickands_equivalence(self, dataset):
         """Test Pickands estimator (no bootstrap) across datasets."""
-        data, dataset_name, description = dataset
+        data, _dataset_name, description = dataset
 
         # tail-estimation
         ordered_data = np.sort(data)[::-1]
@@ -565,7 +563,7 @@ class TestComprehensiveValidation:
             kernel_succeeded = True
         except ValueError as e:
             # Kernel can fail on degenerate data (e.g., all values identical)
-            print(f"Kernel: Failed ({str(e)})")
+            print(f"Kernel: Failed ({e!s})")
             kernel_succeeded = False
 
         # Test Pickands

@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, ClassVar, Dict, Optional
 
 import numpy as np
 
@@ -34,7 +34,7 @@ class TailEstimatorResult:
     """
 
     # Mapping of keys to human-readable labels
-    _key_labels = {
+    _key_labels: ClassVar[Dict[str, str]] = {
         "estimator": "Estimator",
         "xi_star_": "Tail index (ξ)",
         "gamma_": "Power law exponent (γ)",
@@ -50,7 +50,7 @@ class TailEstimatorResult:
         "x_arr_": "Fraction of order statistics",
     }
 
-    def __init__(self, initial_data: Dict[str, Any] = None, **kwargs):
+    def __init__(self, initial_data: Optional[Dict[str, Any]] = None, **kwargs):
         data = initial_data or {}
         data.update(kwargs)
         # Recursively convert nested dicts to TailEstimatorResult objects.

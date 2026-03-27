@@ -12,12 +12,12 @@ from .estimators.pickands import PickandsEstimator
 from .estimators.smooth_hill import SmoothHillEstimator
 
 __all__ = [
-    "TailData",
     "BaseTailEstimator",
     "HillEstimator",
-    "MomentsEstimator",
     "KernelTypeEstimator",
+    "MomentsEstimator",
     "PickandsEstimator",
     "SmoothHillEstimator",
+    "TailData",
     "TailEstimatorSet",
 ]

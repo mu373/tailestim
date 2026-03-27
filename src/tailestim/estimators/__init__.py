@@ -11,8 +11,8 @@ from .smooth_hill import SmoothHillEstimator
 __all__ = [
     "BaseTailEstimator",
     "HillEstimator",
-    "MomentsEstimator",
     "KernelTypeEstimator",
+    "MomentsEstimator",
     "PickandsEstimator",
     "SmoothHillEstimator",
     "TailEstimatorSet",

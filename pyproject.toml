@@ -94,13 +94,19 @@ select = [
   "I",   # isort
   "UP",  # pyupgrade
   "B",   # flake8-bugbear
+  "RUF", # ruff-specific rules
+  "NPY", # numpy-specific rules
+  "C4",  # flake8-comprehensions
 ]
 ignore = [
-  "E501",  # line length handled by ruff format
+  "E501",    # line length handled by ruff format
+  "RUF001",  # ambiguous unicode in strings (intentional math symbols: γ, ξ)
+  "RUF002",  # ambiguous unicode in docstrings
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "src/tailestim/estimators/plot/*" = ["F841", "E741"]
+"tests/*" = ["NPY002"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["tailestim"]
