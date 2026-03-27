@@ -7,7 +7,7 @@ name = "tailestim"
 dynamic = ["version"]
 description = 'A Python package for estimating tail parameters of heavy-tailed distributions, which is useful for analyzing power-law behavior in complex networks.'
 readme = "README.md"
-requires-python = ">=3.6"
+requires-python = ">=3.8"
 license = "MIT"
 keywords = ['power-law', 'complex-network', 'heavy-tail', 'network-science']
 authors = [
@@ -33,6 +33,19 @@ Documentation = "https://tailestim.readthedocs.io/en/latest/index.html"
 Issues = "https://github.com/mu373/tailestim/issues"
 Source = "https://github.com/mu373/tailestim"
 
+[dependency-groups]
+dev = [
+  "pytest>=7.0.0",
+  "pytest-cov>=4.0.0",
+  "mypy>=1.0.0",
+]
+docs = [
+  "sphinx>=8.0.0; python_version >= '3.10'",
+  "pydata-sphinx-theme>=0.15.0; python_version >= '3.10'",
+  "sphinx-autodoc-typehints>=1.25.0; python_version >= '3.10'",
+  "numpydoc>=1.5.0; python_version >= '3.10'",
+]
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/tailestim"]
 include = ["src/tailestim/data/*.dat"]
@@ -42,42 +55,6 @@ include = ["src/tailestim/data/*.dat"]
 
 [tool.hatch.version]
 path = "src/tailestim/__about__.py"
-
-[tool.hatch.envs.default]
-dependencies = [
-  "pytest>=7.0.0",
-  "pytest-cov>=4.0.0",
-  "sphinx",
-]
-
-[tool.hatch.envs.test.scripts]
-# Run tests across all Python versions in the matrix
-all = "pytest {args:tests}"
-# Run with coverage
-cov = "pytest --cov {args:tests}"
-# Run specific test categories if needed
-unit = "pytest {args:tests/unit}"
-integration = "pytest {args:tests/integration}"
-
-[tool.hatch.aliases]
-test = "run test:all"
-cov = "run test:cov"
-
-
-[tool.hatch.envs.types]
-extra-dependencies = [
-  "mypy>=1.0.0",
-]
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/tailestim tests}"
-
-[tool.hatch.envs.test]
-dependencies = [
-  "pytest",
-  "pytest-cov",
-]
-[[tool.hatch.envs.test.matrix]]
-python = ["38", "39", "310", "311", "312", "313"]
 
 
 [tool.coverage.run]
