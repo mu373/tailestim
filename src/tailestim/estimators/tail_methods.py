@@ -3,6 +3,7 @@ import sys
 import logging
 logging.basicConfig(level=logging.WARNING)
 
+
 def add_uniform_noise(data_sequence, p = 1, base_seed = None):
     """
     Function to add uniform random noise to a given dataset.
@@ -177,7 +178,8 @@ def get_moments_estimates_3(ordered_data):
 
 def hill_dbs(ordered_data, t_bootstrap = 0.5,
             r_bootstrap = 500, eps_stop = 1.0,
-            verbose = False, diagn_plots = False, base_seed=None):
+            verbose = False, diagn_plots = False, base_seed=None,
+            max_resample = 50):
     """
         Function to perform double-bootstrap procedure for
         Hill estimator.
@@ -196,6 +198,9 @@ def hill_dbs(ordered_data, t_bootstrap = 0.5,
             diagn_plots:  flag to switch on/off generation of AMSE diagnostic
                           plots.
             base_seed:    base random seed for reproducibility of bootstrap (default is None).
+            max_resample: maximum number of resampling attempts when AMSE
+                          false minimum is detected (k2 > k1). Raises
+                          ConvergenceError if exceeded. Default is 50.
 
         Returns:
             k_star:     number of order statistics optimal for estimation
@@ -234,7 +239,14 @@ def hill_dbs(ordered_data, t_bootstrap = 0.5,
 
     base_rng = np.random.default_rng(seed=base_seed)  # Accept random seed for reproducibility. Default seed is None.
 
+    resample_count = 0
     while k2 == None:
+        if resample_count >= max_resample:
+            raise RuntimeError(
+                f"Hill double-bootstrap failed to converge after "
+                f"{max_resample} resampling attempts (k2 > k1 persisted). "
+                f"Consider increasing max_resample or adjusting bootstrap parameters."
+            )
         # first bootstrap with n1 sample size
         for i in range(r_bootstrap):
             bs1_seed = base_rng.integers(0, 1_000_000)
@@ -277,7 +289,8 @@ def hill_dbs(ordered_data, t_bootstrap = 0.5,
             x2_arr = np.linspace(1./n2, 1.0, n2)
 
         if k2 > k1:
-            logging.warning("Warning (Hill): k2 > k1, AMSE false minimum suspected, resampling...")
+            resample_count += 1
+            logging.warning("Warning (Hill): k2 > k1, AMSE false minimum suspected, resampling... (attempt %d/%d)", resample_count, max_resample)
             # move left AMSE boundary to avoid numerical issues
             min_index1 = min_index1 + int(0.005*n)
             min_index2 = min_index2 + int(0.005*n)
@@ -318,7 +331,8 @@ def hill_dbs(ordered_data, t_bootstrap = 0.5,
 def hill_estimator(ordered_data,
                    bootstrap = True, t_bootstrap = 0.5,
                    r_bootstrap = 500, verbose = False,
-                   diagn_plots = False, eps_stop = 0.99, base_seed = None):
+                   diagn_plots = False, eps_stop = 0.99, base_seed = None,
+                   max_resample = 50):
     """
     Function to calculate Hill estimator for a given dataset.
     If bootstrap flag is True, double-bootstrap procedure
@@ -340,6 +354,8 @@ def hill_estimator(ordered_data,
         diagn_plots:  flag to switch on/off generation of AMSE diagnostic
                       plots.
         base_seed:    base random seed for reproducibility of bootstrap (default is None).
+        max_resample: maximum number of resampling attempts for the double-bootstrap
+                      procedure. Raises RuntimeError if exceeded. Default is 50.
 
     Returns:
         results: list containing an array of order statistics,
@@ -361,20 +377,22 @@ def hill_estimator(ordered_data,
         results = hill_dbs(ordered_data,
                            t_bootstrap = t_bootstrap,
                            r_bootstrap = r_bootstrap,
-                           verbose = verbose, 
+                           verbose = verbose,
                            diagn_plots = diagn_plots,
                            eps_stop = eps_stop,
-                           base_seed = base_seed)
+                           base_seed = base_seed,
+                           max_resample = max_resample)
         k_star, x1_arr, n1_amse, k1, max_index1, x2_arr, n2_amse, k2, max_index2 = results
         while k_star == None:
             logging.debug("Resampling...")
             results = hill_dbs(ordered_data,
                            t_bootstrap = t_bootstrap,
                            r_bootstrap = r_bootstrap,
-                           verbose = verbose, 
+                           verbose = verbose,
                            diagn_plots = diagn_plots,
                            eps_stop = eps_stop,
-                           base_seed = base_seed)
+                           base_seed = base_seed,
+                           max_resample = max_resample)
             k_star, x1_arr, n1_amse, k1, max_index1, x2_arr, n2_amse, k2, max_index2 = results
         xi_star = xi_arr[k_star-1]
         logging.info("Adjusted Hill estimated gamma:", 1 + 1./xi_star)

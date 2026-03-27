@@ -102,6 +102,23 @@ def test_hill_estimator():
     assert all(x == bs1_results[0] for x in bs1_results), "Bootstrap results with same seed should be identical"
     assert all(x == bs2_results[0] for x in bs2_results), "Second bootstrap results with same seed should be identical"
 
+def test_hill_estimator_max_resample():
+    """Test that HillEstimator raises RuntimeError when max_resample is exceeded."""
+    # Near-constant degree sequence (n=115).
+    # With n < 200, the boundary shift int(0.005*n) == 0, so k2 > k1
+    # persists indefinitely and max_resample is always hit.
+    data = np.array([
+        12,12,12,12,11,12,12,12,11,11,10,10,10,11,10,12,11,11,11,11,
+        11,11,11,11,10,11,10,11,9,11,11,11,11,10,11,11,8,11,11,11,
+        11,10,7,11,11,11,11,11,11,11,9,11,10,12,10,11,10,10,10,8,
+        11,11,11,9,11,11,11,12,11,11,11,10,11,11,11,10,11,11,11,11,
+        11,11,11,11,11,9,11,11,12,11,9,11,11,10,10,10,10,8,11,10,
+        11,10,10,10,12,10,11,10,10,11,11,11,10,10,11,
+    ], dtype=float)
+    estimator = HillEstimator(bootstrap=True, max_resample=3, base_seed=42)
+    with pytest.raises(RuntimeError, match="failed to converge after 3 resampling"):
+        estimator.fit(data)
+
 def test_smooth_hill_estimator():
     np.random.seed(42)
     data = np.random.pareto(2, 1000)

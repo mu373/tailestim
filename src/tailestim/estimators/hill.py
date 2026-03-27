@@ -31,8 +31,12 @@ class HillEstimator(BaseTailEstimator):
         Flag to switch on/off generation of AMSE diagnostic plots.
     base_seed: None | SeedSequence | BitGenerator | Generator | RandomState, default=None
         Base random seed for reproducibility of bootstrap.
+    max_resample : int, default=50
+        Maximum number of resampling attempts when the double-bootstrap
+        detects a false AMSE minimum (k2 > k1). Raises RuntimeError
+        if exceeded.
     """
-    
+
     def __init__(
         self,
         bootstrap: bool = True,
@@ -42,6 +46,7 @@ class HillEstimator(BaseTailEstimator):
         verbose: bool = False,
         diagn_plots: bool = False,
         base_seed: Union[None, SeedSequence, BitGenerator, Generator, RandomState] = None,
+        max_resample: int = 50,
         **kwargs
     ):
         super().__init__(bootstrap=bootstrap, base_seed=base_seed, **kwargs)
@@ -50,6 +55,7 @@ class HillEstimator(BaseTailEstimator):
         self.eps_stop = eps_stop
         self.verbose = verbose
         self.diagn_plots = diagn_plots
+        self.max_resample = max_resample
 
     def _estimate(self, ordered_data: np.ndarray) -> Tuple:
         """Estimate the tail index using the Hill estimator.
@@ -72,7 +78,8 @@ class HillEstimator(BaseTailEstimator):
             verbose=self.verbose,
             diagn_plots=self.diagn_plots,
             eps_stop=self.eps_stop,
-            base_seed=self.base_seed
+            base_seed=self.base_seed,
+            max_resample=self.max_resample
         )
 
     def get_params(self) -> Dict[str, Any]:
@@ -91,6 +98,7 @@ class HillEstimator(BaseTailEstimator):
             "eps_stop": self.eps_stop,
             "verbose": self.verbose,
             "diagn_plots": self.diagn_plots,
+            "max_resample": self.max_resample,
             **self.kwargs
         }
 
