@@ -1,13 +1,15 @@
-import os
-import numpy as np
 import logging
+import os
+
+import numpy as np
+
 
 class TailData:
     """Load and manage tail distribution datasets.
-    
+
     This class provides functionality to load datasets either from the package's
     built-in data directory using a name, or from a custom path provided by the user.
-    
+
     Parameters
     ----------
     name : str, optional
@@ -16,7 +18,7 @@ class TailData:
     path : str, optional
         Path to a custom dataset file. If provided, this takes precedence over `name`.
         Must be provided if `name` is None.
-        
+
     Attributes
     ----------
     name : str or None
@@ -25,39 +27,39 @@ class TailData:
         Path to the dataset file if a custom dataset was loaded.
     data : numpy.ndarray
         The loaded dataset as a numpy array.
-        
+
     Examples
     --------
     Load a built-in dataset:
-    
+
     >>> data = TailData(name='CAIDA_KONECT')
     >>> print(len(data.data))
-    
+
     Load a custom dataset:
-    
+
     >>> data = TailData(path='path/to/my/data.dat')
     >>> print(len(data.data))
     """
-    
+
     def __init__(self, name=None, path=None):
         if name is None and path is None:
             raise ValueError("Either 'name' or 'path' must be provided")
-        
+
         if name is not None and path is not None:
             logging.info("Both 'name' and 'path' provided; 'path' will take precedence")
-        
+
         self.name = name
         self.path = path
         self.data = self.load_data()
 
     def load_data(self):
         """Load data from either a built-in dataset or a custom file path.
-        
+
         Returns
         -------
         numpy.ndarray
             The loaded dataset as a numpy array.
-            
+
         Raises
         ------
         FileNotFoundError
@@ -70,8 +72,8 @@ class TailData:
             logging.info(f"Using custom path: {file_path}")
         else:
             # Use the package data directory with the provided name
-            data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
-            file_path = os.path.join(data_dir, f'{self.name}.dat')
+            data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+            file_path = os.path.join(data_dir, f"{self.name}.dat")
             logging.info(f"Using package data path: {file_path}")
 
         # Check if the file exists
@@ -79,11 +81,13 @@ class TailData:
             if self.path is not None:
                 raise FileNotFoundError(f"Data file not found at path: {file_path}")
             else:
-                raise FileNotFoundError(f"Data file '{self.name}.dat' not found in package data directory.")
+                raise FileNotFoundError(
+                    f"Data file '{self.name}.dat' not found in package data directory."
+                )
 
         # Load the data from the file using the provided method
         logging.info(f"Loading data from file: {file_path}")
-        with open(file_path, 'r') as file:
+        with open(file_path) as file:
             lines = file.readlines()
 
         # Determine the total number of data points
@@ -94,14 +98,14 @@ class TailData:
         # Populate the ordered_data array
         for line in lines:
             degree, count = line.strip().split()
-            ordered_data[current_index:current_index + int(count)] = float(degree)
+            ordered_data[current_index : current_index + int(count)] = float(degree)
             current_index += int(count)
 
         return ordered_data
 
     def __repr__(self):
         """Return a string representation of the TailData object.
-        
+
         Returns
         -------
         str

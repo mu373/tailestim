@@ -1,17 +1,21 @@
 """Hill estimator implementation for tail index estimation."""
+
+from typing import Any, Dict, Tuple, Union
+
 import numpy as np
-from typing import Dict, Any, Tuple, Union
-from numpy.random import BitGenerator, SeedSequence, RandomState, Generator
+from numpy.random import BitGenerator, Generator, RandomState, SeedSequence
+
 from .base import BaseTailEstimator
 from .result import TailEstimatorResult
 from .tail_methods import hill_estimator as hill_estimate
 
+
 class HillEstimator(BaseTailEstimator):
     """Hill estimator for tail index estimation.
-    
+
     This class implements the Hill estimator with optional double-bootstrap
     for optimal threshold selection.
-    
+
     Parameters
     ----------
     bootstrap : bool, default=True
@@ -45,9 +49,11 @@ class HillEstimator(BaseTailEstimator):
         eps_stop: float = 0.99,
         verbose: bool = False,
         diagn_plots: bool = False,
-        base_seed: Union[None, SeedSequence, BitGenerator, Generator, RandomState] = None,
+        base_seed: Union[
+            None, SeedSequence, BitGenerator, Generator, RandomState
+        ] = None,
         max_resample: int = 50,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(bootstrap=bootstrap, base_seed=base_seed, **kwargs)
         self.t_bootstrap = t_bootstrap
@@ -59,12 +65,12 @@ class HillEstimator(BaseTailEstimator):
 
     def _estimate(self, ordered_data: np.ndarray) -> Tuple:
         """Estimate the tail index using the Hill estimator.
-        
+
         Parameters
         ----------
         ordered_data : np.ndarray
             Data array in decreasing order.
-            
+
         Returns
         -------
         Tuple
@@ -79,12 +85,12 @@ class HillEstimator(BaseTailEstimator):
             diagn_plots=self.diagn_plots,
             eps_stop=self.eps_stop,
             base_seed=self.base_seed,
-            max_resample=self.max_resample
+            max_resample=self.max_resample,
         )
 
     def get_params(self) -> Dict[str, Any]:
         """Get the parameters of the estimator.
-        
+
         Returns
         -------
         dict
@@ -99,7 +105,7 @@ class HillEstimator(BaseTailEstimator):
             "verbose": self.verbose,
             "diagn_plots": self.diagn_plots,
             "max_resample": self.max_resample,
-            **self.kwargs
+            **self.kwargs,
         }
 
     def get_result(self) -> TailEstimatorResult:
@@ -129,36 +135,50 @@ class HillEstimator(BaseTailEstimator):
 
         if self.results is None:
             raise ValueError("Model not fitted yet. Call fit() first.")
-        
-        k_arr, xi_arr, k_star, xi_star, x1_arr, n1_amse, k1, max_index1, \
-        x2_arr, n2_amse, k2, max_index2 = self.results
-        
+
+        (
+            k_arr,
+            xi_arr,
+            k_star,
+            xi_star,
+            x1_arr,
+            n1_amse,
+            k1,
+            max_index1,
+            x2_arr,
+            n2_amse,
+            k2,
+            max_index2,
+        ) = self.results
+
         res = {
-            'k_arr_': k_arr,
-            'xi_arr_': xi_arr,
+            "k_arr_": k_arr,
+            "xi_arr_": xi_arr,
         }
-        
+
         if self.bootstrap and k_star is not None:
-            gamma = 1 + 1./xi_star
-            res.update({
-                'estimator': self,
-                'k_star_': k_star,
-                'xi_star_': xi_star,
-                'gamma_': gamma,
-                'bootstrap_results_': {
-                    'first_bootstrap_': {
-                        'x_arr_': x1_arr,
-                        'amse_': n1_amse,
-                        'k_min_': k1,
-                        'max_index_': max_index1
+            gamma = 1 + 1.0 / xi_star
+            res.update(
+                {
+                    "estimator": self,
+                    "k_star_": k_star,
+                    "xi_star_": xi_star,
+                    "gamma_": gamma,
+                    "bootstrap_results_": {
+                        "first_bootstrap_": {
+                            "x_arr_": x1_arr,
+                            "amse_": n1_amse,
+                            "k_min_": k1,
+                            "max_index_": max_index1,
+                        },
+                        "second_bootstrap_": {
+                            "x_arr_": x2_arr,
+                            "amse_": n2_amse,
+                            "k_min_": k2,
+                            "max_index_": max_index2,
+                        },
                     },
-                    'second_bootstrap_': {
-                        'x_arr_': x2_arr,
-                        'amse_': n2_amse,
-                        'k_min_': k2,
-                        'max_index_': max_index2
-                    }
                 }
-            })
-        
+            )
+
         return TailEstimatorResult(res)

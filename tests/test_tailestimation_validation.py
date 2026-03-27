@@ -12,11 +12,12 @@ Tests are parameterized to run across multiple datasets:
 - Medium/Large: Synthetic Pareto distributions (1,000 and 5,000 points)
 """
 
+import importlib.util
 import sys
+from pathlib import Path
+
 import numpy as np
 import pytest
-from pathlib import Path
-import importlib.util
 
 # Add tail-estimation to path
 TAIL_EST_PATH = Path(__file__).parent.parent / "tail-estimation" / "Python3"
@@ -667,7 +668,7 @@ class TestPlotDataComparison:
         x_ccdf_old, y_ccdf_old = tail_estimation_old.get_ccdf(ordered_data)
 
         # tailestim
-        from tailestim.estimators.tail_methods import get_distribution, get_ccdf
+        from tailestim.estimators.tail_methods import get_ccdf, get_distribution
 
         x_pdf_new, y_pdf_new = get_distribution(ordered_data, number_of_bins=30)
         x_ccdf_new, y_ccdf_new = get_ccdf(ordered_data)
