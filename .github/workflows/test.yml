@@ -2,25 +2,25 @@ name: Test tailestim
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
-      - 'docs/**'
-      - '.github/workflows/release.yml'
-      - '.gitignore'
-      - '.readthedocs.yaml'
-      - 'DEVELOP.md'
-      - 'LICENSE.txt'
-      - 'README.md'
+      - "docs/**"
+      - ".github/workflows/release.yml"
+      - ".gitignore"
+      - ".readthedocs.yaml"
+      - "DEVELOP.md"
+      - "LICENSE.txt"
+      - "README.md"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
-      - 'docs/**'
-      - '.github/workflows/release.yml'
-      - '.gitignore'
-      - '.readthedocs.yaml'
-      - 'DEVELOP.md'
-      - 'LICENSE.txt'
-      - 'README.md'
+      - "docs/**"
+      - ".github/workflows/release.yml"
+      - ".gitignore"
+      - ".readthedocs.yaml"
+      - "DEVELOP.md"
+      - "LICENSE.txt"
+      - "README.md"
   workflow_dispatch:
 
 jobs:
@@ -34,19 +34,21 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Checkout tailestimation as subdirectory
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ${{ secrets.TAILESTIMATION_REPO }}
           token: ${{ secrets.TAILESTIMATION_PAT }}
           path: tail-estimation
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v7
+        with:
+          cache-suffix: py${{ matrix.python-version }}
 
       - name: Set up Python ${{ matrix.python-version }}
         run: uv python install ${{ matrix.python-version }}
