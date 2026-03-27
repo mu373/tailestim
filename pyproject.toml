@@ -38,6 +38,7 @@ dev = [
   "pytest>=7.0.0",
   "pytest-cov>=4.0.0",
   "mypy>=1.0.0",
+  "ruff>=0.8.0",
 ]
 docs = [
   "sphinx>=8.0.0; python_version >= '3.10'",
@@ -80,3 +81,26 @@ exclude_lines = [
 markers = [
   "slow: marks tests as slow (deselect with '-m \"not slow\"')",
 ]
+
+[tool.ruff]
+target-version = "py38"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # pyflakes
+  "I",   # isort
+  "UP",  # pyupgrade
+  "B",   # flake8-bugbear
+]
+ignore = [
+  "E501",  # line length handled by ruff format
+]
+
+[tool.ruff.lint.per-file-ignores]
+"src/tailestim/estimators/plot/*" = ["F841", "E741"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["tailestim"]
