@@ -34,12 +34,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Checkout tailestimation as subdirectory
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ${{ secrets.TAILESTIMATION_REPO }}
           token: ${{ secrets.TAILESTIMATION_PAT }}
