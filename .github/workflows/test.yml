@@ -2,25 +2,25 @@ name: Test tailestim
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
-      - 'docs/**'
-      - '.github/workflows/release.yml'
-      - '.gitignore'
-      - '.readthedocs.yaml'
-      - 'DEVELOP.md'
-      - 'LICENSE.txt'
-      - 'README.md'
+      - "docs/**"
+      - ".github/workflows/release.yml"
+      - ".gitignore"
+      - ".readthedocs.yaml"
+      - "DEVELOP.md"
+      - "LICENSE.txt"
+      - "README.md"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
-      - 'docs/**'
-      - '.github/workflows/release.yml'
-      - '.gitignore'
-      - '.readthedocs.yaml'
-      - 'DEVELOP.md'
-      - 'LICENSE.txt'
-      - 'README.md'
+      - "docs/**"
+      - ".github/workflows/release.yml"
+      - ".gitignore"
+      - ".readthedocs.yaml"
+      - "DEVELOP.md"
+      - "LICENSE.txt"
+      - "README.md"
   workflow_dispatch:
 
 jobs:
