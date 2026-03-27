@@ -1,9 +1,13 @@
 """Base class for tail index estimation."""
-import numpy as np
+
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Tuple, Union
-from numpy.random import BitGenerator, SeedSequence, RandomState, Generator
+from typing import Any, Dict, Tuple, Union
+
+import numpy as np
+from numpy.random import BitGenerator, Generator, RandomState, SeedSequence
+
 from .result import TailEstimatorResult
+
 
 class BaseTailEstimator(ABC):
     """Abstract base class for tail index estimation.
@@ -22,12 +26,15 @@ class BaseTailEstimator(ABC):
     **kwargs : dict
         Additional parameters specific to each estimation method.
     """
-    
+
     def __init__(
-            self,
-            bootstrap: bool = True,
-            base_seed: Union[None, SeedSequence, BitGenerator, Generator, RandomState] = None,
-            **kwargs):
+        self,
+        bootstrap: bool = True,
+        base_seed: Union[
+            None, SeedSequence, BitGenerator, Generator, RandomState
+        ] = None,
+        **kwargs,
+    ):
         self.bootstrap = bootstrap
         self.base_seed = base_seed
         self.kwargs = kwargs
@@ -36,12 +43,12 @@ class BaseTailEstimator(ABC):
     @abstractmethod
     def _estimate(self, ordered_data: np.ndarray) -> Tuple:
         """Core estimation method to be implemented by each specific estimator.
-        
+
         Parameters
         ----------
         ordered_data : np.ndarray
             Data array in decreasing order.
-            
+
         Returns
         -------
         Tuple
@@ -51,34 +58,32 @@ class BaseTailEstimator(ABC):
 
     def fit(self, data: np.ndarray) -> None:
         """Fit the estimator to the data.
-        
+
         Parameters
         ----------
         data : np.ndarray
             Input data array (e.g., degree sequence). The data will automatically be sorted in decreasing order.
         """
-        ordered_data = np.sort(data)[::-1]  # Each estimating functions require the data to be in decreasing order
+        ordered_data = np.sort(data)[
+            ::-1
+        ]  # Each estimating functions require the data to be in decreasing order
         self.results = self._estimate(ordered_data)
 
     @abstractmethod
     def get_params(self) -> Dict[str, Any]:
         """Get the parameters of the estimator.
-        
+
         Returns
         -------
         dict
             Dictionary containing the parameters of the estimator.
         """
-        return {
-            "bootstrap": self.bootstrap,
-            "base_seed": self.base_seed,
-            **self.kwargs
-        }
+        return {"bootstrap": self.bootstrap, "base_seed": self.base_seed, **self.kwargs}
 
     @abstractmethod
     def get_result(self) -> TailEstimatorResult:
         """Get the estimated parameters.
-        
+
         Returns
         -------
         TailEstimatorResult
@@ -96,7 +101,7 @@ class BaseTailEstimator(ABC):
         if self.results is None:
             raise ValueError("Model not fitted yet. Call fit() first.")
         return TailEstimatorResult()
-    
+
     def __repr__(self) -> str:
         """Return a string representation of the estimator."""
         return f"{self.__class__.__name__}(bootstrap={self.bootstrap}, base_seed={self.base_seed}, kwargs={self.kwargs})"
@@ -108,19 +113,19 @@ class BaseTailEstimator(ABC):
         estim_str += f"Estimator Type: {self.__class__.__name__}\n"
         estim_str += "-" * 50 + "\n"
         estim_str += f"Fitted: {'Yes' if self.results is not None else 'No'}\n"
-        
+
         # Add the arguments provided
         estim_str += "Arguments:\n"
         estim_str += f"  bootstrap: {self.bootstrap}\n"
         estim_str += f"  base_seed: {self.base_seed}\n"
-        
+
         # Add any additional kwargs
         if self.kwargs:
             for key, value in self.kwargs.items():
                 estim_str += f"  {key}: {value}\n"
-        
-        # If the model is not fitted, return just the estim_str 
+
+        # If the model is not fitted, return just the estim_str
         if self.results is None:
             return estim_str + "Model not fitted yet. Call fit() first."
-        
-        return estim_str 
+
+        return estim_str

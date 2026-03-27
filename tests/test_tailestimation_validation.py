@@ -12,11 +12,12 @@ Tests are parameterized to run across multiple datasets:
 - Medium/Large: Synthetic Pareto distributions (1,000 and 5,000 points)
 """
 
+import importlib.util
 import sys
+from pathlib import Path
+
 import numpy as np
 import pytest
-from pathlib import Path
-import importlib.util
 
 # Add tail-estimation to path
 TAIL_EST_PATH = Path(__file__).parent.parent / "tail-estimation" / "Python3"
@@ -122,9 +123,7 @@ QUICK_DATASETS = [
 ]
 
 # Full test suite including large datasets
-FULL_DATASETS = DATASET_CONFIGS + [
-    ("large", DatasetGenerator.generate_large_pareto),
-]
+FULL_DATASETS = [*DATASET_CONFIGS, ("large", DatasetGenerator.generate_large_pareto)]
 
 
 # ============================================================================
@@ -237,7 +236,7 @@ class TestHillEstimator:
         # tail-estimation
         ordered_data = np.sort(data)[::-1]
         results_old = tail_estimation_old.hill_estimator(ordered_data, bootstrap=False)
-        k_arr_old, xi_arr_old, k_star_old, xi_star_old = results_old[:4]
+        k_arr_old, xi_arr_old, _k_star_old, _xi_star_old = results_old[:4]
 
         # tailestim
         from tailestim.estimators import HillEstimator
@@ -478,7 +477,7 @@ class TestPickandsEstimator:
 
     def test_pickands_equivalence(self, dataset):
         """Test Pickands estimator (no bootstrap) across datasets."""
-        data, dataset_name, description = dataset
+        data, _dataset_name, description = dataset
 
         # tail-estimation
         ordered_data = np.sort(data)[::-1]
@@ -564,7 +563,7 @@ class TestComprehensiveValidation:
             kernel_succeeded = True
         except ValueError as e:
             # Kernel can fail on degenerate data (e.g., all values identical)
-            print(f"Kernel: Failed ({str(e)})")
+            print(f"Kernel: Failed ({e!s})")
             kernel_succeeded = False
 
         # Test Pickands
@@ -667,7 +666,7 @@ class TestPlotDataComparison:
         x_ccdf_old, y_ccdf_old = tail_estimation_old.get_ccdf(ordered_data)
 
         # tailestim
-        from tailestim.estimators.tail_methods import get_distribution, get_ccdf
+        from tailestim.estimators.tail_methods import get_ccdf, get_distribution
 
         x_pdf_new, y_pdf_new = get_distribution(ordered_data, number_of_bins=30)
         x_ccdf_new, y_ccdf_new = get_ccdf(ordered_data)

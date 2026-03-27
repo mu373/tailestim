@@ -1,17 +1,21 @@
 """Moments estimator implementation for tail index estimation."""
+
+from typing import Any, Dict, Tuple, Union
+
 import numpy as np
-from typing import Dict, Any, Tuple, Union
-from .result import TailEstimatorResult
-from numpy.random import BitGenerator, SeedSequence, RandomState, Generator
+from numpy.random import BitGenerator, Generator, RandomState, SeedSequence
+
 from .base import BaseTailEstimator
+from .result import TailEstimatorResult
 from .tail_methods import moments_estimator as moments_estimate
+
 
 class MomentsEstimator(BaseTailEstimator):
     """Moments estimator for tail index estimation.
-    
+
     This class implements the Moments estimator with optional double-bootstrap
     for optimal threshold selection.
-    
+
     Parameters
     ----------
     bootstrap : bool, default=True
@@ -32,7 +36,7 @@ class MomentsEstimator(BaseTailEstimator):
     base_seed: None | SeedSequence | BitGenerator | Generator | RandomState, default=None
         Base random seed for reproducibility of bootstrap.
     """
-    
+
     def __init__(
         self,
         bootstrap: bool = True,
@@ -41,8 +45,10 @@ class MomentsEstimator(BaseTailEstimator):
         eps_stop: float = 0.99,
         verbose: bool = False,
         diagn_plots: bool = False,
-        base_seed: Union[None, SeedSequence, BitGenerator, Generator, RandomState] = None,
-        **kwargs
+        base_seed: Union[
+            None, SeedSequence, BitGenerator, Generator, RandomState
+        ] = None,
+        **kwargs,
     ):
         super().__init__(bootstrap=bootstrap, base_seed=base_seed, **kwargs)
         self.t_bootstrap = t_bootstrap
@@ -53,12 +59,12 @@ class MomentsEstimator(BaseTailEstimator):
 
     def _estimate(self, ordered_data: np.ndarray) -> Tuple:
         """Estimate tail index using the Moments method.
-        
+
         Parameters
         ----------
         ordered_data : np.ndarray
             Data array in decreasing order.
-            
+
         Returns
         -------
         Tuple
@@ -72,12 +78,12 @@ class MomentsEstimator(BaseTailEstimator):
             verbose=self.verbose,
             diagn_plots=self.diagn_plots,
             eps_stop=self.eps_stop,
-            base_seed=self.base_seed
+            base_seed=self.base_seed,
         )
 
     def get_params(self) -> Dict[str, Any]:
         """Get the parameters of the estimator.
-        
+
         Returns
         -------
         dict
@@ -91,7 +97,7 @@ class MomentsEstimator(BaseTailEstimator):
             "eps_stop": self.eps_stop,
             "verbose": self.verbose,
             "diagn_plots": self.diagn_plots,
-            **self.kwargs
+            **self.kwargs,
         }
 
     def get_result(self) -> TailEstimatorResult:
@@ -120,35 +126,49 @@ class MomentsEstimator(BaseTailEstimator):
         """
         if self.results is None:
             raise ValueError("Model not fitted yet. Call fit() first.")
-        
-        k_arr, xi_arr, k_star, xi_star, x1_arr, n1_amse, k1, max_index1, \
-        x2_arr, n2_amse, k2, max_index2 = self.results
-        
+
+        (
+            k_arr,
+            xi_arr,
+            k_star,
+            xi_star,
+            x1_arr,
+            n1_amse,
+            k1,
+            max_index1,
+            x2_arr,
+            n2_amse,
+            k2,
+            max_index2,
+        ) = self.results
+
         res = {
-            'k_arr_': k_arr,
-            'xi_arr_': xi_arr,
+            "k_arr_": k_arr,
+            "xi_arr_": xi_arr,
         }
-        
+
         if self.bootstrap and k_star is not None:
-            gamma = float('inf') if xi_star <= 0 else 1 + 1./xi_star
-            res.update({
-                'estimator': self,
-                'k_star_': k_star,
-                'xi_star_': xi_star,
-                'gamma_': gamma,
-                'bootstrap_results_': {
-                    'first_bootstrap_': {
-                        'x_arr_': x1_arr,
-                        'amse_': n1_amse,
-                        'k_min_': k1,
-                        'max_index_': max_index1
+            gamma = float("inf") if xi_star <= 0 else 1 + 1.0 / xi_star
+            res.update(
+                {
+                    "estimator": self,
+                    "k_star_": k_star,
+                    "xi_star_": xi_star,
+                    "gamma_": gamma,
+                    "bootstrap_results_": {
+                        "first_bootstrap_": {
+                            "x_arr_": x1_arr,
+                            "amse_": n1_amse,
+                            "k_min_": k1,
+                            "max_index_": max_index1,
+                        },
+                        "second_bootstrap_": {
+                            "x_arr_": x2_arr,
+                            "amse_": n2_amse,
+                            "k_min_": k2,
+                            "max_index_": max_index2,
+                        },
                     },
-                    'second_bootstrap_': {
-                        'x_arr_': x2_arr,
-                        'amse_': n2_amse,
-                        'k_min_': k2,
-                        'max_index_': max_index2
-                    }
                 }
-            })
+            )
         return TailEstimatorResult(res)
